@@ -1,0 +1,240 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="GPA Calculator (Easy, Accurate, Free)"
+  description="Calculate your GPA using course credits and letter grades."
+>
+  <section class="hero">
+    <h1>GPA Calculator</h1>
+    <p>
+      Enter your courses, credits, and letter grades to calculate your GPA
+      quickly and accurately.
+    </p>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Enter your courses</h2>
+
+      <div id="course-list">
+        <div class="row course-row">
+          <div>
+            <label for="course-1">Course</label>
+            <input id="course-1" class="course-name" type="text" placeholder="Algebra" />
+          </div>
+          <div>
+            <label for="credits-1">Credits</label>
+            <input id="credits-1" class="course-credits" type="number" min="0" step="any" placeholder="1" />
+          </div>
+          <div>
+            <label for="grade-1">Letter grade</label>
+            <select id="grade-1" class="course-grade">
+              <option value="4.0">A</option>
+              <option value="3.0">B</option>
+              <option value="2.0">C</option>
+              <option value="1.0">D</option>
+              <option value="0.0">F</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row course-row">
+          <div>
+            <label for="course-2">Course</label>
+            <input id="course-2" class="course-name" type="text" placeholder="English" />
+          </div>
+          <div>
+            <label for="credits-2">Credits</label>
+            <input id="credits-2" class="course-credits" type="number" min="0" step="any" placeholder="1" />
+          </div>
+          <div>
+            <label for="grade-2">Letter grade</label>
+            <select id="grade-2" class="course-grade">
+              <option value="4.0">A</option>
+              <option value="3.0" selected>B</option>
+              <option value="2.0">C</option>
+              <option value="1.0">D</option>
+              <option value="0.0">F</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row course-row">
+          <div>
+            <label for="course-3">Course</label>
+            <input id="course-3" class="course-name" type="text" placeholder="Science" />
+          </div>
+          <div>
+            <label for="credits-3">Credits</label>
+            <input id="credits-3" class="course-credits" type="number" min="0" step="any" placeholder="1" />
+          </div>
+          <div>
+            <label for="grade-3">Letter grade</label>
+            <select id="grade-3" class="course-grade">
+              <option value="4.0">A</option>
+              <option value="3.0">B</option>
+              <option value="2.0" selected>C</option>
+              <option value="1.0">D</option>
+              <option value="0.0">F</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="add-course" type="button" class="btn-secondary">Add course</button>
+        <button id="calculate" type="button" class="btn-primary">Calculate GPA</button>
+      </div>
+    </section>
+
+    <aside class="result-box">
+      <div class="card">
+        <h2>Your result</h2>
+
+        <div class="result-main">
+          <p class="muted">Calculated GPA</p>
+          <div id="gpa-result" class="big-result">--</div>
+          <p id="summary-text">Enter your courses and click Calculate GPA.</p>
+        </div>
+
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Total credits</th>
+              <td id="total-credits">--</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </aside>
+  </div>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>How this GPA calculator works</h2>
+    <p>
+      This calculator multiplies each course’s grade points by its credits, adds
+      those values together, and divides by the total number of credits.
+    </p>
+    <p>
+      <strong>Example:</strong> An A in a 1-credit course is worth 4 grade points.
+      A B in a 1-credit course is worth 3 grade points. Add the weighted points,
+      then divide by total credits to get GPA.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>Frequently asked questions</h2>
+
+    <div class="faq-item">
+      <h3>Does this use a 4.0 GPA scale?</h3>
+      <p>
+        Yes. This version uses a standard 4.0 scale where A = 4.0, B = 3.0,
+        C = 2.0, D = 1.0, and F = 0.0.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I add more classes?</h3>
+      <p>
+        Yes. Click the Add course button to include as many courses as you need.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does this support weighted honors or AP classes?</h3>
+      <p>
+        Not yet. This version is for a basic 4.0 GPA calculation. A weighted GPA
+        version could be a future tool.
+      </p>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>Related tools</h2>
+    <ul>
+      <li><a href="/grade-calculator">Grade Calculator</a></li>
+      <li><a href="/final-exam-calculator">Final Exam Calculator</a></li>
+      <li><a href="/weighted-grade-calculator">Weighted Grade Calculator</a></li>
+      <li><a href="/">Student Performance Toolkit home</a></li>
+    </ul>
+  </section>
+
+  <script>
+    let courseCount = 3;
+
+    const courseList = document.getElementById("course-list");
+    const addCourseButton = document.getElementById("add-course");
+    const calculateButton = document.getElementById("calculate");
+
+    const gpaResult = document.getElementById("gpa-result");
+    const summaryText = document.getElementById("summary-text");
+    const totalCreditsCell = document.getElementById("total-credits");
+
+    function addCourse() {
+      courseCount += 1;
+
+      const row = document.createElement("div");
+      row.className = "row course-row";
+
+      row.innerHTML = `
+        <div>
+          <label for="course-${courseCount}">Course</label>
+          <input id="course-${courseCount}" class="course-name" type="text" placeholder="History" />
+        </div>
+        <div>
+          <label for="credits-${courseCount}">Credits</label>
+          <input id="credits-${courseCount}" class="course-credits" type="number" min="0" step="any" placeholder="1" />
+        </div>
+        <div>
+          <label for="grade-${courseCount}">Letter grade</label>
+          <select id="grade-${courseCount}" class="course-grade">
+            <option value="4.0">A</option>
+            <option value="3.0">B</option>
+            <option value="2.0">C</option>
+            <option value="1.0">D</option>
+            <option value="0.0">F</option>
+          </select>
+        </div>
+      `;
+
+      courseList.appendChild(row);
+    }
+
+    function calculateGPA() {
+      const creditInputs = document.querySelectorAll(".course-credits");
+      const gradeInputs = document.querySelectorAll(".course-grade");
+
+      let totalQualityPoints = 0;
+      let totalCredits = 0;
+
+      for (let i = 0; i < creditInputs.length; i++) {
+        const credits = parseFloat(creditInputs[i].value);
+        const gradePoints = parseFloat(gradeInputs[i].value);
+
+        if (!Number.isNaN(credits) && credits > 0 && !Number.isNaN(gradePoints)) {
+          totalQualityPoints += credits * gradePoints;
+          totalCredits += credits;
+        }
+      }
+
+      if (totalCredits === 0) {
+        gpaResult.textContent = "--";
+        summaryText.textContent = "Please enter at least one valid course and credit value.";
+        totalCreditsCell.textContent = "--";
+        return;
+      }
+
+      const gpa = totalQualityPoints / totalCredits;
+      const rounded = gpa.toFixed(2);
+
+      gpaResult.textContent = rounded;
+      summaryText.textContent = `Your GPA is ${rounded}.`;
+      totalCreditsCell.textContent = totalCredits.toFixed(1).replace(/\.0$/, "");
+    }
+
+    addCourseButton?.addEventListener("click", addCourse);
+    calculateButton?.addEventListener("click", calculateGPA);
+  </script>
+</BaseLayout>
