@@ -1,19 +1,99 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const siteUrl = "https://student-performance-toolkit-6hgn.vercel.app";
+const pageUrl = `${siteUrl}/what-grade-do-i-need-calculator`;
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What grade do I need to pass my class?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter your current grade, your target grade, and the remaining coursework percentage. This calculator will show the average you need."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "What if I need more than 100 percent?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "If you need more than 100%, your target grade is not mathematically possible unless extra credit is available."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "What does remaining coursework mean?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "It is the percentage of your class grade that has not yet been completed, such as finals, projects, or remaining assignments."
+      }
+    }
+  ]
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "What Grade Do I Need Calculator",
+  url: pageUrl,
+  description:
+    "Find the exact grade you need on remaining coursework to reach your target grade.",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Student Performance Toolkit",
+    url: siteUrl
+  }
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: siteUrl
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "What Grade Do I Need Calculator",
+      item: pageUrl
+    }
+  ]
+};
 ---
 
 <BaseLayout
-  title="What Grade Do I Need Calculator (Fast & Free) | Student Performance Toolkit"
-  description="Find the grade you need on your remaining coursework to reach your target grade."
+  title="What Grade Do I Need Calculator (Find Your Target Score Fast)"
+  description="Use this free calculator to find the exact grade you need on remaining coursework to reach your goal."
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
   <section class="hero">
     <h1>What Grade Do I Need Calculator</h1>
     <p>
-      Enter your current grade, your target grade, and the percentage of your
-      class that is still remaining. This calculator will tell you the average
-      score you need from here on out.
+      Quickly find out what grade you need on your remaining coursework to reach
+      your target grade.
     </p>
   </section>
+
+  <div class="card">
+    <p>
+      This calculator answers one of the most common student questions:
+      <strong>What grade do I need?</strong> Enter your current grade, your goal,
+      and how much of your class is left to instantly see your required average.
+    </p>
+  </div>
 
   <div class="grid">
     <section class="card">
@@ -21,21 +101,23 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       <div class="row">
         <div>
-          <label for="current-grade">Current grade (%)</label>
-          <input id="current-grade" type="number" min="0" max="100" step="any" placeholder="82" />
+          <label>Current grade (%)</label>
+          <input id="current" type="number" placeholder="82" />
         </div>
         <div>
-          <label for="target-grade">Target grade (%)</label>
-          <input id="target-grade" type="number" min="0" max="100" step="any" placeholder="90" />
+          <label>Target grade (%)</label>
+          <input id="target" type="number" placeholder="90" />
         </div>
         <div>
-          <label for="remaining-weight">Remaining coursework (%)</label>
-          <input id="remaining-weight" type="number" min="0" max="100" step="any" placeholder="25" />
+          <label>Remaining coursework (%)</label>
+          <input id="remaining" type="number" placeholder="25" />
         </div>
       </div>
 
       <div class="actions">
-        <button id="calculate" type="button" class="btn-primary">Calculate needed grade</button>
+        <button id="calculate" class="btn-primary">
+          Calculate needed grade
+        </button>
       </div>
     </section>
 
@@ -45,139 +127,95 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
         <div class="result-main">
           <p class="muted">Required average</p>
-          <div id="needed-result" class="big-result">--%</div>
-          <p id="summary-text">Enter your values and click Calculate needed grade.</p>
+          <div id="result" class="big-result">--%</div>
+          <p id="summary">Enter values and click calculate.</p>
         </div>
-
-        <table class="table">
-          <tbody>
-            <tr>
-              <th>Current grade</th>
-              <td id="current-display">--</td>
-            </tr>
-            <tr>
-              <th>Target grade</th>
-              <td id="target-display">--</td>
-            </tr>
-            <tr>
-              <th>Remaining coursework</th>
-              <td id="remaining-display">--</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </aside>
   </div>
 
   <section class="card" style="margin-top: 1.25rem;">
-    <h2>How this calculator works</h2>
+    <h2>How to Use This Calculator</h2>
+    <ol>
+      <li>Enter your current grade</li>
+      <li>Enter the grade you want</li>
+      <li>Enter how much of the class remains</li>
+      <li>Click calculate to see what you need</li>
+    </ol>
+  </section>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>How the Formula Works</h2>
     <p>
-      This tool finds the average grade you need on the remaining portion of your
-      class to reach your target overall grade.
-    </p>
-    <p>
-      <strong>Example:</strong> If your current grade is 82%, you want a 90% overall,
-      and 25% of your class is still left, this calculator tells you the average
-      score you need on that remaining 25%.
+      This calculator uses a weighted average formula to determine the grade you
+      need on remaining assignments or exams to reach your target.
     </p>
   </section>
 
   <section class="card" style="margin-top: 1.25rem;">
-    <h2>Frequently asked questions</h2>
+    <h2>Frequently Asked Questions</h2>
 
-    <div class="faq-item">
-      <h3>What does remaining coursework mean?</h3>
-      <p>
-        It is the percent of your class grade that has not been completed yet.
-        This could include a final exam, a project, quizzes, homework, or any
-        other remaining assignments.
-      </p>
-    </div>
+    <h3>What grade do I need to pass?</h3>
+    <p>
+      Enter your current grade, your passing goal, and remaining coursework.
+      The calculator will show the required average.
+    </p>
 
-    <div class="faq-item">
-      <h3>What if the calculator says I need over 100%?</h3>
-      <p>
-        That means your target grade is no longer mathematically possible unless
-        your teacher offers extra credit or some other adjustment.
-      </p>
-    </div>
+    <h3>What if I need over 100%?</h3>
+    <p>
+      That means your goal may not be possible without extra credit.
+    </p>
 
-    <div class="faq-item">
-      <h3>What if the calculator says I need less than 0%?</h3>
-      <p>
-        That means you have already secured your target grade, assuming your
-        current average and remaining weight are accurate.
-      </p>
-    </div>
+    <h3>What if I already passed?</h3>
+    <p>
+      If the result is below 0%, you have already secured your target grade.
+    </p>
   </section>
 
   <section class="card" style="margin-top: 1.25rem;">
     <h2>Related tools</h2>
-    <ul>
-      <li><a href="/grade-calculator">Grade Calculator</a></li>
-      <li><a href="/final-exam-calculator">Final Exam Calculator</a></li>
-      <li><a href="/weighted-grade-calculator">Weighted Grade Calculator</a></li>
-      <li><a href="/gpa-calculator">GPA Calculator</a></li>
-      <li><a href="/">Student Performance Toolkit home</a></li>
-      <a href="/how-to-calculate-your-grade">
-    How to Calculate Your Grade (Step-by-Step Guide)
-    </ul>
+    <p>
+      Try also:
+      <a href="/grade-calculator">Grade Calculator</a> |
+      <a href="/final-exam-calculator">Final Exam Calculator</a> |
+      <a href="/weighted-grade-calculator">Weighted Grade Calculator</a> |
+      <a href="/gpa-calculator">GPA Calculator</a>
+    </p>
   </section>
 
   <script>
-    const currentInput = document.getElementById("current-grade");
-    const targetInput = document.getElementById("target-grade");
-    const remainingInput = document.getElementById("remaining-weight");
+    const current = document.getElementById("current");
+    const target = document.getElementById("target");
+    const remaining = document.getElementById("remaining");
 
-    const neededResult = document.getElementById("needed-result");
-    const summaryText = document.getElementById("summary-text");
-    const currentDisplay = document.getElementById("current-display");
-    const targetDisplay = document.getElementById("target-display");
-    const remainingDisplay = document.getElementById("remaining-display");
+    const result = document.getElementById("result");
+    const summary = document.getElementById("summary");
 
-    function calculateNeededGrade() {
-      const current = parseFloat(currentInput.value);
-      const target = parseFloat(targetInput.value);
-      const remaining = parseFloat(remainingInput.value);
+    document.getElementById("calculate").addEventListener("click", () => {
+      const c = parseFloat(current.value);
+      const t = parseFloat(target.value);
+      const r = parseFloat(remaining.value);
 
-      if (
-        Number.isNaN(current) ||
-        Number.isNaN(target) ||
-        Number.isNaN(remaining) ||
-        remaining <= 0 ||
-        remaining > 100
-      ) {
-        neededResult.textContent = "--%";
-        summaryText.textContent = "Please enter valid numbers. Remaining coursework must be greater than 0 and at most 100.";
-        currentDisplay.textContent = "--";
-        targetDisplay.textContent = "--";
-        remainingDisplay.textContent = "--";
+      if (isNaN(c) || isNaN(t) || isNaN(r) || r <= 0) {
+        summary.textContent = "Please enter valid values.";
         return;
       }
 
-      const completedWeight = 100 - remaining;
-      const requiredAverage =
-        (target * 100 - current * completedWeight) / remaining;
+      const needed = (t * 100 - c * (100 - r)) / r;
+      const rounded = needed.toFixed(1);
 
-      const rounded = requiredAverage.toFixed(1);
+      result.textContent = `${rounded}%`;
 
-      neededResult.textContent = `${rounded}%`;
-      currentDisplay.textContent = `${current.toFixed(1).replace(/\.0$/, "")}%`;
-      targetDisplay.textContent = `${target.toFixed(1).replace(/\.0$/, "")}%`;
-      remainingDisplay.textContent = `${remaining.toFixed(1).replace(/\.0$/, "")}%`;
-
-      if (requiredAverage > 100) {
-        summaryText.textContent =
-          `You would need a ${rounded}% average on the remaining coursework. That may not be realistic without extra credit.`;
-      } else if (requiredAverage < 0) {
-        summaryText.textContent =
-          "You have already secured your target grade based on the values entered.";
+      if (needed > 100) {
+        summary.textContent =
+          "You would need over 100%. That may not be realistic.";
+      } else if (needed < 0) {
+        summary.textContent =
+          "You have already secured your target grade.";
       } else {
-        summaryText.textContent =
-          `You need an average of ${rounded}% on the remaining coursework to reach your target grade.`;
+        summary.textContent =
+          `You need an average of ${rounded}% on remaining work.`;
       }
-    }
-
-    document.getElementById("calculate")?.addEventListener("click", calculateNeededGrade);
+    });
   </script>
 </BaseLayout>
