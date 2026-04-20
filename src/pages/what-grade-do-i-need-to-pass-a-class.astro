@@ -13,7 +13,7 @@ const faqSchema = {
       name: "What grade do I need to pass a class?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "It depends on your current grade, your school's passing requirement, and how much coursework remains. This guide shows how to calculate it step by step."
+        text: "It depends on your current grade, your target grade, and how much coursework remains. This guide shows how to calculate it step by step."
       }
     },
     {
@@ -21,7 +21,7 @@ const faqSchema = {
       name: "What is a passing grade?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Most schools consider 60% or higher a passing grade, but some require 70%."
+        text: "Most schools consider 60% or higher a passing grade, but some classes require 70%."
       }
     }
   ]
@@ -30,8 +30,34 @@ const faqSchema = {
 const webPageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "What Grade Do I Need to Pass a Class",
-  url: pageUrl
+  name: "What Grade Do I Need to Pass a Class?",
+  url: pageUrl,
+  description:
+    "Find out what grade you need to pass your class. Learn the formula and use our calculator to get your answer instantly.",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Student Performance Toolkit",
+    url: siteUrl
+  }
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: siteUrl
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "What Grade Do I Need to Pass a Class?",
+      item: pageUrl
+    }
+  ]
 };
 ---
 
@@ -41,6 +67,7 @@ const webPageSchema = {
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   </Fragment>
 
@@ -54,8 +81,8 @@ const webPageSchema = {
 
   <div class="card">
     <p>
-      One of the most common questions students ask is:
-      <strong>“What grade do I need to pass?”</strong>
+      One of the most common questions students ask is
+      <strong> what grade do I need to pass? </strong>
       The answer depends on your current grade, your target grade, and how much
       of your class is left.
     </p>
@@ -88,17 +115,14 @@ const webPageSchema = {
   <section class="card">
     <h2>Step 4: Use the Formula</h2>
     <p>
-      The formula is:
+      A simple way to think about it is:
     </p>
-
-    <p><strong>(Target − Current Contribution) ÷ Remaining Weight</strong></p>
-
+    <p><strong>(Target Grade − Current Contribution) ÷ Remaining Weight</strong></p>
     <p>
       Instead of doing this manually, use the calculator below.
     </p>
-
     <p>
-      👉 <a href="/what-grade-do-i-need-calculator">Use the What Grade Do I Need Calculator</a>
+      <a href="/what-grade-do-i-need-calculator">Use the What Grade Do I Need Calculator</a>
     </p>
   </section>
 
@@ -109,9 +133,8 @@ const webPageSchema = {
       <li>Passing grade: 70%</li>
       <li>Remaining coursework: 30%</li>
     </ul>
-
     <p>
-      You may need a high score on remaining work to pass.
+      You may need a strong score on your remaining work to pass.
     </p>
   </section>
 
@@ -128,12 +151,12 @@ const webPageSchema = {
     <p>
       Don’t wait until the last minute. Check your grade early and plan ahead.
     </p>
-
     <p>
-      👉 Use tools:
-      <a href="/grade-calculator">Grade Calculator</a> |
-      <a href="/final-exam-calculator">Final Exam Calculator</a>
+      Try these tools:
+      <a href="/grade-calculator"> Grade Calculator</a> |
+      <a href="/final-exam-calculator"> Final Exam Calculator</a> |
+      <a href="/weighted-grade-calculator"> Weighted Grade Calculator</a> |
+      <a href="/gpa-calculator"> GPA Calculator</a>
     </p>
   </section>
-
 </BaseLayout>

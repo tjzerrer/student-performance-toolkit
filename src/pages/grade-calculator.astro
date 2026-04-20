@@ -1,11 +1,84 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const siteUrl = "https://student-performance-toolkit-6hgn.vercel.app";
+const pageUrl = `${siteUrl}/grade-calculator`;
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How do I calculate my grade?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Add all your earned points together and divide by the total possible points. This calculator does that automatically."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "What is a good grade?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A good grade is usually 80% or higher, depending on your goals and school standards."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Can I calculate weighted grades here?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "This page is for simple total-point grade calculation. For weighted categories, use the weighted grade calculator."
+      }
+    }
+  ]
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Grade Calculator",
+  url: pageUrl,
+  description:
+    "Calculate your grade instantly. Enter assignments and scores to find your average in seconds.",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Student Performance Toolkit",
+    url: siteUrl
+  }
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: siteUrl
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Grade Calculator",
+      item: pageUrl
+    }
+  ]
+};
 ---
 
 <BaseLayout
   title="Grade Calculator (Quick & Easy Average Calculator for Students)"
   description="Calculate your grade instantly. Enter assignments and scores to find your average in seconds."
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
   <section class="hero">
     <h1>Grade Calculator</h1>
     <p>
@@ -14,7 +87,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </p>
   </section>
 
-  <!-- SEO INTRO -->
   <div class="card">
     <p>
       This grade calculator helps students calculate their average grade quickly and accurately.
@@ -22,7 +94,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </p>
   </div>
 
-  <!-- CALCULATOR -->
   <div class="grid">
     <section class="card">
       <h2>Enter your scores</h2>
@@ -30,30 +101,36 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <div id="assignment-list">
         <div class="row assignment-row">
           <div>
-            <label>Score</label>
-            <input class="score" type="number" placeholder="90" />
+            <label>Points earned</label>
+            <input class="earned" type="number" min="0" step="any" placeholder="90" />
           </div>
           <div>
-            <label>Out of</label>
-            <input class="out-of" type="number" placeholder="100" />
+            <label>Points possible</label>
+            <input class="possible" type="number" min="0" step="any" placeholder="100" />
+          </div>
+          <div style="align-self:end;">
+            <button type="button" class="btn-danger remove-row">Remove</button>
           </div>
         </div>
 
         <div class="row assignment-row">
           <div>
-            <label>Score</label>
-            <input class="score" type="number" placeholder="85" />
+            <label>Points earned</label>
+            <input class="earned" type="number" min="0" step="any" placeholder="85" />
           </div>
           <div>
-            <label>Out of</label>
-            <input class="out-of" type="number" placeholder="100" />
+            <label>Points possible</label>
+            <input class="possible" type="number" min="0" step="any" placeholder="100" />
+          </div>
+          <div style="align-self:end;">
+            <button type="button" class="btn-danger remove-row">Remove</button>
           </div>
         </div>
       </div>
 
       <div class="actions">
-        <button id="add-assignment" class="btn-secondary">Add assignment</button>
-        <button id="calculate" class="btn-primary">Calculate grade</button>
+        <button id="add-assignment" type="button" class="btn-secondary">Add assignment</button>
+        <button id="calculate" type="button" class="btn-primary">Calculate grade</button>
       </div>
     </section>
 
@@ -69,7 +146,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </aside>
   </div>
 
-  <!-- HOW TO USE -->
   <section class="card" style="margin-top: 1.25rem;">
     <h2>How to Use the Grade Calculator</h2>
     <ol>
@@ -80,93 +156,108 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </ol>
   </section>
 
-  <!-- FAQ (SEO BOOST) -->
   <section class="card" style="margin-top: 1.25rem;">
     <h2>Frequently Asked Questions</h2>
 
-    <h3>How do I calculate my grade?</h3>
-    <p>
-      Add all your assignment scores together and divide by the total possible points.
-      This calculator does it automatically for you.
-    </p>
+    <div class="faq-item">
+      <h3>How do I calculate my grade?</h3>
+      <p>
+        Add all your assignment scores together and divide by the total possible points.
+        This calculator does it automatically for you.
+      </p>
+    </div>
 
-    <h3>What is a good grade?</h3>
-    <p>
-      A good grade is typically 80% or higher, depending on your goals and school standards.
-    </p>
+    <div class="faq-item">
+      <h3>What is a good grade?</h3>
+      <p>
+        A good grade is typically 80% or higher, depending on your goals and school standards.
+      </p>
+    </div>
 
-    <h3>Can I calculate weighted grades?</h3>
-    <p>
-      Yes, use our <a href="/weighted-grade-calculator">Weighted Grade Calculator</a>.
-    </p>
+    <div class="faq-item">
+      <h3>Can I calculate weighted grades?</h3>
+      <p>
+        Yes, use our <a href="/weighted-grade-calculator">Weighted Grade Calculator</a>.
+      </p>
+    </div>
   </section>
 
-  <!-- INTERNAL LINKS -->
   <section class="card" style="margin-top: 1.25rem;">
     <h2>Related tools</h2>
     <p>
       Try also:
       <a href="/final-exam-calculator">Final Exam Calculator</a> |
       <a href="/weighted-grade-calculator">Weighted Grade Calculator</a> |
-      <a href="/gpa-calculator">GPA Calculator</a>
-      <a href="/what-grade-do-i-need-calculator</a>
+      <a href="/gpa-calculator">GPA Calculator</a> |
+      <a href="/what-grade-do-i-need-calculator">What Grade Do I Need Calculator</a>
     </p>
   </section>
 
-  <!-- SCRIPT -->
   <script>
-    let count = 2;
-
     const assignmentList = document.getElementById("assignment-list");
     const addBtn = document.getElementById("add-assignment");
     const calcBtn = document.getElementById("calculate");
-
     const resultDiv = document.getElementById("result");
     const summary = document.getElementById("summary");
 
-    addBtn.addEventListener("click", () => {
-      count++;
-
+    addBtn?.addEventListener("click", () => {
       const row = document.createElement("div");
       row.className = "row assignment-row";
 
       row.innerHTML = `
         <div>
-          <label>Score</label>
-          <input class="score" type="number" placeholder="90" />
+          <label>Points earned</label>
+          <input class="earned" type="number" min="0" step="any" placeholder="90" />
         </div>
         <div>
-          <label>Out of</label>
-          <input class="out-of" type="number" placeholder="100" />
+          <label>Points possible</label>
+          <input class="possible" type="number" min="0" step="any" placeholder="100" />
+        </div>
+        <div style="align-self:end;">
+          <button type="button" class="btn-danger remove-row">Remove</button>
         </div>
       `;
 
-      assignmentList.appendChild(row);
+      assignmentList?.appendChild(row);
     });
 
-    calcBtn.addEventListener("click", () => {
-      const scores = document.querySelectorAll(".score");
-      const outs = document.querySelectorAll(".out-of");
+    assignmentList?.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
 
-      let totalScore = 0;
-      let totalOut = 0;
+      if (target.classList.contains("remove-row")) {
+        const rows = document.querySelectorAll(".assignment-row");
+        if (rows.length <= 1) return;
 
-      for (let i = 0; i < scores.length; i++) {
-        const s = parseFloat(scores[i].value);
-        const o = parseFloat(outs[i].value);
+        const row = target.closest(".assignment-row");
+        row?.remove();
+      }
+    });
 
-        if (!isNaN(s) && !isNaN(o) && o > 0) {
-          totalScore += s;
-          totalOut += o;
+    calcBtn?.addEventListener("click", () => {
+      const earnedInputs = document.querySelectorAll(".earned");
+      const possibleInputs = document.querySelectorAll(".possible");
+
+      let totalEarned = 0;
+      let totalPossible = 0;
+
+      for (let i = 0; i < earnedInputs.length; i++) {
+        const earned = parseFloat(earnedInputs[i].value);
+        const possible = parseFloat(possibleInputs[i].value);
+
+        if (!Number.isNaN(earned) && !Number.isNaN(possible) && possible > 0) {
+          totalEarned += earned;
+          totalPossible += possible;
         }
       }
 
-      if (totalOut === 0) {
+      if (totalPossible === 0) {
+        resultDiv.textContent = "--%";
         summary.textContent = "Please enter valid numbers.";
         return;
       }
 
-      const percent = (totalScore / totalOut) * 100;
+      const percent = (totalEarned / totalPossible) * 100;
       const rounded = percent.toFixed(1);
 
       resultDiv.textContent = `${rounded}%`;
