@@ -1,17 +1,27 @@
 ---
-
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Student Performance Toolkit"
+  description="Free calculators for grades, final exams, and GPA."
+>
+  <section class="hero">
+    <h1>Student Performance Toolkit</h1>
+    <p>
+      Free, simple tools for students who want quick answers about grades,
+      finals, and GPA.
+    </p>
+  </section>
+
+  <div class="card">
+    <h2>Tools</h2>
+    <ul>
+      <li><a href="/grade-calculator">Grade Calculator</a></li>
+    </ul>
+    <p class="muted">
+      More tools coming next: Final Exam Calculator, Weighted Grade Calculator,
+      and GPA Calculator.
+    </p>
+  </div>
+</BaseLayout>
