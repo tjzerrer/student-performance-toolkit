@@ -1,0 +1,228 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Weighted Grade Calculator (Easy, Accurate, Free)"
+  description="Calculate your weighted grade using category averages and category weights."
+>
+  <section class="hero">
+    <h1>Weighted Grade Calculator</h1>
+    <p>
+      Enter each class category, your current average in that category, and its
+      weight to calculate your overall weighted grade.
+    </p>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Enter your categories</h2>
+
+      <div id="category-list">
+        <div class="row category-row">
+          <div>
+            <label for="name-1">Category</label>
+            <input id="name-1" class="category-name" type="text" placeholder="Homework" />
+          </div>
+          <div>
+            <label for="grade-1">Category grade (%)</label>
+            <input id="grade-1" class="category-grade" type="number" min="0" max="100" step="any" placeholder="92" />
+          </div>
+          <div>
+            <label for="weight-1">Weight (%)</label>
+            <input id="weight-1" class="category-weight" type="number" min="0" max="100" step="any" placeholder="20" />
+          </div>
+        </div>
+
+        <div class="row category-row">
+          <div>
+            <label for="name-2">Category</label>
+            <input id="name-2" class="category-name" type="text" placeholder="Quizzes" />
+          </div>
+          <div>
+            <label for="grade-2">Category grade (%)</label>
+            <input id="grade-2" class="category-grade" type="number" min="0" max="100" step="any" placeholder="85" />
+          </div>
+          <div>
+            <label for="weight-2">Weight (%)</label>
+            <input id="weight-2" class="category-weight" type="number" min="0" max="100" step="any" placeholder="30" />
+          </div>
+        </div>
+
+        <div class="row category-row">
+          <div>
+            <label for="name-3">Category</label>
+            <input id="name-3" class="category-name" type="text" placeholder="Tests" />
+          </div>
+          <div>
+            <label for="grade-3">Category grade (%)</label>
+            <input id="grade-3" class="category-grade" type="number" min="0" max="100" step="any" placeholder="88" />
+          </div>
+          <div>
+            <label for="weight-3">Weight (%)</label>
+            <input id="weight-3" class="category-weight" type="number" min="0" max="100" step="any" placeholder="50" />
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="add-category" type="button" class="btn-secondary">Add category</button>
+        <button id="calculate" type="button" class="btn-primary">Calculate weighted grade</button>
+      </div>
+    </section>
+
+    <aside class="result-box">
+      <div class="card">
+        <h2>Your result</h2>
+
+        <div class="result-main">
+          <p class="muted">Weighted grade</p>
+          <div id="weighted-result" class="big-result">--%</div>
+          <p id="letter-result"><strong>Letter grade:</strong> --</p>
+          <p id="summary-text">Enter your categories and click Calculate weighted grade.</p>
+        </div>
+
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Total weight entered</th>
+              <td id="total-weight">--</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </aside>
+  </div>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>How this weighted grade calculator works</h2>
+    <p>
+      This calculator multiplies each category average by its weight, adds those
+      weighted values together, and then divides by the total weight.
+    </p>
+    <p>
+      <strong>Example:</strong> If Homework is 92% and worth 20%, Quizzes are
+      85% and worth 30%, and Tests are 88% and worth 50%, your weighted grade
+      will reflect the larger importance of Tests.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>Frequently asked questions</h2>
+
+    <div class="faq-item">
+      <h3>Do my weights need to add up to 100?</h3>
+      <p>
+        Ideally yes, but this calculator will still work if they do not. It will
+        calculate based on the total weight you entered.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I add more categories?</h3>
+      <p>
+        Yes. Click the Add category button to include more parts of your class.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What grading scale does this use?</h3>
+      <p>
+        This version uses a simple default scale: A = 90–100, B = 80–89,
+        C = 70–79, D = 60–69, F = below 60.
+      </p>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>Related tools</h2>
+    <ul>
+      <li><a href="/grade-calculator">Grade Calculator</a></li>
+      <li><a href="/final-exam-calculator">Final Exam Calculator</a></li>
+      <li><a href="/">Student Performance Toolkit home</a></li>
+    </ul>
+  </section>
+
+  <script>
+    let categoryCount = 3;
+
+    const categoryList = document.getElementById("category-list");
+    const addCategoryButton = document.getElementById("add-category");
+    const calculateButton = document.getElementById("calculate");
+
+    const weightedResult = document.getElementById("weighted-result");
+    const letterResult = document.getElementById("letter-result");
+    const summaryText = document.getElementById("summary-text");
+    const totalWeightCell = document.getElementById("total-weight");
+
+    function getLetterGrade(percent) {
+      if (percent >= 90) return "A";
+      if (percent >= 80) return "B";
+      if (percent >= 70) return "C";
+      if (percent >= 60) return "D";
+      return "F";
+    }
+
+    function addCategory() {
+      categoryCount += 1;
+
+      const row = document.createElement("div");
+      row.className = "row category-row";
+
+      row.innerHTML = `
+        <div>
+          <label for="name-${categoryCount}">Category</label>
+          <input id="name-${categoryCount}" class="category-name" type="text" placeholder="Projects" />
+        </div>
+        <div>
+          <label for="grade-${categoryCount}">Category grade (%)</label>
+          <input id="grade-${categoryCount}" class="category-grade" type="number" min="0" max="100" step="any" placeholder="90" />
+        </div>
+        <div>
+          <label for="weight-${categoryCount}">Weight (%)</label>
+          <input id="weight-${categoryCount}" class="category-weight" type="number" min="0" max="100" step="any" placeholder="10" />
+        </div>
+      `;
+
+      categoryList.appendChild(row);
+    }
+
+    function calculateWeightedGrade() {
+      const gradeInputs = document.querySelectorAll(".category-grade");
+      const weightInputs = document.querySelectorAll(".category-weight");
+
+      let weightedSum = 0;
+      let totalWeight = 0;
+
+      for (let i = 0; i < gradeInputs.length; i++) {
+        const grade = parseFloat(gradeInputs[i].value);
+        const weight = parseFloat(weightInputs[i].value);
+
+        if (!Number.isNaN(grade) && !Number.isNaN(weight) && weight > 0) {
+          weightedSum += grade * weight;
+          totalWeight += weight;
+        }
+      }
+
+      if (totalWeight === 0) {
+        weightedResult.textContent = "--%";
+        letterResult.innerHTML = "<strong>Letter grade:</strong> --";
+        summaryText.textContent = "Please enter at least one valid category and weight.";
+        totalWeightCell.textContent = "--";
+        return;
+      }
+
+      const result = weightedSum / totalWeight;
+      const rounded = result.toFixed(1);
+      const letter = getLetterGrade(result);
+
+      weightedResult.textContent = `${rounded}%`;
+      letterResult.innerHTML = `<strong>Letter grade:</strong> ${letter}`;
+      summaryText.textContent = `Your current weighted grade is ${rounded}% (${letter}).`;
+      totalWeightCell.textContent = `${totalWeight.toFixed(1).replace(/\.0$/, "")}%`;
+    }
+
+    addCategoryButton?.addEventListener("click", addCategory);
+    calculateButton?.addEventListener("click", calculateWeightedGrade);
+  </script>
+</BaseLayout>
