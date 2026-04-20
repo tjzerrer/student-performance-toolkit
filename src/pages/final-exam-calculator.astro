@@ -1,0 +1,111 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Final Exam Calculator (What Do I Need on My Final?)"
+  description="Calculate the score you need on your final exam to reach your desired grade."
+>
+  <section class="hero">
+    <h1>Final Exam Calculator</h1>
+    <p>
+      Enter your current grade, desired grade, and final exam weight to find out
+      exactly what you need to score.
+    </p>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Enter your information</h2>
+
+      <div class="row">
+        <div>
+          <label>Current grade (%)</label>
+          <input id="current" type="number" placeholder="85" />
+        </div>
+        <div>
+          <label>Desired grade (%)</label>
+          <input id="desired" type="number" placeholder="90" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Final exam weight (%)</label>
+          <input id="weight" type="number" placeholder="20" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="calculate" class="btn-primary">
+          Calculate required score
+        </button>
+      </div>
+    </section>
+
+    <aside class="result-box">
+      <div class="card">
+        <h2>Your result</h2>
+
+        <div class="result-main">
+          <p class="muted">Required score on final</p>
+          <div id="result" class="big-result">--%</div>
+          <p id="summary">
+            Enter your values and click calculate.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>How it works</h2>
+    <p>
+      This calculator uses a weighted formula to determine what score you need
+      on your final exam to reach your desired grade.
+    </p>
+    <p>
+      <strong>Example:</strong> If your current grade is 85%, your final is worth
+      20%, and you want a 90% overall, the calculator finds the score needed on
+      the final to reach that goal.
+    </p>
+  </section>
+
+  <script>
+    const currentInput = document.getElementById("current");
+    const desiredInput = document.getElementById("desired");
+    const weightInput = document.getElementById("weight");
+    const resultDiv = document.getElementById("result");
+    const summary = document.getElementById("summary");
+
+    document.getElementById("calculate").addEventListener("click", () => {
+      const current = parseFloat(currentInput.value);
+      const desired = parseFloat(desiredInput.value);
+      const weight = parseFloat(weightInput.value);
+
+      if (isNaN(current) || isNaN(desired) || isNaN(weight)) {
+        summary.textContent = "Please enter valid numbers.";
+        return;
+      }
+
+      const weightDecimal = weight / 100;
+
+      const required =
+        (desired - current * (1 - weightDecimal)) / weightDecimal;
+
+      const rounded = required.toFixed(1);
+
+      resultDiv.textContent = `${rounded}%`;
+
+      if (required > 100) {
+        summary.textContent =
+          "You would need more than 100%. This may not be achievable.";
+      } else if (required < 0) {
+        summary.textContent =
+          "You already secured your desired grade. Nice work.";
+      } else {
+        summary.textContent = `You need a ${rounded}% on your final to reach your goal.`;
+      }
+    });
+  </script>
+</BaseLayout>
