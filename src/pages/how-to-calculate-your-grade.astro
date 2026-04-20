@@ -1,108 +1,207 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const siteUrl = "https://student-performance-toolkit-6hgn.vercel.app";
+const pageUrl = `${siteUrl}/how-to-calculate-your-grade`;
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How do I calculate my grade?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Add your earned points together and divide by the total possible points. If your class uses categories, use a weighted grade formula instead."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "How do I calculate a weighted grade?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Multiply each category grade by its weight, add the results together, and divide by the total weight. You can also use a weighted grade calculator to do this automatically."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "How do I know what I need on my final exam?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Use your current grade, your target grade, and your final exam weight to calculate the score you need. A final exam calculator can do this instantly."
+      }
+    }
+  ]
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "How to Calculate Your Grade",
+  url: pageUrl,
+  description:
+    "Learn how to calculate your grade step-by-step, including simple averages, weighted grades, finals, and GPA.",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Student Performance Toolkit",
+    url: siteUrl
+  }
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: siteUrl
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "How to Calculate Your Grade",
+      item: pageUrl
+    }
+  ]
+};
 ---
 
 <BaseLayout
   title="How to Calculate Your Grade (Step-by-Step Guide)"
-  description="Learn how to calculate your grade step-by-step. Includes formulas, examples, and a free grade calculator to check your work instantly."
+  description="Learn how to calculate your grade step-by-step. Includes simple formulas, examples, and links to free grade calculators."
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
   <section class="hero">
-    <h1>How to Calculate Your Grade (Step-by-Step)</h1>
+    <h1>How to Calculate Your Grade</h1>
     <p>
-      Want to quickly figure out your grade? This guide shows you exactly how to calculate your average, 
-      final grade, and what you need to pass — with simple steps and examples.
+      If you want to know your current average, your weighted grade, or what you
+      need on your final, this guide will show you exactly how to calculate your
+      grade step-by-step.
     </p>
   </section>
 
   <div class="card">
-
-    <h2>📊 Method 1: Simple Grade Average</h2>
     <p>
-      If all your assignments are worth the same amount, calculating your grade is easy.
+      Many students ask questions like <strong>How do I calculate my grade?</strong>,
+      <strong>How do weighted grades work?</strong>, and
+      <strong>What do I need on my final?</strong> The answer depends on how your
+      class is structured. This page breaks down the most common methods in a
+      simple, practical way.
+    </p>
+  </div>
+
+  <section class="card">
+    <h2>Method 1: Simple Grade Average</h2>
+    <p>
+      If all assignments are worth the same number of points, you can calculate
+      your grade by adding your scores together and dividing by the total points
+      possible.
     </p>
 
     <p><strong>Formula:</strong></p>
-    <p>(Score₁ + Score₂ + Score₃ + …) ÷ Number of Assignments</p>
+    <p>(Total Points Earned ÷ Total Points Possible) × 100</p>
 
-    <h3>Example:</h3>
+    <h3>Example</h3>
     <ul>
-      <li>Assignment 1: 90%</li>
-      <li>Assignment 2: 80%</li>
-      <li>Assignment 3: 85%</li>
+      <li>Assignment 1: 18/20</li>
+      <li>Assignment 2: 42/50</li>
+      <li>Assignment 3: 90/100</li>
     </ul>
 
     <p>
-      (90 + 80 + 85) ÷ 3 = <strong>85%</strong>
+      Total earned = 18 + 42 + 90 = 150
+      <br />
+      Total possible = 20 + 50 + 100 = 170
+      <br />
+      Grade = 150 ÷ 170 × 100 = <strong>88.2%</strong>
     </p>
 
     <p>
-      👉 Want to skip the math? Try our 
-      <a href="/grade-calculator">Grade Calculator</a>.
+      Try it here:
+      <a href="/grade-calculator">Grade Calculator</a>
     </p>
+  </section>
 
-  </div>
-
-  <div class="card">
-
-    <h2>⚖️ Method 2: Weighted Grade Calculation</h2>
+  <section class="card">
+    <h2>Method 2: Weighted Grade Calculation</h2>
     <p>
-      Many classes use weighted categories like homework, tests, and quizzes.
+      Some classes use weighted categories, which means different parts of the
+      class count more than others. For example, tests might be worth more than
+      homework.
     </p>
 
-    <h3>Example:</h3>
+    <h3>Example</h3>
     <ul>
-      <li>Homework = 30%</li>
-      <li>Tests = 50%</li>
-      <li>Quizzes = 20%</li>
+      <li>Homework: 92% worth 20%</li>
+      <li>Quizzes: 85% worth 30%</li>
+      <li>Tests: 88% worth 50%</li>
     </ul>
 
     <p>
-      Multiply each category by its weight:
+      Weighted grade =
+      <br />
+      (92 × 0.20) + (85 × 0.30) + (88 × 0.50)
+      <br />
+      = 18.4 + 25.5 + 44
+      <br />
+      = <strong>87.9%</strong>
     </p>
 
+    <p>
+      Try it here:
+      <a href="/weighted-grade-calculator">Weighted Grade Calculator</a>
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Method 3: What You Need on Remaining Work</h2>
+    <p>
+      If you want to know what grade you need on your remaining assignments,
+      projects, or final exam, you can work backward from your target grade.
+    </p>
+
+    <p>
+      You need to know:
+    </p>
     <ul>
-      <li>Homework: 90 × 0.30 = 27</li>
-      <li>Tests: 80 × 0.50 = 40</li>
-      <li>Quizzes: 85 × 0.20 = 17</li>
+      <li>Your current grade</li>
+      <li>Your target grade</li>
+      <li>How much of the class is still left</li>
     </ul>
 
     <p>
-      Total = <strong>84%</strong>
+      Try it here:
+      <a href="/what-grade-do-i-need-calculator">What Grade Do I Need Calculator</a>
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Method 4: Final Exam Calculation</h2>
+    <p>
+      If your final exam counts as a specific percentage of your class, you can
+      calculate the score you need by using your current grade, your target
+      grade, and the final exam weight.
     </p>
 
     <p>
-      👉 Use the 
-      <a href="/weighted-grade-calculator">Weighted Grade Calculator</a> 
-      to do this instantly.
+      Try it here:
+      <a href="/final-exam-calculator">Final Exam Calculator</a>
     </p>
+  </section>
 
-  </div>
-
-  <div class="card">
-
-    <h2>🎯 Method 3: What Grade Do I Need?</h2>
+  <section class="card">
+    <h2>Method 5: GPA Calculation</h2>
     <p>
-      Trying to figure out what you need on your final exam to pass?
-    </p>
-
-    <p>
-      You need:
-    </p>
-
-    <p><strong>(Desired Grade − Current Grade Contribution) ÷ Final Weight</strong></p>
-
-    <p>
-      👉 Skip the formula and use the 
-      <a href="/what-grade-do-i-need-calculator">What Grade Do I Need Calculator</a>.
-    </p>
-
-  </div>
-
-  <div class="card">
-
-    <h2>🎓 How to Calculate GPA</h2>
-    <p>
-      GPA is calculated by converting letter grades into points.
+      GPA is different from a class percentage. GPA converts letter grades into
+      grade points and averages them across all your classes.
     </p>
 
     <ul>
@@ -114,36 +213,48 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </ul>
 
     <p>
-      Add your points and divide by the number of classes.
+      Try it here:
+      <a href="/gpa-calculator">GPA Calculator</a>
     </p>
+  </section>
 
+  <section class="card">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>How do I calculate my grade?</h3>
+      <p>
+        Add your earned points together, divide by the total possible points,
+        and multiply by 100.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I calculate a weighted grade?</h3>
+      <p>
+        Multiply each category average by its weight, add those values, and
+        divide by the total weight.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I know what I need on my final?</h3>
+      <p>
+        Use your current grade, target grade, and final exam weight to determine
+        the required score. A final exam calculator makes this much easier.
+      </p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Related tools</h2>
     <p>
-      👉 Use our 
-      <a href="/gpa-calculator">GPA Calculator</a> 
-      to calculate it instantly.
+      Use these calculators next:
+      <a href="/grade-calculator">Grade Calculator</a> |
+      <a href="/final-exam-calculator">Final Exam Calculator</a> |
+      <a href="/weighted-grade-calculator">Weighted Grade Calculator</a> |
+      <a href="/gpa-calculator">GPA Calculator</a> |
+      <a href="/what-grade-do-i-need-calculator">What Grade Do I Need Calculator</a>
     </p>
-
-  </div>
-
-  <div class="card">
-
-    <h2>🚀 Final Tip</h2>
-    <p>
-      Calculating grades manually is helpful, but using tools saves time and avoids mistakes.
-    </p>
-
-    <p>
-      Explore all tools:
-    </p>
-
-    <ul>
-      <li><a href="/grade-calculator">Grade Calculator</a></li>
-      <li><a href="/final-exam-calculator">Final Exam Calculator</a></li>
-      <li><a href="/weighted-grade-calculator">Weighted Grade Calculator</a></li>
-      <li><a href="/gpa-calculator">GPA Calculator</a></li>
-      <li><a href="/what-grade-do-i-need-calculator">What Grade Do I Need Calculator</a></li>
-    </ul>
-
-  </div>
-
+  </section>
 </BaseLayout>
