@@ -1,18 +1,99 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const siteUrl = "https://student-performance-toolkit-6hgn.vercel.app";
+const pageUrl = `${siteUrl}/gpa-calculator`;
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How do I calculate GPA?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Multiply each course's grade points by its credits, add those values together, and divide by total credits. This calculator does that automatically."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Does this GPA calculator use a 4.0 scale?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. This version uses a standard 4.0 GPA scale where A = 4.0, B = 3.0, C = 2.0, D = 1.0, and F = 0.0."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Can I add more classes?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Click the Add course button to include as many classes as you need."
+      }
+    }
+  ]
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "GPA Calculator",
+  url: pageUrl,
+  description:
+    "Calculate your GPA using course credits and letter grades with this free GPA calculator.",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Student Performance Toolkit",
+    url: siteUrl
+  }
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: siteUrl
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "GPA Calculator",
+      item: pageUrl
+    }
+  ]
+};
 ---
 
-<BaseLayout 
-  title="GPA Calculator (Fast & Free) | Student Performance Toolkit"
-  description="Quickly calculate your GPA with this free, easy-to-use GPA calculator. No signup required."
+<BaseLayout
+  title="GPA Calculator (High School & College GPA Tool)"
+  description="Use this free GPA calculator to quickly calculate your GPA using course credits and letter grades."
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
   <section class="hero">
     <h1>GPA Calculator</h1>
     <p>
-      Enter your courses, credits, and letter grades to calculate your GPA
-      quickly and accurately.
+      Calculate your GPA quickly and accurately using course credits and letter
+      grades. This tool works well for both high school and college classes.
     </p>
   </section>
+
+  <div class="card">
+    <p>
+      This GPA calculator helps students convert letter grades into grade points
+      and calculate an overall GPA. Enter your classes, credits, and grades to
+      instantly see your result on a standard 4.0 scale.
+    </p>
+  </div>
 
   <div class="grid">
     <section class="card">
@@ -112,20 +193,39 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   </div>
 
   <section class="card" style="margin-top: 1.25rem;">
-    <h2>How this GPA calculator works</h2>
+    <h2>How to Use the GPA Calculator</h2>
+    <ol>
+      <li>Enter each course name</li>
+      <li>Enter the number of credits for each course</li>
+      <li>Select the letter grade earned in each course</li>
+      <li>Click Calculate GPA to see your result</li>
+    </ol>
+  </section>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>How GPA Is Calculated</h2>
     <p>
-      This calculator multiplies each course’s grade points by its credits, adds
-      those values together, and divides by the total number of credits.
+      GPA is found by converting each letter grade into grade points, multiplying
+      by course credits, adding those values together, and dividing by the total
+      number of credits.
     </p>
     <p>
-      <strong>Example:</strong> An A in a 1-credit course is worth 4 grade points.
-      A B in a 1-credit course is worth 3 grade points. Add the weighted points,
-      then divide by total credits to get GPA.
+      <strong>Example:</strong> An A in a 1-credit course is worth 4 grade
+      points. A B in a 1-credit course is worth 3 grade points. Add the weighted
+      points and divide by total credits to get your GPA.
     </p>
   </section>
 
   <section class="card" style="margin-top: 1.25rem;">
-    <h2>Frequently asked questions</h2>
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>How do I calculate GPA?</h3>
+      <p>
+        Multiply each course's grade points by its credits, add those values,
+        and divide by total credits. This GPA calculator does that instantly.
+      </p>
+    </div>
 
     <div class="faq-item">
       <h3>Does this use a 4.0 GPA scale?</h3>
@@ -138,7 +238,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="faq-item">
       <h3>Can I add more classes?</h3>
       <p>
-        Yes. Click the Add course button to include as many courses as you need.
+        Yes. Click the Add course button to include more classes in your GPA
+        calculation.
       </p>
     </div>
 
@@ -146,22 +247,20 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <h3>Does this support weighted honors or AP classes?</h3>
       <p>
         Not yet. This version is for a basic 4.0 GPA calculation. A weighted GPA
-        version could be a future tool.
+        calculator can be a future tool.
       </p>
     </div>
   </section>
 
   <section class="card" style="margin-top: 1.25rem;">
     <h2>Related tools</h2>
-    <ul>
-      <li><a href="/grade-calculator">Grade Calculator</a></li>
-      <li><a href="/final-exam-calculator">Final Exam Calculator</a></li>
-      <li><a href="/weighted-grade-calculator">Weighted Grade Calculator</a></li>
-      <li><a href="/what-grade-do-i-need-calculator">What Grade Do I Need Calculator</a></li>
-      <li><a href="/">Student Performance Toolkit home</a></li>
-      <a href="/how-to-calculate-your-grade">
-    How to Calculate Your Grade (Step-by-Step Guide)
-    </ul>
+    <p>
+      Try also:
+      <a href="/grade-calculator">Grade Calculator</a> |
+      <a href="/final-exam-calculator">Final Exam Calculator</a> |
+      <a href="/weighted-grade-calculator">Weighted Grade Calculator</a> |
+      <a href="/what-grade-do-i-need-calculator">What Grade Do I Need Calculator</a>
+    </p>
   </section>
 
   <script>
