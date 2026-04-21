@@ -1,8 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-
-const siteUrl = "https://student-performance-toolkit-6hgn.vercel.app";
-const pageUrl = `${siteUrl}/gpa-calculator`;
+import ToolLayout from "../layouts/ToolLayout.astro";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -18,80 +15,39 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      name: "Does this GPA calculator use a 4.0 scale?",
+      name: "Does this GPA calculator support plus and minus grades?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. This version uses a standard 4.0 GPA scale where A = 4.0, B = 3.0, C = 2.0, D = 1.0, and F = 0.0."
+        text: "Yes. This GPA calculator supports plus and minus grades like A-, B+, and C+."
       }
     },
     {
       "@type": "Question",
-      name: "Can I add more classes?",
+      name: "Does this GPA calculator support AP and honors classes?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. Click the Add course button to include as many classes as you need."
+        text: "Yes. You can choose Regular, Honors, or AP/IB for each course to estimate a weighted GPA."
       }
-    }
-  ]
-};
-
-const webPageSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  name: "GPA Calculator",
-  url: pageUrl,
-  description:
-    "Calculate your GPA using course credits and letter grades with this free GPA calculator.",
-  isPartOf: {
-    "@type": "WebSite",
-    name: "Student Performance Toolkit",
-    url: siteUrl
-  }
-};
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "GPA Calculator",
-      item: pageUrl
     }
   ]
 };
 ---
 
-<BaseLayout
-  title="GPA Calculator (High School & College GPA Tool)"
-  description="Use this free GPA calculator to quickly calculate your GPA using course credits and letter grades."
+<ToolLayout
+  title="GPA Calculator (Weighted, AP, Honors, Plus/Minus Grades)"
+  description="Use this free GPA calculator to calculate unweighted and weighted GPA with AP, honors, and plus/minus grades."
+  slug="/gpa-calculator"
+  heroTitle="GPA Calculator"
+  heroText="Calculate your GPA quickly using course credits, plus/minus letter grades, and course levels like Regular, Honors, and AP/IB."
+  faqSchema={faqSchema}
 >
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  </Fragment>
-
-  <section class="hero">
-    <h1>GPA Calculator</h1>
-    <p>
-      Calculate your GPA quickly and accurately using course credits and letter
-      grades. This tool works well for both high school and college classes.
-    </p>
-  </section>
-
   <div class="card">
     <p>
-      This GPA calculator helps students convert letter grades into grade points
-      and calculate an overall GPA. Enter your classes, credits, and grades to
-      instantly see your result on a standard 4.0 scale.
+      This GPA calculator helps students estimate both
+      <strong> unweighted GPA </strong> and
+      <strong> weighted GPA </strong>.
+      You can enter course credits, use plus/minus grades like A- or B+, and
+      account for course rigor with Regular, Honors, and AP/IB classes.
     </p>
   </div>
 
@@ -103,7 +59,7 @@ const breadcrumbSchema = {
         <div class="row course-row">
           <div>
             <label for="course-1">Course</label>
-            <input id="course-1" class="course-name" type="text" placeholder="Algebra" />
+            <input id="course-1" class="course-name" type="text" placeholder="Algebra II" />
           </div>
           <div>
             <label for="credits-1">Credits</label>
@@ -112,19 +68,38 @@ const breadcrumbSchema = {
           <div>
             <label for="grade-1">Letter grade</label>
             <select id="grade-1" class="course-grade">
+              <option value="4.0">A+</option>
               <option value="4.0">A</option>
+              <option value="3.7">A-</option>
+              <option value="3.3">B+</option>
               <option value="3.0">B</option>
+              <option value="2.7">B-</option>
+              <option value="2.3">C+</option>
               <option value="2.0">C</option>
+              <option value="1.7">C-</option>
+              <option value="1.3">D+</option>
               <option value="1.0">D</option>
+              <option value="0.7">D-</option>
               <option value="0.0">F</option>
             </select>
+          </div>
+          <div>
+            <label for="level-1">Course level</label>
+            <select id="level-1" class="course-level">
+              <option value="0">Regular</option>
+              <option value="0.5">Honors</option>
+              <option value="1.0">AP / IB</option>
+            </select>
+          </div>
+          <div style="align-self:end;">
+            <button type="button" class="btn-danger remove-row">Remove</button>
           </div>
         </div>
 
         <div class="row course-row">
           <div>
             <label for="course-2">Course</label>
-            <input id="course-2" class="course-name" type="text" placeholder="English" />
+            <input id="course-2" class="course-name" type="text" placeholder="English III" />
           </div>
           <div>
             <label for="credits-2">Credits</label>
@@ -133,19 +108,38 @@ const breadcrumbSchema = {
           <div>
             <label for="grade-2">Letter grade</label>
             <select id="grade-2" class="course-grade">
+              <option value="4.0">A+</option>
               <option value="4.0">A</option>
+              <option value="3.7">A-</option>
+              <option value="3.3">B+</option>
               <option value="3.0" selected>B</option>
+              <option value="2.7">B-</option>
+              <option value="2.3">C+</option>
               <option value="2.0">C</option>
+              <option value="1.7">C-</option>
+              <option value="1.3">D+</option>
               <option value="1.0">D</option>
+              <option value="0.7">D-</option>
               <option value="0.0">F</option>
             </select>
+          </div>
+          <div>
+            <label for="level-2">Course level</label>
+            <select id="level-2" class="course-level">
+              <option value="0" selected>Regular</option>
+              <option value="0.5">Honors</option>
+              <option value="1.0">AP / IB</option>
+            </select>
+          </div>
+          <div style="align-self:end;">
+            <button type="button" class="btn-danger remove-row">Remove</button>
           </div>
         </div>
 
         <div class="row course-row">
           <div>
             <label for="course-3">Course</label>
-            <input id="course-3" class="course-name" type="text" placeholder="Science" />
+            <input id="course-3" class="course-name" type="text" placeholder="AP Biology" />
           </div>
           <div>
             <label for="credits-3">Credits</label>
@@ -154,18 +148,38 @@ const breadcrumbSchema = {
           <div>
             <label for="grade-3">Letter grade</label>
             <select id="grade-3" class="course-grade">
+              <option value="4.0">A+</option>
               <option value="4.0">A</option>
+              <option value="3.7">A-</option>
+              <option value="3.3">B+</option>
               <option value="3.0">B</option>
+              <option value="2.7">B-</option>
+              <option value="2.3">C+</option>
               <option value="2.0" selected>C</option>
+              <option value="1.7">C-</option>
+              <option value="1.3">D+</option>
               <option value="1.0">D</option>
+              <option value="0.7">D-</option>
               <option value="0.0">F</option>
             </select>
+          </div>
+          <div>
+            <label for="level-3">Course level</label>
+            <select id="level-3" class="course-level">
+              <option value="0">Regular</option>
+              <option value="0.5">Honors</option>
+              <option value="1.0" selected>AP / IB</option>
+            </select>
+          </div>
+          <div style="align-self:end;">
+            <button type="button" class="btn-danger remove-row">Remove</button>
           </div>
         </div>
       </div>
 
       <div class="actions">
         <button id="add-course" type="button" class="btn-secondary">Add course</button>
+        <button id="clear-all" type="button" class="btn-secondary">Clear all</button>
         <button id="calculate" type="button" class="btn-primary">Calculate GPA</button>
       </div>
     </section>
@@ -175,9 +189,16 @@ const breadcrumbSchema = {
         <h2>Your result</h2>
 
         <div class="result-main">
-          <p class="muted">Calculated GPA</p>
+          <p class="muted">Unweighted GPA</p>
           <div id="gpa-result" class="big-result">--</div>
+
+          <p class="muted" style="margin-top: 1rem;">Weighted GPA</p>
+          <div id="weighted-gpa-result" class="big-result">--</div>
+
           <p id="summary-text">Enter your courses and click Calculate GPA.</p>
+          <p class="muted" style="margin-top: 0.75rem;" id="scale-note">
+            Weighted scale used here: Honors = +0.5, AP / IB = +1.0
+          </p>
         </div>
 
         <table class="table">
@@ -198,6 +219,7 @@ const breadcrumbSchema = {
       <li>Enter each course name</li>
       <li>Enter the number of credits for each course</li>
       <li>Select the letter grade earned in each course</li>
+      <li>Select the course level: Regular, Honors, or AP/IB</li>
       <li>Click Calculate GPA to see your result</li>
     </ol>
   </section>
@@ -205,14 +227,20 @@ const breadcrumbSchema = {
   <section class="card" style="margin-top: 1.25rem;">
     <h2>How GPA Is Calculated</h2>
     <p>
-      GPA is found by converting each letter grade into grade points, multiplying
-      by course credits, adding those values together, and dividing by the total
-      number of credits.
+      GPA is calculated by converting each course grade into grade points,
+      multiplying by credits, adding those totals together, and dividing by the
+      total number of credits.
     </p>
     <p>
-      <strong>Example:</strong> An A in a 1-credit course is worth 4 grade
-      points. A B in a 1-credit course is worth 3 grade points. Add the weighted
-      points and divide by total credits to get your GPA.
+      This calculator shows both:
+    </p>
+    <ul>
+      <li><strong>Unweighted GPA</strong> based only on the letter grade</li>
+      <li><strong>Weighted GPA</strong> using extra points for Honors and AP/IB courses</li>
+    </ul>
+    <p>
+      <strong>Example:</strong> An A- in a 1-credit class is worth 3.7 grade
+      points. If that course is AP, the weighted value becomes 4.7.
     </p>
   </section>
 
@@ -223,44 +251,32 @@ const breadcrumbSchema = {
       <h3>How do I calculate GPA?</h3>
       <p>
         Multiply each course's grade points by its credits, add those values,
-        and divide by total credits. This GPA calculator does that instantly.
+        and divide by total credits.
       </p>
     </div>
 
     <div class="faq-item">
-      <h3>Does this use a 4.0 GPA scale?</h3>
+      <h3>Does this support plus and minus grades?</h3>
       <p>
-        Yes. This version uses a standard 4.0 scale where A = 4.0, B = 3.0,
-        C = 2.0, D = 1.0, and F = 0.0.
+        Yes. This calculator supports grades like A-, B+, C+, and D-.
       </p>
     </div>
 
     <div class="faq-item">
-      <h3>Can I add more classes?</h3>
+      <h3>Does this support AP and honors classes?</h3>
       <p>
-        Yes. Click the Add course button to include more classes in your GPA
-        calculation.
+        Yes. You can choose Regular, Honors, or AP/IB for each course to
+        estimate a weighted GPA.
       </p>
     </div>
 
     <div class="faq-item">
-      <h3>Does this support weighted honors or AP classes?</h3>
+      <h3>What is the difference between weighted and unweighted GPA?</h3>
       <p>
-        Not yet. This version is for a basic 4.0 GPA calculation. A weighted GPA
-        calculator can be a future tool.
+        Unweighted GPA uses only your letter grades. Weighted GPA adds extra
+        value for more rigorous courses like Honors and AP/IB.
       </p>
     </div>
-  </section>
-
-  <section class="card" style="margin-top: 1.25rem;">
-    <h2>Related tools</h2>
-    <p>
-      Try also:
-      <a href="/grade-calculator">Grade Calculator</a> |
-      <a href="/final-exam-calculator">Final Exam Calculator</a> |
-      <a href="/weighted-grade-calculator">Weighted Grade Calculator</a> |
-      <a href="/what-grade-do-i-need-calculator">What Grade Do I Need Calculator</a>
-    </p>
   </section>
 
   <script>
@@ -268,75 +284,140 @@ const breadcrumbSchema = {
 
     const courseList = document.getElementById("course-list");
     const addCourseButton = document.getElementById("add-course");
+    const clearAllButton = document.getElementById("clear-all");
     const calculateButton = document.getElementById("calculate");
 
     const gpaResult = document.getElementById("gpa-result");
+    const weightedGpaResult = document.getElementById("weighted-gpa-result");
     const summaryText = document.getElementById("summary-text");
     const totalCreditsCell = document.getElementById("total-credits");
 
-    function addCourse() {
-      courseCount += 1;
-
+    function createCourseRow(index) {
       const row = document.createElement("div");
       row.className = "row course-row";
 
       row.innerHTML = `
         <div>
-          <label for="course-${courseCount}">Course</label>
-          <input id="course-${courseCount}" class="course-name" type="text" placeholder="History" />
+          <label for="course-${index}">Course</label>
+          <input id="course-${index}" class="course-name" type="text" placeholder="History" />
         </div>
         <div>
-          <label for="credits-${courseCount}">Credits</label>
-          <input id="credits-${courseCount}" class="course-credits" type="number" min="0" step="any" placeholder="1" />
+          <label for="credits-${index}">Credits</label>
+          <input id="credits-${index}" class="course-credits" type="number" min="0" step="any" placeholder="1" />
         </div>
         <div>
-          <label for="grade-${courseCount}">Letter grade</label>
-          <select id="grade-${courseCount}" class="course-grade">
+          <label for="grade-${index}">Letter grade</label>
+          <select id="grade-${index}" class="course-grade">
+            <option value="4.0">A+</option>
             <option value="4.0">A</option>
+            <option value="3.7">A-</option>
+            <option value="3.3">B+</option>
             <option value="3.0">B</option>
+            <option value="2.7">B-</option>
+            <option value="2.3">C+</option>
             <option value="2.0">C</option>
+            <option value="1.7">C-</option>
+            <option value="1.3">D+</option>
             <option value="1.0">D</option>
+            <option value="0.7">D-</option>
             <option value="0.0">F</option>
           </select>
         </div>
+        <div>
+          <label for="level-${index}">Course level</label>
+          <select id="level-${index}" class="course-level">
+            <option value="0">Regular</option>
+            <option value="0.5">Honors</option>
+            <option value="1.0">AP / IB</option>
+          </select>
+        </div>
+        <div style="align-self:end;">
+          <button type="button" class="btn-danger remove-row">Remove</button>
+        </div>
       `;
 
-      courseList.appendChild(row);
+      return row;
+    }
+
+    function addCourse() {
+      courseCount += 1;
+      courseList?.appendChild(createCourseRow(courseCount));
+    }
+
+    function clearAllCourses() {
+      if (!courseList) return;
+
+      courseList.innerHTML = "";
+      courseCount = 1;
+      courseList.appendChild(createCourseRow(1));
+
+      gpaResult.textContent = "--";
+      weightedGpaResult.textContent = "--";
+      summaryText.textContent = "Enter your courses and click Calculate GPA.";
+      totalCreditsCell.textContent = "--";
     }
 
     function calculateGPA() {
       const creditInputs = document.querySelectorAll(".course-credits");
       const gradeInputs = document.querySelectorAll(".course-grade");
+      const levelInputs = document.querySelectorAll(".course-level");
 
-      let totalQualityPoints = 0;
+      let totalUnweightedQualityPoints = 0;
+      let totalWeightedQualityPoints = 0;
       let totalCredits = 0;
 
       for (let i = 0; i < creditInputs.length; i++) {
         const credits = parseFloat(creditInputs[i].value);
         const gradePoints = parseFloat(gradeInputs[i].value);
+        const levelBoost = parseFloat(levelInputs[i].value);
 
-        if (!Number.isNaN(credits) && credits > 0 && !Number.isNaN(gradePoints)) {
-          totalQualityPoints += credits * gradePoints;
+        if (
+          !Number.isNaN(credits) &&
+          credits > 0 &&
+          !Number.isNaN(gradePoints) &&
+          !Number.isNaN(levelBoost)
+        ) {
+          totalUnweightedQualityPoints += credits * gradePoints;
+          totalWeightedQualityPoints += credits * (gradePoints + levelBoost);
           totalCredits += credits;
         }
       }
 
       if (totalCredits === 0) {
         gpaResult.textContent = "--";
+        weightedGpaResult.textContent = "--";
         summaryText.textContent = "Please enter at least one valid course and credit value.";
         totalCreditsCell.textContent = "--";
         return;
       }
 
-      const gpa = totalQualityPoints / totalCredits;
-      const rounded = gpa.toFixed(2);
+      const unweightedGpa = totalUnweightedQualityPoints / totalCredits;
+      const weightedGpa = totalWeightedQualityPoints / totalCredits;
 
-      gpaResult.textContent = rounded;
-      summaryText.textContent = `Your GPA is ${rounded}.`;
+      const roundedUnweighted = unweightedGpa.toFixed(2);
+      const roundedWeighted = weightedGpa.toFixed(2);
+
+      gpaResult.textContent = roundedUnweighted;
+      weightedGpaResult.textContent = roundedWeighted;
+      summaryText.textContent = `Your unweighted GPA is ${roundedUnweighted}, and your weighted GPA is ${roundedWeighted}.`;
       totalCreditsCell.textContent = totalCredits.toFixed(1).replace(/\.0$/, "");
     }
 
     addCourseButton?.addEventListener("click", addCourse);
+    clearAllButton?.addEventListener("click", clearAllCourses);
     calculateButton?.addEventListener("click", calculateGPA);
+
+    courseList?.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+
+      if (target.classList.contains("remove-row")) {
+        const rows = document.querySelectorAll(".course-row");
+        if (rows.length <= 1) return;
+
+        const row = target.closest(".course-row");
+        row?.remove();
+      }
+    });
   </script>
-</BaseLayout>
+</ToolLayout>
