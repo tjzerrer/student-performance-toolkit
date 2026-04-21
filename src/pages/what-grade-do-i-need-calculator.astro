@@ -1,8 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-
-const siteUrl = "https://student-performance-toolkit-6hgn.vercel.app";
-const pageUrl = `${siteUrl}/what-grade-do-i-need-calculator`;
+import ToolLayout from "../layouts/ToolLayout.astro";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -34,59 +31,16 @@ const faqSchema = {
     }
   ]
 };
-
-const webPageSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  name: "What Grade Do I Need Calculator",
-  url: pageUrl,
-  description:
-    "Find the exact grade you need on remaining coursework to reach your target grade.",
-  isPartOf: {
-    "@type": "WebSite",
-    name: "Student Performance Toolkit",
-    url: siteUrl
-  }
-};
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "What Grade Do I Need Calculator",
-      item: pageUrl
-    }
-  ]
-};
 ---
 
-<BaseLayout
+<ToolLayout
   title="What Grade Do I Need Calculator (Find Your Target Score Fast)"
   description="Use this free calculator to find the exact grade you need on remaining coursework to reach your goal."
+  slug="/what-grade-do-i-need-calculator"
+  heroTitle="What Grade Do I Need Calculator"
+  heroText="Quickly find out what grade you need on your remaining coursework to reach your target grade."
+  faqSchema={faqSchema}
 >
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  </Fragment>
-
-  <section class="hero">
-    <h1>What Grade Do I Need Calculator</h1>
-    <p>
-      Quickly find out what grade you need on your remaining coursework to reach
-      your target grade.
-    </p>
-  </section>
-
   <div class="card">
     <p>
       This calculator answers one of the most common student questions:
@@ -172,17 +126,6 @@ const breadcrumbSchema = {
     </p>
   </section>
 
-  <section class="card" style="margin-top: 1.25rem;">
-    <h2>Related tools</h2>
-    <p>
-      Try also:
-      <a href="/grade-calculator">Grade Calculator</a> |
-      <a href="/final-exam-calculator">Final Exam Calculator</a> |
-      <a href="/weighted-grade-calculator">Weighted Grade Calculator</a> |
-      <a href="/gpa-calculator">GPA Calculator</a>
-    </p>
-  </section>
-
   <script>
     const current = document.getElementById("current");
     const target = document.getElementById("target");
@@ -218,4 +161,4 @@ const breadcrumbSchema = {
       }
     });
   </script>
-</BaseLayout>
+</ToolLayout>
