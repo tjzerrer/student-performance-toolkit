@@ -1,8 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-
-const siteUrl = "https://student-performance-toolkit-6hgn.vercel.app";
-const pageUrl = `${siteUrl}/weighted-grade-calculator`;
+import ToolLayout from "../layouts/ToolLayout.astro";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -34,60 +31,16 @@ const faqSchema = {
     }
   ]
 };
-
-const webPageSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  name: "Weighted Grade Calculator",
-  url: pageUrl,
-  description:
-    "Calculate your weighted grade using category averages and category weights.",
-  isPartOf: {
-    "@type": "WebSite",
-    name: "Student Performance Toolkit",
-    url: siteUrl
-  }
-};
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Weighted Grade Calculator",
-      item: pageUrl
-    }
-  ]
-};
 ---
 
-<BaseLayout
+<ToolLayout
   title="Weighted Grade Calculator (Fast & Accurate Category Grade Tool)"
   description="Use this free weighted grade calculator to calculate your class average using category grades and weights."
+  slug="/weighted-grade-calculator"
+  heroTitle="Weighted Grade Calculator"
+  heroText="Calculate your weighted grade using category averages and category weights. Enter homework, quizzes, tests, or any other class category to see your overall average instantly."
+  faqSchema={faqSchema}
 >
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  </Fragment>
-
-  <section class="hero">
-    <h1>Weighted Grade Calculator</h1>
-    <p>
-      Calculate your weighted grade using category averages and category
-      weights. Enter homework, quizzes, tests, or any other class category to
-      see your overall average instantly.
-    </p>
-  </section>
-
   <div class="card">
     <p>
       This weighted grade calculator helps students calculate their class average
@@ -230,17 +183,6 @@ const breadcrumbSchema = {
     </div>
   </section>
 
-  <section class="card" style="margin-top: 1.25rem;">
-    <h2>Related tools</h2>
-    <p>
-      Try also:
-      <a href="/grade-calculator">Grade Calculator</a> |
-      <a href="/final-exam-calculator">Final Exam Calculator</a> |
-      <a href="/gpa-calculator">GPA Calculator</a> |
-      <a href="/what-grade-do-i-need-calculator">What Grade Do I Need Calculator</a>
-    </p>
-  </section>
-
   <script>
     let categoryCount = 3;
 
@@ -323,4 +265,4 @@ const breadcrumbSchema = {
     addCategoryButton?.addEventListener("click", addCategory);
     calculateButton?.addEventListener("click", calculateWeightedGrade);
   </script>
-</BaseLayout>
+</ToolLayout>
