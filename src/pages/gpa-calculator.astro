@@ -26,7 +26,7 @@ const faqSchema = {
       name: "Does this GPA calculator support AP and honors classes?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. You can choose Regular, Honors, or AP/IB for each course to estimate a weighted GPA."
+        text: "Yes. You can choose Regular, Honors, or AP/IB for each course and select a weighting system to estimate a weighted GPA."
       }
     }
   ]
@@ -49,11 +49,41 @@ const faqSchema = {
       You can enter course credits, use plus/minus grades like A- or B+, and
       account for course rigor with Regular, Honors, and AP/IB classes.
     </p>
+    <p class="muted" style="margin-top: 0.75rem;">
+      GPA scales vary by school and district. Use the preset weighting systems
+      below or choose a custom option if your school uses a different scale.
+    </p>
   </div>
 
   <div class="grid">
     <section class="card">
       <h2>Enter your courses</h2>
+
+      <div class="row" style="margin-bottom: 1rem;">
+        <div>
+          <label for="weighting-system">Weighting system</label>
+          <select id="weighting-system">
+            <option value="standard" selected>Standard: Honors +0.5, AP / IB +1.0</option>
+            <option value="aggressive">Aggressive: Honors +1.0, AP / IB +2.0</option>
+            <option value="unweighted">Unweighted only</option>
+            <option value="custom">Custom weighting</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="custom-weighting-box" class="card" style="margin-bottom: 1rem; display: none;">
+        <h3 style="margin-top: 0;">Custom weighting</h3>
+        <div class="row">
+          <div>
+            <label for="custom-honors">Honors boost</label>
+            <input id="custom-honors" type="number" min="0" step="0.1" value="0.5" />
+          </div>
+          <div>
+            <label for="custom-ap">AP / IB boost</label>
+            <input id="custom-ap" type="number" min="0" step="0.1" value="1.0" />
+          </div>
+        </div>
+      </div>
 
       <div id="course-list">
         <div class="row course-row">
@@ -86,9 +116,9 @@ const faqSchema = {
           <div>
             <label for="level-1">Course level</label>
             <select id="level-1" class="course-level">
-              <option value="0">Regular</option>
-              <option value="0.5">Honors</option>
-              <option value="1.0">AP / IB</option>
+              <option value="regular">Regular</option>
+              <option value="honors">Honors</option>
+              <option value="ap">AP / IB</option>
             </select>
           </div>
           <div style="align-self:end;">
@@ -126,9 +156,9 @@ const faqSchema = {
           <div>
             <label for="level-2">Course level</label>
             <select id="level-2" class="course-level">
-              <option value="0" selected>Regular</option>
-              <option value="0.5">Honors</option>
-              <option value="1.0">AP / IB</option>
+              <option value="regular" selected>Regular</option>
+              <option value="honors">Honors</option>
+              <option value="ap">AP / IB</option>
             </select>
           </div>
           <div style="align-self:end;">
@@ -166,9 +196,9 @@ const faqSchema = {
           <div>
             <label for="level-3">Course level</label>
             <select id="level-3" class="course-level">
-              <option value="0">Regular</option>
-              <option value="0.5">Honors</option>
-              <option value="1.0" selected>AP / IB</option>
+              <option value="regular">Regular</option>
+              <option value="honors">Honors</option>
+              <option value="ap" selected>AP / IB</option>
             </select>
           </div>
           <div style="align-self:end;">
@@ -197,7 +227,7 @@ const faqSchema = {
 
           <p id="summary-text">Enter your courses and click Calculate GPA.</p>
           <p class="muted" style="margin-top: 0.75rem;" id="scale-note">
-            Weighted scale used here: Honors = +0.5, AP / IB = +1.0
+            Weighted scale used here: Honors +0.5, AP / IB +1.0
           </p>
         </div>
 
@@ -220,6 +250,7 @@ const faqSchema = {
       <li>Enter the number of credits for each course</li>
       <li>Select the letter grade earned in each course</li>
       <li>Select the course level: Regular, Honors, or AP/IB</li>
+      <li>Choose your school’s weighting system or create a custom one</li>
       <li>Click Calculate GPA to see your result</li>
     </ol>
   </section>
@@ -231,16 +262,14 @@ const faqSchema = {
       multiplying by credits, adding those totals together, and dividing by the
       total number of credits.
     </p>
-    <p>
-      This calculator shows both:
-    </p>
+    <p>This calculator shows both:</p>
     <ul>
       <li><strong>Unweighted GPA</strong> based only on the letter grade</li>
-      <li><strong>Weighted GPA</strong> using extra points for Honors and AP/IB courses</li>
+      <li><strong>Weighted GPA</strong> using extra points for more rigorous classes</li>
     </ul>
     <p>
       <strong>Example:</strong> An A- in a 1-credit class is worth 3.7 grade
-      points. If that course is AP, the weighted value becomes 4.7.
+      points. Under a standard AP system, an AP course with an A- becomes 4.7.
     </p>
   </section>
 
@@ -265,16 +294,17 @@ const faqSchema = {
     <div class="faq-item">
       <h3>Does this support AP and honors classes?</h3>
       <p>
-        Yes. You can choose Regular, Honors, or AP/IB for each course to
-        estimate a weighted GPA.
+        Yes. You can choose Regular, Honors, or AP/IB for each course and apply
+        a school-style weighting system.
       </p>
     </div>
 
     <div class="faq-item">
-      <h3>What is the difference between weighted and unweighted GPA?</h3>
+      <h3>Do all schools use the same weighted GPA scale?</h3>
       <p>
-        Unweighted GPA uses only your letter grades. Weighted GPA adds extra
-        value for more rigorous courses like Honors and AP/IB.
+        No. Schools vary. Some use Honors +0.5 and AP +1.0, while others use
+        larger boosts. That is why this calculator includes multiple systems and
+        a custom option.
       </p>
     </div>
   </section>
@@ -286,11 +316,65 @@ const faqSchema = {
     const addCourseButton = document.getElementById("add-course");
     const clearAllButton = document.getElementById("clear-all");
     const calculateButton = document.getElementById("calculate");
+    const weightingSystemSelect = document.getElementById("weighting-system");
+    const customWeightingBox = document.getElementById("custom-weighting-box");
+    const customHonorsInput = document.getElementById("custom-honors");
+    const customApInput = document.getElementById("custom-ap");
 
     const gpaResult = document.getElementById("gpa-result");
     const weightedGpaResult = document.getElementById("weighted-gpa-result");
     const summaryText = document.getElementById("summary-text");
     const totalCreditsCell = document.getElementById("total-credits");
+    const scaleNote = document.getElementById("scale-note");
+
+    function getLevelBoost(level, system) {
+      if (system === "unweighted") return 0;
+
+      if (system === "standard") {
+        if (level === "honors") return 0.5;
+        if (level === "ap") return 1.0;
+        return 0;
+      }
+
+      if (system === "aggressive") {
+        if (level === "honors") return 1.0;
+        if (level === "ap") return 2.0;
+        return 0;
+      }
+
+      if (system === "custom") {
+        const customHonors = parseFloat(customHonorsInput?.value);
+        const customAp = parseFloat(customApInput?.value);
+
+        if (level === "honors") return Number.isNaN(customHonors) ? 0 : customHonors;
+        if (level === "ap") return Number.isNaN(customAp) ? 0 : customAp;
+        return 0;
+      }
+
+      return 0;
+    }
+
+    function updateScaleNote() {
+      const system = weightingSystemSelect?.value;
+
+      if (system === "aggressive") {
+        scaleNote.textContent = "Weighted scale used here: Honors +1.0, AP / IB +2.0";
+        customWeightingBox.style.display = "none";
+      } else if (system === "unweighted") {
+        scaleNote.textContent = "Weighted scale used here: Unweighted only (no extra points)";
+        customWeightingBox.style.display = "none";
+      } else if (system === "custom") {
+        const customHonors = parseFloat(customHonorsInput?.value);
+        const customAp = parseFloat(customApInput?.value);
+        const honorsText = Number.isNaN(customHonors) ? "0" : customHonors.toFixed(1).replace(/\.0$/, "");
+        const apText = Number.isNaN(customAp) ? "0" : customAp.toFixed(1).replace(/\.0$/, "");
+        scaleNote.textContent = `Weighted scale used here: Honors +${honorsText}, AP / IB +${apText}`;
+        customWeightingBox.style.display = "block";
+      } else {
+        scaleNote.textContent = "Weighted scale used here: Honors +0.5, AP / IB +1.0";
+        customWeightingBox.style.display = "none";
+      }
+    }
 
     function createCourseRow(index) {
       const row = document.createElement("div");
@@ -326,9 +410,9 @@ const faqSchema = {
         <div>
           <label for="level-${index}">Course level</label>
           <select id="level-${index}" class="course-level">
-            <option value="0">Regular</option>
-            <option value="0.5">Honors</option>
-            <option value="1.0">AP / IB</option>
+            <option value="regular">Regular</option>
+            <option value="honors">Honors</option>
+            <option value="ap">AP / IB</option>
           </select>
         </div>
         <div style="align-self:end;">
@@ -361,6 +445,7 @@ const faqSchema = {
       const creditInputs = document.querySelectorAll(".course-credits");
       const gradeInputs = document.querySelectorAll(".course-grade");
       const levelInputs = document.querySelectorAll(".course-level");
+      const system = weightingSystemSelect?.value || "standard";
 
       let totalUnweightedQualityPoints = 0;
       let totalWeightedQualityPoints = 0;
@@ -369,13 +454,13 @@ const faqSchema = {
       for (let i = 0; i < creditInputs.length; i++) {
         const credits = parseFloat(creditInputs[i].value);
         const gradePoints = parseFloat(gradeInputs[i].value);
-        const levelBoost = parseFloat(levelInputs[i].value);
+        const courseLevel = levelInputs[i].value;
+        const levelBoost = getLevelBoost(courseLevel, system);
 
         if (
           !Number.isNaN(credits) &&
           credits > 0 &&
-          !Number.isNaN(gradePoints) &&
-          !Number.isNaN(levelBoost)
+          !Number.isNaN(gradePoints)
         ) {
           totalUnweightedQualityPoints += credits * gradePoints;
           totalWeightedQualityPoints += credits * (gradePoints + levelBoost);
@@ -406,6 +491,9 @@ const faqSchema = {
     addCourseButton?.addEventListener("click", addCourse);
     clearAllButton?.addEventListener("click", clearAllCourses);
     calculateButton?.addEventListener("click", calculateGPA);
+    weightingSystemSelect?.addEventListener("change", updateScaleNote);
+    customHonorsInput?.addEventListener("input", updateScaleNote);
+    customApInput?.addEventListener("input", updateScaleNote);
 
     courseList?.addEventListener("click", (event) => {
       const target = event.target;
@@ -419,5 +507,7 @@ const faqSchema = {
         row?.remove();
       }
     });
+
+    updateScaleNote();
   </script>
 </ToolLayout>
