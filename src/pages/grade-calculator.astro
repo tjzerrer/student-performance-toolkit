@@ -7,26 +7,26 @@ const faqSchema = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "How do I calculate GPA?",
+      name: "How do I calculate my grade?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Multiply each course's grade points by its credits, add those values together, and divide by total credits. This calculator does that automatically."
+        text: "Add all your earned points together and divide by the total possible points. This calculator does that automatically."
       }
     },
     {
       "@type": "Question",
-      name: "Does this GPA calculator use a 4.0 scale?",
+      name: "What is a good grade?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. This version uses a standard 4.0 GPA scale where A = 4.0, B = 3.0, C = 2.0, D = 1.0, and F = 0.0."
+        text: "A good grade is typically 80 percent or higher, depending on your goals and school standards."
       }
     },
     {
       "@type": "Question",
-      name: "Can I add more classes?",
+      name: "Can I calculate weighted grades here?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. Click the Add course button to include as many classes as you need."
+        text: "This page is for simple total-point grade calculation. For weighted categories, use the weighted grade calculator."
       }
     }
   ]
@@ -34,139 +34,91 @@ const faqSchema = {
 ---
 
 <ToolLayout
-  title="GPA Calculator (High School & College GPA Tool)"
-  description="Use this free GPA calculator to quickly calculate your GPA using course credits and letter grades."
-  slug="/gpa-calculator"
-  heroTitle="GPA Calculator"
-  heroText="Calculate your GPA quickly and accurately using course credits and letter grades. This tool works well for both high school and college classes."
+  title="Grade Calculator (Quick & Easy Average Calculator for Students)"
+  description="Calculate your grade instantly. Enter assignments and scores to find your average in seconds."
+  slug="/grade-calculator"
+  heroTitle="Grade Calculator"
+  heroText="Quickly calculate your grade using this simple and accurate grade calculator. Enter your assignment scores to instantly find your average."
   faqSchema={faqSchema}
 >
   <div class="card">
     <p>
-      This GPA calculator helps students convert letter grades into grade points
-      and calculate an overall GPA. Enter your classes, credits, and grades to
-      instantly see your result on a standard 4.0 scale.
+      This grade calculator helps students calculate their average grade quickly and accurately.
+      Whether you're tracking homework, quizzes, or tests, this tool gives you an instant result.
     </p>
   </div>
 
   <div class="grid">
     <section class="card">
-      <h2>Enter your courses</h2>
+      <h2>Enter your scores</h2>
 
-      <div id="course-list">
-        <div class="row course-row">
+      <div id="assignment-list">
+        <div class="row assignment-row">
           <div>
-            <label for="course-1">Course</label>
-            <input id="course-1" class="course-name" type="text" placeholder="Algebra" />
+            <label>Points earned</label>
+            <input class="earned" type="number" min="0" step="any" placeholder="90" />
           </div>
           <div>
-            <label for="credits-1">Credits</label>
-            <input id="credits-1" class="course-credits" type="number" min="0" step="any" placeholder="1" />
+            <label>Points possible</label>
+            <input class="possible" type="number" min="0" step="any" placeholder="100" />
           </div>
-          <div>
-            <label for="grade-1">Letter grade</label>
-            <select id="grade-1" class="course-grade">
-              <option value="4.0">A</option>
-              <option value="3.0">B</option>
-              <option value="2.0">C</option>
-              <option value="1.0">D</option>
-              <option value="0.0">F</option>
-            </select>
+          <div style="align-self:end;">
+            <button type="button" class="btn-danger remove-row">Remove</button>
           </div>
         </div>
 
-        <div class="row course-row">
+        <div class="row assignment-row">
           <div>
-            <label for="course-2">Course</label>
-            <input id="course-2" class="course-name" type="text" placeholder="English" />
+            <label>Points earned</label>
+            <input class="earned" type="number" min="0" step="any" placeholder="85" />
           </div>
           <div>
-            <label for="credits-2">Credits</label>
-            <input id="credits-2" class="course-credits" type="number" min="0" step="any" placeholder="1" />
+            <label>Points possible</label>
+            <input class="possible" type="number" min="0" step="any" placeholder="100" />
           </div>
-          <div>
-            <label for="grade-2">Letter grade</label>
-            <select id="grade-2" class="course-grade">
-              <option value="4.0">A</option>
-              <option value="3.0" selected>B</option>
-              <option value="2.0">C</option>
-              <option value="1.0">D</option>
-              <option value="0.0">F</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row course-row">
-          <div>
-            <label for="course-3">Course</label>
-            <input id="course-3" class="course-name" type="text" placeholder="Science" />
-          </div>
-          <div>
-            <label for="credits-3">Credits</label>
-            <input id="credits-3" class="course-credits" type="number" min="0" step="any" placeholder="1" />
-          </div>
-          <div>
-            <label for="grade-3">Letter grade</label>
-            <select id="grade-3" class="course-grade">
-              <option value="4.0">A</option>
-              <option value="3.0">B</option>
-              <option value="2.0" selected>C</option>
-              <option value="1.0">D</option>
-              <option value="0.0">F</option>
-            </select>
+          <div style="align-self:end;">
+            <button type="button" class="btn-danger remove-row">Remove</button>
           </div>
         </div>
       </div>
 
       <div class="actions">
-        <button id="add-course" type="button" class="btn-secondary">Add course</button>
-        <button id="calculate" type="button" class="btn-primary">Calculate GPA</button>
+        <button id="add-assignment" type="button" class="btn-secondary">Add assignment</button>
+        <button id="calculate" type="button" class="btn-primary">Calculate grade</button>
       </div>
     </section>
 
     <aside class="result-box">
       <div class="card">
         <h2>Your result</h2>
-
         <div class="result-main">
-          <p class="muted">Calculated GPA</p>
-          <div id="gpa-result" class="big-result">--</div>
-          <p id="summary-text">Enter your courses and click Calculate GPA.</p>
+          <p class="muted">Average grade</p>
+          <div id="result" class="big-result">--%</div>
+          <p id="summary">Enter your values and click calculate.</p>
         </div>
-
-        <table class="table">
-          <tbody>
-            <tr>
-              <th>Total credits</th>
-              <td id="total-credits">--</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </aside>
   </div>
 
   <section class="card" style="margin-top: 1.25rem;">
-    <h2>How to Use the GPA Calculator</h2>
+    <h2>How to Use the Grade Calculator</h2>
     <ol>
-      <li>Enter each course name</li>
-      <li>Enter the number of credits for each course</li>
-      <li>Select the letter grade earned in each course</li>
-      <li>Click Calculate GPA to see your result</li>
+      <li>Enter each assignment score</li>
+      <li>Enter the total possible points</li>
+      <li>Click calculate</li>
+      <li>View your current grade instantly</li>
     </ol>
   </section>
 
   <section class="card" style="margin-top: 1.25rem;">
-    <h2>How GPA Is Calculated</h2>
+    <h2>How Grade Calculation Works</h2>
     <p>
-      GPA is found by converting each letter grade into grade points, multiplying
-      by course credits, adding those values together, and dividing by the total
-      number of credits.
+      This calculator adds together all points earned and divides by all points possible.
+      It is the simplest way to calculate your class average when assignments are based on points.
     </p>
     <p>
-      <strong>Example:</strong> An A in a 1-credit course is worth 4 grade
-      points. A B in a 1-credit course is worth 3 grade points. Add the weighted
-      points and divide by total credits to get your GPA.
+      <strong>Example:</strong> If you earned 90 out of 100 on one assignment and
+      85 out of 100 on another, your average would be 175 ÷ 200 = 87.5%.
     </p>
   </section>
 
@@ -174,112 +126,98 @@ const faqSchema = {
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>How do I calculate GPA?</h3>
+      <h3>How do I calculate my grade?</h3>
       <p>
-        Multiply each course's grade points by its credits, add those values,
-        and divide by total credits. This GPA calculator does that instantly.
+        Add all your assignment scores together and divide by the total possible points.
+        This calculator does it automatically for you.
       </p>
     </div>
 
     <div class="faq-item">
-      <h3>Does this use a 4.0 GPA scale?</h3>
+      <h3>What is a good grade?</h3>
       <p>
-        Yes. This version uses a standard 4.0 scale where A = 4.0, B = 3.0,
-        C = 2.0, D = 1.0, and F = 0.0.
+        A good grade is typically 80% or higher, depending on your goals and school standards.
       </p>
     </div>
 
     <div class="faq-item">
-      <h3>Can I add more classes?</h3>
+      <h3>Can I calculate weighted grades?</h3>
       <p>
-        Yes. Click the Add course button to include more classes in your GPA
-        calculation.
-      </p>
-    </div>
-
-    <div class="faq-item">
-      <h3>Does this support weighted honors or AP classes?</h3>
-      <p>
-        Not yet. This version is for a basic 4.0 GPA calculation. A weighted GPA
-        calculator can be a future tool.
+        Yes. For weighted categories like homework, quizzes, and tests,
+        use the weighted grade calculator.
       </p>
     </div>
   </section>
 
   <script>
-    let courseCount = 3;
+    const assignmentList = document.getElementById("assignment-list");
+    const addBtn = document.getElementById("add-assignment");
+    const calcBtn = document.getElementById("calculate");
+    const resultDiv = document.getElementById("result");
+    const summary = document.getElementById("summary");
 
-    const courseList = document.getElementById("course-list");
-    const addCourseButton = document.getElementById("add-course");
-    const calculateButton = document.getElementById("calculate");
-
-    const gpaResult = document.getElementById("gpa-result");
-    const summaryText = document.getElementById("summary-text");
-    const totalCreditsCell = document.getElementById("total-credits");
-
-    function addCourse() {
-      courseCount += 1;
-
+    addBtn?.addEventListener("click", () => {
       const row = document.createElement("div");
-      row.className = "row course-row";
+      row.className = "row assignment-row";
 
       row.innerHTML = `
         <div>
-          <label for="course-${courseCount}">Course</label>
-          <input id="course-${courseCount}" class="course-name" type="text" placeholder="History" />
+          <label>Points earned</label>
+          <input class="earned" type="number" min="0" step="any" placeholder="90" />
         </div>
         <div>
-          <label for="credits-${courseCount}">Credits</label>
-          <input id="credits-${courseCount}" class="course-credits" type="number" min="0" step="any" placeholder="1" />
+          <label>Points possible</label>
+          <input class="possible" type="number" min="0" step="any" placeholder="100" />
         </div>
-        <div>
-          <label for="grade-${courseCount}">Letter grade</label>
-          <select id="grade-${courseCount}" class="course-grade">
-            <option value="4.0">A</option>
-            <option value="3.0">B</option>
-            <option value="2.0">C</option>
-            <option value="1.0">D</option>
-            <option value="0.0">F</option>
-          </select>
+        <div style="align-self:end;">
+          <button type="button" class="btn-danger remove-row">Remove</button>
         </div>
       `;
 
-      courseList.appendChild(row);
-    }
+      assignmentList?.appendChild(row);
+    });
 
-    function calculateGPA() {
-      const creditInputs = document.querySelectorAll(".course-credits");
-      const gradeInputs = document.querySelectorAll(".course-grade");
+    assignmentList?.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
 
-      let totalQualityPoints = 0;
-      let totalCredits = 0;
+      if (target.classList.contains("remove-row")) {
+        const rows = document.querySelectorAll(".assignment-row");
+        if (rows.length <= 1) return;
 
-      for (let i = 0; i < creditInputs.length; i++) {
-        const credits = parseFloat(creditInputs[i].value);
-        const gradePoints = parseFloat(gradeInputs[i].value);
+        const row = target.closest(".assignment-row");
+        row?.remove();
+      }
+    });
 
-        if (!Number.isNaN(credits) && credits > 0 && !Number.isNaN(gradePoints)) {
-          totalQualityPoints += credits * gradePoints;
-          totalCredits += credits;
+    calcBtn?.addEventListener("click", () => {
+      const earnedInputs = document.querySelectorAll(".earned");
+      const possibleInputs = document.querySelectorAll(".possible");
+
+      let totalEarned = 0;
+      let totalPossible = 0;
+
+      for (let i = 0; i < earnedInputs.length; i++) {
+        const earned = parseFloat(earnedInputs[i].value);
+        const possible = parseFloat(possibleInputs[i].value);
+
+        if (!Number.isNaN(earned) && !Number.isNaN(possible) && possible > 0) {
+          totalEarned += earned;
+          totalPossible += possible;
         }
       }
 
-      if (totalCredits === 0) {
-        gpaResult.textContent = "--";
-        summaryText.textContent = "Please enter at least one valid course and credit value.";
-        totalCreditsCell.textContent = "--";
+      if (totalPossible === 0) {
+        resultDiv.textContent = "--%";
+        summary.textContent = "Please enter valid numbers.";
         return;
       }
 
-      const gpa = totalQualityPoints / totalCredits;
-      const rounded = gpa.toFixed(2);
+      const percent = (totalEarned / totalPossible) * 100;
+      const rounded = percent.toFixed(1);
 
-      gpaResult.textContent = rounded;
-      summaryText.textContent = `Your GPA is ${rounded}.`;
-      totalCreditsCell.textContent = totalCredits.toFixed(1).replace(/\.0$/, "");
-    }
-
-    addCourseButton?.addEventListener("click", addCourse);
-    calculateButton?.addEventListener("click", calculateGPA);
+      resultDiv.textContent = `${rounded}%`;
+      summary.textContent = `Your current grade is ${rounded}%.`;
+    });
   </script>
 </ToolLayout>
