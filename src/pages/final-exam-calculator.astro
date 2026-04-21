@@ -1,9 +1,6 @@
 ---
 import ToolLayout from "../layouts/ToolLayout.astro";
 
-const siteUrl = "https://student-performance-toolkit-6hgn.vercel.app";
-const pageUrl = `${siteUrl}/final-exam-calculator`;
-
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -13,7 +10,7 @@ const faqSchema = {
       name: "How do I calculate what I need on my final exam?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "You use your current grade, your desired final grade, and the weight of the final exam. This calculator does that math for you automatically."
+        text: "You need your current grade, your desired final grade, and the weight of the final exam. This calculator does that math for you automatically."
       }
     },
     {
@@ -34,60 +31,16 @@ const faqSchema = {
     }
   ]
 };
-
-const webPageSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  name: "Final Exam Calculator",
-  url: pageUrl,
-  description:
-    "Find the exact score you need on your final exam to reach your target grade.",
-  isPartOf: {
-    "@type": "WebSite",
-    name: "Student Performance Toolkit",
-    url: siteUrl
-  }
-};
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Final Exam Calculator",
-      item: pageUrl
-    }
-  ]
-};
 ---
 
 <ToolLayout
   title="Final Exam Calculator (What Do I Need on My Final?)"
   description="Use this free final exam calculator to find the exact score you need on your final to reach your target grade."
+  slug="/final-exam-calculator"
+  heroTitle="Final Exam Calculator"
+  heroText="Find out exactly what you need on your final exam to reach your target grade. Enter your current grade, desired grade, and final exam weight to get an instant answer."
+  faqSchema={faqSchema}
 >
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  </Fragment>
-
-  <section class="hero">
-    <h1>Final Exam Calculator</h1>
-    <p>
-      Find out exactly what you need on your final exam to reach your target
-      grade. Enter your current grade, desired grade, and final exam weight to
-      get an instant answer.
-    </p>
-  </section>
-
   <div class="card">
     <p>
       This final exam calculator helps students quickly answer one of the most
@@ -191,17 +144,6 @@ const breadcrumbSchema = {
         values you entered.
       </p>
     </div>
-  </section>
-
-  <section class="card" style="margin-top: 1.25rem;">
-    <h2>Related tools</h2>
-    <p>
-      Try also:
-      <a href="/grade-calculator">Grade Calculator</a> |
-      <a href="/weighted-grade-calculator">Weighted Grade Calculator</a> |
-      <a href="/gpa-calculator">GPA Calculator</a> |
-      <a href="/what-grade-do-i-need-calculator">What Grade Do I Need Calculator</a>
-    </p>
   </section>
 
   <script>
