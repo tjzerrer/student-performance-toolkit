@@ -1,10 +1,11 @@
 ---
 import { tools } from "../data/tools";
 
-const { current } = Astro.props;
+const { current = null } = Astro.props;
 
-// Remove current page from list
-const filteredTools = tools.filter((tool) => tool.href !== current);
+const filteredTools = current
+  ? tools.filter((tool) => tool.href !== current)
+  : tools;
 ---
 
 <section class="card" style="margin-top: 1.25rem;">
