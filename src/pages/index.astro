@@ -1,13 +1,16 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+import { tools } from "../data/tools";
+import { guides } from "../data/guides";
 ---
 
 <BaseLayout
-  title="Student Performance Toolkit | Grade, GPA, Final Exam & Weighted Grade Calculators"
-  description="Free student tools for grades, finals, weighted grades, GPA, and academic planning."
+  title={`${site.name} | Grade, GPA, Final Exam & Weighted Grade Calculators`}
+  description={site.description}
 >
   <section class="hero">
-    <h1>Student Performance Toolkit</h1>
+    <h1>{site.name}</h1>
     <p>
       Free, simple tools and guides for students who want quick answers about
       grades, finals, weighted averages, GPA, and what they need to reach their
@@ -18,32 +21,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <div class="card">
     <h2>Tools</h2>
     <ul>
-      <li><a href="/grade-calculator">Grade Calculator</a></li>
-      <li><a href="/final-exam-calculator">Final Exam Calculator</a></li>
-      <li><a href="/weighted-grade-calculator">Weighted Grade Calculator</a></li>
-      <li><a href="/gpa-calculator">GPA Calculator</a></li>
-      <li><a href="/what-grade-do-i-need-calculator">What Grade Do I Need Calculator</a></li>
+      {tools.map((tool) => (
+        <li><a href={tool.href}>{tool.title}</a></li>
+      ))}
     </ul>
   </div>
 
   <div class="card">
     <h2>Guides</h2>
     <ul>
-      <li>
-        <a href="/how-to-calculate-your-grade">
-          How to Calculate Your Grade
-        </a>
-      </li>
-      <li>
-        <a href="/what-grade-do-i-need-to-pass-a-class">
-          What Grade Do I Need to Pass a Class?
-        </a>
-      </li>
-      <li>
-        <a href="/how-finals-affect-your-grade">
-            How Finals Affect Your Grade
-        </a>
-</li>
+      {guides.map((guide) => (
+        <li><a href={guide.href}>{guide.title}</a></li>
+      ))}
     </ul>
   </div>
 
@@ -59,6 +48,5 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       More tools coming next: cumulative GPA calculator, semester GPA tracker,
       weighted GPA calculator, and additional grade strategy guides.
     </p>
-   
   </div>
 </BaseLayout>

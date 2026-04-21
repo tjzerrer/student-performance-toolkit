@@ -1,7 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import RelatedTools from "../components/RelatedTools.astro";
+import { site } from "../data/site";
 
-const siteUrl = "https://student-performance-toolkit-6hgn.vercel.app";
+const siteUrl = site.url;
 const pageUrl = `${siteUrl}/grade-calculator`;
 
 const faqSchema = {
@@ -264,4 +266,5 @@ const breadcrumbSchema = {
       summary.textContent = `Your current grade is ${rounded}%.`;
     });
   </script>
+  <RelatedTools current="/grade-calculator" />
 </BaseLayout>

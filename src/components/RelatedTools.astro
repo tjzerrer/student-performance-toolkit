@@ -1,0 +1,21 @@
+---
+import { tools } from "../data/tools";
+
+const { current } = Astro.props;
+
+// Remove current page from list
+const filteredTools = tools.filter((tool) => tool.href !== current);
+---
+
+<section class="card" style="margin-top: 1.25rem;">
+  <h2>Related Tools</h2>
+
+  <p>
+    {filteredTools.map((tool, index) => (
+      <>
+        <a href={tool.href}>{tool.title}</a>
+        {index < filteredTools.length - 1 ? " | " : ""}
+      </>
+    ))}
+  </p>
+</section>

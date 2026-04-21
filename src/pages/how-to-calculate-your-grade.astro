@@ -1,7 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import RelatedGuides from "../components/RelatedGuides.astro";
+import { site } from "../data/site";
 
-const siteUrl = "https://student-performance-toolkit-6hgn.vercel.app";
+const siteUrl = site.url;
 const pageUrl = `${siteUrl}/how-to-calculate-your-grade`;
 
 const faqSchema = {
@@ -44,7 +46,7 @@ const webPageSchema = {
     "Learn how to calculate your grade step-by-step, including simple averages, weighted grades, finals, and GPA.",
   isPartOf: {
     "@type": "WebSite",
-    name: "Student Performance Toolkit",
+    name: site.name,
     url: siteUrl
   }
 };
@@ -257,4 +259,6 @@ const breadcrumbSchema = {
       <a href="/what-grade-do-i-need-calculator">What Grade Do I Need Calculator</a>
     </p>
   </section>
+
+  <RelatedGuides current="/how-to-calculate-your-grade" />
 </BaseLayout>
