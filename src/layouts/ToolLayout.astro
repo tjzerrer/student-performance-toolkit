@@ -2,6 +2,7 @@
 import BaseLayout from "./BaseLayout.astro";
 import RelatedTools from "../components/RelatedTools.astro";
 import RelatedGuides from "../components/RelatedGuides.astro";
+import JsonLd from "../components/JsonLd.astro";
 import { site } from "../data/site";
 
 interface Props {
@@ -60,11 +61,9 @@ const breadcrumbSchema = {
 
 <BaseLayout title={title} description={description}>
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-    {faqSchema && (
-      <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-    )}
+    <JsonLd data={webPageSchema} />
+    <JsonLd data={breadcrumbSchema} />
+    {faqSchema && <JsonLd data={faqSchema} />}
   </Fragment>
 
   <section class="hero">
