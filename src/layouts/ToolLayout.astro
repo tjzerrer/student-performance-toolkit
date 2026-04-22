@@ -76,7 +76,7 @@ const breadcrumbSchema = {
   <div
     class="print-save-actions"
     aria-label="Print and save options"
-    style="display: flex; gap: 0.45rem; margin-top: 0.45rem; flex-wrap: wrap;"
+    style="display: none; gap: 0.45rem; margin-top: 0.45rem; flex-wrap: wrap;"
     hidden
   >
     <button id="print-calculator" type="button" class="btn-secondary icon-button">
@@ -119,12 +119,15 @@ const breadcrumbSchema = {
 
     function updatePrintSaveVisibility() {
       if (!printSaveActions) return;
-      printSaveActions.hidden = !hasCalculationResult();
+      const hasResult = hasCalculationResult();
+      printSaveActions.hidden = !hasResult;
+      printSaveActions.style.display = hasResult ? "flex" : "none";
     }
 
     function hidePrintSaveActions() {
       if (!printSaveActions) return;
       printSaveActions.hidden = true;
+      printSaveActions.style.display = "none";
     }
 
     function openPrintDialog(intent) {
