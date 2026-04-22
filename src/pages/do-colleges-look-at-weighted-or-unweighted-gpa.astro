@@ -1,0 +1,172 @@
+---
+import GuideLayout from "../layouts/GuideLayout.astro";
+import { site } from "../data/site";
+
+const slug = "/do-colleges-look-at-weighted-or-unweighted-gpa";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Do colleges look at weighted or unweighted GPA?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Colleges consider both weighted and unweighted GPA. Unweighted GPA shows your core academic performance, while weighted GPA reflects course difficulty such as honors or AP classes."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Which GPA matters more for college admissions?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Unweighted GPA provides a consistent baseline across schools, but weighted GPA helps colleges evaluate how challenging your coursework was."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Do colleges recalculate GPA?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Many colleges recalculate GPA using their own system to fairly compare students from different schools with different grading scales."
+      }
+    }
+  ]
+};
+---
+
+<GuideLayout
+  title="Do Colleges Look at Weighted or Unweighted GPA?"
+  description="Learn whether colleges use weighted or unweighted GPA, how admissions teams evaluate your grades, and what matters most for acceptance."
+  slug={slug}
+  heroTitle="Do Colleges Look at Weighted or Unweighted GPA?"
+  heroText="If you're applying to college, you may be wondering whether weighted or unweighted GPA matters more. The answer is that colleges look at both — but they use them in different ways."
+  faqSchema={faqSchema}
+>
+
+<section class="card">
+  <h2>Short Answer</h2>
+  <p>
+    Colleges look at <strong>both weighted and unweighted GPA</strong>.
+  </p>
+  <ul>
+    <li><strong>Unweighted GPA</strong> shows your academic performance on a standard 4.0 scale</li>
+    <li><strong>Weighted GPA</strong> reflects course difficulty (AP, honors, dual enrollment)</li>
+  </ul>
+  <p>
+    Most colleges use both to understand <strong>how well you performed</strong> and
+    <strong>how challenging your classes were</strong>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Why Colleges Look at Both</h2>
+  <p>
+    Schools across the country use different grading systems. Some weight GPAs heavily,
+    while others do not weight them at all.
+  </p>
+
+  <p>
+    Because of this, colleges often:
+  </p>
+
+  <ul>
+    <li>Use <strong>unweighted GPA</strong> for consistency across applicants</li>
+    <li>Use <strong>weighted GPA</strong> to evaluate course rigor</li>
+    <li>Review your <strong>transcript</strong> to see the actual classes you took</li>
+  </ul>
+
+  <p>
+    In many cases, colleges will also <strong>recalculate your GPA</strong> using their own system.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Which GPA Matters More?</h2>
+  <p>
+    Neither one is more important on its own.
+  </p>
+
+  <p>
+    Instead, admissions officers look at:
+  </p>
+
+  <ul>
+    <li>Your GPA</li>
+    <li>The difficulty of your classes</li>
+    <li>Your overall academic trend</li>
+  </ul>
+
+  <p>
+    For example:
+  </p>
+
+  <ul>
+    <li>A 3.8 unweighted GPA with AP classes is very strong</li>
+    <li>A 4.5 weighted GPA shows you challenged yourself</li>
+  </ul>
+
+  <p>
+    The combination of <strong>performance + rigor</strong> is what matters most.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Do Colleges Recalculate GPA?</h2>
+  <p>
+    Yes, many colleges recalculate GPA to create a fair comparison between students.
+  </p>
+
+  <p>
+    They may:
+  </p>
+
+  <ul>
+    <li>Remove weighting</li>
+    <li>Focus on core academic classes</li>
+    <li>Standardize grades onto a 4.0 scale</li>
+  </ul>
+
+  <p>
+    This means your reported GPA is important, but your <strong>actual grades and classes matter more</strong>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>How to Calculate Your GPA</h2>
+  <p>
+    If you want to understand your GPA better, try using a calculator:
+  </p>
+
+  <p>
+    👉 <a href="/gpa-calculator">GPA Calculator</a>
+  </p>
+
+  <p>
+    You can calculate both weighted and unweighted GPA and see how your classes affect your results.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Bottom Line</h2>
+  <p>
+    Colleges do not choose between weighted and unweighted GPA — they use both.
+  </p>
+
+  <p>
+    What matters most is:
+  </p>
+
+  <ul>
+    <li>Strong grades</li>
+    <li>Challenging courses</li>
+    <li>Consistent performance</li>
+  </ul>
+
+  <p>
+    Focus on doing well in your classes and taking opportunities to challenge yourself.
+  </p>
+</section>
+
+</GuideLayout>
