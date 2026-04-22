@@ -140,6 +140,7 @@ const faqSchema = {
       const r = parseFloat(remaining.value);
 
       if (isNaN(c) || isNaN(t) || isNaN(r) || r <= 0) {
+        result.textContent = "--%";
         summary.textContent = "Please enter valid values.";
         return;
       }

@@ -71,7 +71,9 @@ const breadcrumbSchema = {
     <p>{heroText}</p>
   </section>
 
-  <div class="print-save-actions" aria-label="Print and save options">
+  <slot />
+
+  <div class="print-save-actions" aria-label="Print and save options" hidden>
     <button id="print-calculator" type="button" class="btn-secondary icon-button">
       <svg aria-hidden="true" viewBox="0 0 24 24">
         <path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v7H7zM17 12h.01" />
@@ -86,22 +88,59 @@ const breadcrumbSchema = {
     </button>
   </div>
 
-  <slot />
-
   <div class="related-links">
     <RelatedTools current={slug} />
     <RelatedGuides />
   </div>
 
   <script>
+    const printSaveActions = document.querySelector(".print-save-actions");
     const printButton = document.getElementById("print-calculator");
     const savePdfButton = document.getElementById("save-pdf-calculator");
+    const calculateButton = document.getElementById("calculate");
+    const calculatorActions = calculateButton?.closest(".actions");
+    const calculatorCard = calculateButton?.closest(".card");
+
+    if (calculatorActions && printSaveActions) {
+      calculatorActions.appendChild(printSaveActions);
+    }
+
+    function hasCalculationResult() {
+      return Array.from(document.querySelectorAll(".big-result")).some((result) => {
+        const value = result.textContent?.trim() || "";
+        return value !== "" && !value.startsWith("--");
+      });
+    }
+
+    function updatePrintSaveVisibility() {
+      if (!printSaveActions) return;
+      printSaveActions.hidden = !hasCalculationResult();
+    }
+
+    function hidePrintSaveActions() {
+      if (!printSaveActions) return;
+      printSaveActions.hidden = true;
+    }
 
     function openPrintDialog(intent) {
       document.body.dataset.printIntent = intent;
       window.print();
     }
 
+    calculateButton?.addEventListener("click", () => {
+      window.setTimeout(updatePrintSaveVisibility, 0);
+    });
+    calculatorCard?.addEventListener("input", hidePrintSaveActions);
+    calculatorCard?.addEventListener("change", hidePrintSaveActions);
+    calculatorCard?.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+
+      const button = target.closest("button");
+      if (!button || button === calculateButton || button.closest(".print-save-actions")) return;
+
+      hidePrintSaveActions();
+    });
     printButton?.addEventListener("click", () => openPrintDialog("print"));
     savePdfButton?.addEventListener("click", () => openPrintDialog("pdf"));
     window.addEventListener("afterprint", () => {
