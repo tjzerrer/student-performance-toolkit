@@ -73,7 +73,12 @@ const breadcrumbSchema = {
 
   <slot />
 
-  <div class="print-save-actions" aria-label="Print and save options" hidden>
+  <div
+    class="print-save-actions"
+    aria-label="Print and save options"
+    style="display: flex; gap: 0.45rem; margin-top: 0.45rem; flex-wrap: wrap;"
+    hidden
+  >
     <button id="print-calculator" type="button" class="btn-secondary icon-button">
       <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v7H7zM17 12h.01" />
