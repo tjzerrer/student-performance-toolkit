@@ -480,6 +480,10 @@ button {
   overflow: hidden;
 }
 
+.result-box > .card > h2 {
+  padding: 24px 24px 8px;
+}
+
 .result-main {
   background: var(--result-bg);
   color: var(--result-ink);
