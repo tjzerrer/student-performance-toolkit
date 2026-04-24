@@ -1,5 +1,6 @@
 ---
 import Analytics from "@vercel/analytics/astro";
+import "../styles/global.css";
 
 interface Props {
   title: string;
@@ -27,358 +28,49 @@ const {
     <link rel="canonical" href={Astro.url.href} />
     <slot name="head" />
     <link rel="icon" href="/favicon.ico" />
-
-    <style>
-      :root {
-        --bg: #f7f8fb;
-        --card: #ffffff;
-        --text: #1f2937;
-        --muted: #6b7280;
-        --border: #e5e7eb;
-        --accent: #2563eb;
-        --accent-dark: #1d4ed8;
-        --success: #065f46;
-        --success-bg: #ecfdf5;
-      }
-
-      * { box-sizing: border-box; }
-
-      body {
-        margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        line-height: 1.55;
-      }
-
-      a {
-        color: var(--accent);
-        text-decoration: none;
-      }
-
-      a:hover {
-        text-decoration: underline;
-      }
-
-      .container {
-        width: min(1100px, 92%);
-        margin: 0 auto;
-      }
-
-      header {
-        padding: 1rem 0;
-        border-bottom: 1px solid var(--border);
-        background: #fff;
-      }
-
-      .brand {
-        font-weight: 700;
-        font-size: 1.05rem;
-      }
-
-      main {
-        padding: 2rem 0 4rem;
-      }
-
-      footer {
-        border-top: 1px solid var(--border);
-        background: #fff;
-        color: var(--muted);
-        padding: 1.25rem 0;
-        font-size: 0.95rem;
-      }
-
-      h1, h2, h3 {
-        line-height: 1.2;
-      }
-
-      .hero {
-        margin-bottom: 1.5rem;
-      }
-
-      .hero p {
-        color: var(--muted);
-        max-width: 760px;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: 1.15fr 0.85fr;
-        gap: 1.25rem;
-        align-items: start;
-      }
-
-      .card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 1.25rem;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-      }
-
-      .card h2 {
-        margin-top: 0;
-      }
-
-      .row {
-        display: grid;
-        grid-template-columns: 1fr 1fr auto;
-        gap: 0.75rem;
-        margin-bottom: 0.75rem;
-      }
-
-      label {
-        display: block;
-        font-weight: 600;
-        margin-bottom: 0.35rem;
-      }
-
-      input {
-        width: 100%;
-        padding: 0.8rem 0.9rem;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        font-size: 1rem;
-      }
-
-      button {
-        border: 0;
-        border-radius: 10px;
-        padding: 0.85rem 1rem;
-        font-weight: 700;
-        cursor: pointer;
-      }
-
-      .btn-primary {
-        background: var(--accent);
-        color: white;
-      }
-
-      .btn-primary:hover {
-        background: var(--accent-dark);
-      }
-
-      .btn-secondary {
-        background: #eef2ff;
-        color: var(--accent);
-      }
-
-      .btn-danger {
-        background: #fef2f2;
-        color: #b91c1c;
-      }
-
-      .actions {
-        display: flex;
-        gap: 0.75rem;
-        margin-top: 1rem;
-        flex-wrap: wrap;
-      }
-
-      .print-save-actions {
-        display: flex;
-        gap: 0.75rem;
-        flex-wrap: wrap;
-      }
-
-      .print-save-actions[hidden] {
-        display: none;
-      }
-
-      .actions .print-save-actions {
-        margin-left: auto;
-        margin-top: 0.35rem;
-      }
-
-      .icon-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.45rem;
-        min-width: 8.75rem;
-        min-height: 2.95rem;
-      }
-
-      .icon-button svg {
-        width: 1.1rem;
-        height: 1.1rem;
-        fill: none;
-        stroke: currentColor;
-        stroke-width: 2;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        flex: 0 0 auto;
-      }
-
-      .result-box {
-        position: sticky;
-        top: 1rem;
-      }
-
-      .result-main {
-        background: var(--success-bg);
-        color: var(--success);
-        border: 1px solid #bbf7d0;
-        border-radius: 12px;
-        padding: 1rem;
-        margin-bottom: 1rem;
-      }
-
-      .result-main p {
-        margin: 0.35rem 0;
-      }
-
-      .big-result {
-        font-size: 2rem;
-        font-weight: 800;
-      }
-
-      .muted {
-        color: var(--muted);
-      }
-
-      .table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 0.75rem;
-      }
-
-      .table th,
-      .table td {
-        border-bottom: 1px solid var(--border);
-        padding: 0.65rem 0;
-        text-align: left;
-      }
-
-      .faq-item + .faq-item {
-        margin-top: 1rem;
-      }
-
-      @media (max-width: 820px) {
-        .grid {
-          grid-template-columns: 1fr;
-        }
-
-        .row {
-          grid-template-columns: 1fr;
-        }
-
-        .result-box {
-          position: static;
-        }
-
-        .actions .print-save-actions {
-          margin-left: 0;
-          margin-top: 0.35rem;
-          width: 100%;
-        }
-
-        .print-save-actions .icon-button {
-          flex: 1 1 8.75rem;
-        }
-      }
-
-      @media print {
-        :root {
-          --bg: #ffffff;
-          --card: #ffffff;
-          --text: #111827;
-          --muted: #374151;
-          --border: #d1d5db;
-          --success-bg: #ffffff;
-        }
-
-        @page {
-          margin: 0.55in;
-        }
-
-        body {
-          background: #ffffff;
-          color: #111827;
-          font-size: 11pt;
-        }
-
-        header,
-        footer,
-        .print-save-actions,
-        .related-links,
-        .actions,
-        .btn-danger {
-          display: none !important;
-        }
-
-        main {
-          padding: 0;
-        }
-
-        .container {
-          width: 100%;
-          margin: 0;
-        }
-
-        .hero {
-          margin-bottom: 1rem;
-        }
-
-        .hero h1 {
-          margin-top: 0;
-        }
-
-        .grid {
-          display: block;
-        }
-
-        .card {
-          border-color: var(--border);
-          box-shadow: none;
-          break-inside: avoid;
-          page-break-inside: avoid;
-          margin-bottom: 1rem;
-        }
-
-        .result-box {
-          position: static;
-          break-inside: avoid;
-          page-break-inside: avoid;
-          margin-top: 1rem;
-        }
-
-        .result-main {
-          border-color: var(--border);
-          background: #ffffff;
-        }
-
-        input,
-        select {
-          border-color: var(--border);
-          color: #111827;
-          background: #ffffff;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-      }
-    </style>
   </head>
 
   <body>
-    <header>
-      <div class="container">
-        <a class="brand" href="/">Student Performance Toolkit</a>
-      </div>
-    </header>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">GT</span>
+          <span class="brand-copy">
+            <strong>Grade Toolkit</strong>
+            <small>Student calculators and grade guides</small>
+          </span>
+        </a>
 
-    <main class="container">
-      <slot />
-    </main>
+        <nav class="top-nav" aria-label="Primary">
+          <a href="/grade-calculator/">Grade Calculator</a>
+          <a href="/gpa-calculator/">GPA Calculator</a>
+          <a href="/final-exam-calculator/">Final Exam Calculator</a>
+          <a href="/how-to-calculate-your-grade/">Study Guides</a>
+        </nav>
+      </header>
 
-    <footer>
-      <div class="container">
-        Free student-friendly tools for grades, finals, and GPA.
-      </div>
-    </footer>
+      <main class="page-main">
+        <slot />
+      </main>
+
+      <footer class="site-footer">
+        <div class="site-footer__content">
+          <div>
+            <strong>Grade Toolkit</strong>
+            <p class="footer-note">
+              Free student-friendly tools for grades, finals, weighted averages,
+              and GPA planning.
+            </p>
+          </div>
+
+          <div class="footer-links">
+            <a href="/grade-calculator/">Tools</a>
+            <a href="/how-to-calculate-your-grade/">Guides</a>
+            <a href="/what-is-a-good-gpa/">GPA Tips</a>
+          </div>
+        </div>
+      </footer>
+    </div>
 
     <Analytics />
   </body>

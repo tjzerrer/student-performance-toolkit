@@ -24,7 +24,8 @@ const {
 } = Astro.props;
 
 const siteUrl = site.url;
-const pageUrl = `${siteUrl}${slug}`;
+const normalizedSlug = `${slug.replace(/\/$/, "")}/`;
+const pageUrl = `${siteUrl}${normalizedSlug}`;
 
 const webPageSchema = {
   "@context": "https://schema.org",
@@ -66,9 +67,15 @@ const breadcrumbSchema = {
     {faqSchema && <JsonLd data={faqSchema} />}
   </Fragment>
 
-  <section class="hero">
-    <h1>{heroTitle}</h1>
-    <p>{heroText}</p>
+  <section class="hero-card">
+    <div class="hero">
+      <p class="hero-eyebrow">Student calculator</p>
+      <h1>{heroTitle}</h1>
+      <p class="hero-copy">{heroText}</p>
+      <p class="hero-note">
+        Use the calculator below, then print or save the result once you have the answer you need.
+      </p>
+    </div>
   </section>
 
   <slot />
@@ -94,7 +101,7 @@ const breadcrumbSchema = {
   </div>
 
   <div class="related-links">
-    <RelatedTools current={slug} />
+    <RelatedTools current={normalizedSlug} />
     <RelatedGuides />
   </div>
 

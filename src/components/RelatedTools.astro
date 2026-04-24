@@ -3,20 +3,28 @@ import { tools } from "../data/tools";
 
 const { current = null } = Astro.props;
 
+const normalizeHref = (href = "") => href.replace(/\/$/, "");
+
 const filteredTools = current
-  ? tools.filter((tool) => tool.href !== current)
+  ? tools.filter((tool) => normalizeHref(tool.href) !== normalizeHref(current))
   : tools;
 ---
 
-<section class="card" style="margin-top: 1.25rem;">
-  <h2>Related Tools</h2>
+<section class="card">
+  <div class="section-heading">
+    <div>
+      <p class="section-eyebrow">Keep exploring</p>
+      <h2>Related Tools</h2>
+    </div>
+    <p class="muted">Jump to another calculator without losing momentum.</p>
+  </div>
 
-  <p>
-    {filteredTools.map((tool, index) => (
-      <>
-        <a href={tool.href}>{tool.title}</a>
-        {index < filteredTools.length - 1 ? " | " : ""}
-      </>
+  <div class="related-grid">
+    {filteredTools.map((tool) => (
+      <a href={tool.href} class="resource-link">
+        <strong>{tool.title}</strong>
+        <span>Open this calculator for another quick grade or GPA scenario.</span>
+      </a>
     ))}
-  </p>
+  </div>
 </section>

@@ -9,44 +9,106 @@ import { guides } from "../data/guides";
   title={`${site.name} | Grade, GPA, Final Exam & Weighted Grade Calculators`}
   description={site.description}
 >
-  <section class="hero">
-    <h1>{site.name}</h1>
-    <p>
-      Free, simple tools and guides for students who want quick answers about
-      grades, finals, weighted averages, GPA, and what they need to reach their
-      goals.
-    </p>
+  <section class="hero-card homepage-hero">
+    <div class="hero">
+      <p class="hero-eyebrow">Plan smarter, stress less</p>
+      <h1>{site.name}</h1>
+      <p class="hero-copy">
+        Free, fast calculators and plain-English guides for students who want to
+        understand their grades, map out finals, and make better academic decisions
+        without the spreadsheet headache.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn-primary" href="/grade-calculator/">Open grade calculator</a>
+        <a class="btn-secondary" href="/gpa-calculator/">Explore GPA tools</a>
+      </div>
+    </div>
+
+    <aside class="hero-panel">
+      <p class="section-eyebrow">Built for the moments that matter</p>
+      <h2>When students usually need help fast</h2>
+      <ul>
+        <li>Checking whether one bad quiz changed the class average much.</li>
+        <li>Figuring out the exact final exam score needed to hit a target grade.</li>
+        <li>Comparing weighted classes, honors boosts, and GPA scenarios.</li>
+      </ul>
+      <div class="pill-row" aria-label="Popular student goals">
+        <span class="pill">Know where you stand</span>
+        <span class="pill">Set a finals target</span>
+        <span class="pill">Track GPA clearly</span>
+      </div>
+    </aside>
   </section>
 
-  <div class="card">
-    <h2>Tools</h2>
-    <ul>
+  <section class="card">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">Calculator collection</p>
+        <h2>Tools students use the most</h2>
+      </div>
+      <p class="muted">Start with the one that answers today's question.</p>
+    </div>
+
+    <div class="resource-grid">
       {tools.map((tool) => (
-        <li><a href={tool.href}>{tool.title}</a></li>
+        <a class="resource-link" href={tool.href}>
+          <strong>{tool.title}</strong>
+          <span>
+            Open the calculator, plug in your numbers, and get a clean result quickly.
+          </span>
+        </a>
       ))}
-    </ul>
-  </div>
+    </div>
+  </section>
 
-  <div class="card">
-    <h2>Guides</h2>
-    <ul>
+  <section class="card">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">Study guides</p>
+        <h2>Short reads that explain the math</h2>
+      </div>
+      <p class="muted">Useful when you want context, not just an answer.</p>
+    </div>
+
+    <div class="resource-grid">
       {guides.map((guide) => (
-        <li><a href={guide.href}>{guide.title}</a></li>
+        <a class="resource-link" href={guide.href}>
+          <strong>{guide.title}</strong>
+          <span>
+            Read a quick explanation, examples, and practical guidance you can use right away.
+          </span>
+        </a>
       ))}
-    </ul>
-  </div>
+    </div>
+  </section>
 
-  <div class="card">
-    <h2>About These Tools</h2>
-    <p>
-      This site helps students calculate grades, understand weighted averages,
-      estimate final exam outcomes, and track GPA. Each tool is built to be
-      simple, fast, and useful without requiring signup or extra steps.
-    </p>
+  <section class="insight-grid">
+    <article class="card insight-card">
+      <p class="section-eyebrow">Clear inputs</p>
+      <h2>Designed for busy students</h2>
+      <p>
+        Each tool is built to be simple, readable, and calm under pressure, especially
+        when you are checking grades between assignments, exams, and deadlines.
+      </p>
+    </article>
 
-    <p class="muted">
-      More tools coming next: cumulative GPA calculator, semester GPA tracker,
-      weighted GPA calculator, and additional grade strategy guides.
-    </p>
-  </div>
+    <article class="card insight-card">
+      <p class="section-eyebrow">No fluff</p>
+      <h2>Answers without extra steps</h2>
+      <p>
+        No sign-up, no clutter, and no unnecessary screens between your numbers and
+        your result.
+      </p>
+    </article>
+
+    <article class="card insight-card">
+      <p class="section-eyebrow">What's next</p>
+      <h2>More planning tools ahead</h2>
+      <p>
+        Future additions can include semester GPA tracking, cumulative GPA planning,
+        and more strategy guides around passing targets and course weighting.
+      </p>
+    </article>
+  </section>
 </BaseLayout>

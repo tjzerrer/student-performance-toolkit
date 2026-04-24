@@ -3,18 +3,26 @@ import { guides } from "../data/guides";
 
 const { current } = Astro.props;
 
-const filteredGuides = guides.filter((guide) => guide.href !== current);
+const normalizeHref = (href = "") => href.replace(/\/$/, "");
+
+const filteredGuides = guides.filter((guide) => normalizeHref(guide.href) !== normalizeHref(current));
 ---
 
-<section class="card" style="margin-top: 1.25rem;">
-  <h2>Related Guides</h2>
+<section class="card">
+  <div class="section-heading">
+    <div>
+      <p class="section-eyebrow">Helpful reading</p>
+      <h2>Related Guides</h2>
+    </div>
+    <p class="muted">Plain-English explanations for the math behind the result.</p>
+  </div>
 
-  <p>
-    {filteredGuides.map((guide, index) => (
-      <>
-        <a href={guide.href}>{guide.title}</a>
-        {index < filteredGuides.length - 1 ? " | " : ""}
-      </>
+  <div class="related-grid">
+    {filteredGuides.map((guide) => (
+      <a href={guide.href} class="resource-link">
+        <strong>{guide.title}</strong>
+        <span>Read examples, definitions, and tips to understand the numbers better.</span>
+      </a>
     ))}
-  </p>
+  </div>
 </section>

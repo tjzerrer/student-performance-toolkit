@@ -256,8 +256,10 @@ const faqSchema = {
           <p class="muted">Unweighted GPA</p>
           <div id="gpa-result" class="big-result">--</div>
 
-          <p class="muted" style="margin-top: 1rem;">Weighted GPA</p>
-          <div id="weighted-gpa-result" class="big-result">--</div>
+          <div id="weighted-result-group">
+            <p class="muted" style="margin-top: 1rem;">Weighted GPA</p>
+            <div id="weighted-gpa-result" class="big-result">--</div>
+          </div>
 
           <p id="summary-text">Enter your courses and click Calculate GPA.</p>
           <p class="muted" style="margin-top: 0.75rem;" id="scale-note">
@@ -357,6 +359,7 @@ const faqSchema = {
 
     const gpaResult = document.getElementById("gpa-result");
     const weightedGpaResult = document.getElementById("weighted-gpa-result");
+    const weightedResultGroup = document.getElementById("weighted-result-group");
     const summaryText = document.getElementById("summary-text");
     const totalCreditsCell = document.getElementById("total-credits");
     const scaleNote = document.getElementById("scale-note");
@@ -471,6 +474,8 @@ const faqSchema = {
 
       gpaResult.textContent = "--";
       weightedGpaResult.textContent = "--";
+      weightedResultGroup.style.display = "block";
+      scaleNote.style.display = "block";
       summaryText.textContent = "Enter your courses and click Calculate GPA.";
       totalCreditsCell.textContent = "--";
     }
@@ -505,6 +510,8 @@ const faqSchema = {
       if (totalCredits === 0) {
         gpaResult.textContent = "--";
         weightedGpaResult.textContent = "--";
+        weightedResultGroup.style.display = "block";
+        scaleNote.style.display = "block";
         summaryText.textContent = "Please enter at least one valid course and credit value.";
         totalCreditsCell.textContent = "--";
         return;
@@ -515,10 +522,26 @@ const faqSchema = {
 
       const roundedUnweighted = unweightedGpa.toFixed(2);
       const roundedWeighted = weightedGpa.toFixed(2);
+      const hasWeightedDifference = roundedUnweighted !== roundedWeighted;
 
       gpaResult.textContent = roundedUnweighted;
       weightedGpaResult.textContent = roundedWeighted;
-      summaryText.textContent = `Your unweighted GPA is ${roundedUnweighted}, and your weighted GPA is ${roundedWeighted}.`;
+
+      if (hasWeightedDifference) {
+        weightedResultGroup.style.display = "block";
+        scaleNote.style.display = "block";
+        summaryText.textContent = `Your unweighted GPA is ${roundedUnweighted}, and your weighted GPA is ${roundedWeighted}.`;
+      } else {
+        weightedResultGroup.style.display = "none";
+        scaleNote.style.display = "none";
+
+        if (system === "unweighted") {
+          summaryText.textContent = `Your GPA is ${roundedUnweighted}. Weighted GPA is hidden because the unweighted-only scale is selected.`;
+        } else {
+          summaryText.textContent = `Your GPA is ${roundedUnweighted}. No honors or AP weighting changed the result based on the courses entered.`;
+        }
+      }
+
       totalCreditsCell.textContent = totalCredits.toFixed(1).replace(/\.0$/, "");
     }
 
