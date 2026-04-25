@@ -1,16 +1,26 @@
 ---
 import Analytics from "@vercel/analytics/astro";
 import "../styles/global.css";
+import { site } from "../data/site";
 
 interface Props {
   title: string;
   description?: string;
+  ogType?: string;
+  socialImage?: string;
+  socialImageAlt?: string;
 }
 
 const {
   title,
-  description = "Free student calculator tool.",
+  description = site.description,
+  ogType = "website",
+  socialImage = "/social-preview.png",
+  socialImageAlt = `${title} social preview`,
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.url).toString();
+const resolvedSocialImage = new URL(socialImage, site.url).toString();
 ---
 
 <!DOCTYPE html>
@@ -25,7 +35,23 @@ const {
       name="google-site-verification"
       content="1dNa9CgRh9xz2zgKDLdX_eu8KMNQMwiVyrE0EHTv72o"
     />
-    <link rel="canonical" href={Astro.url.href} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={resolvedSocialImage} />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={resolvedSocialImage} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
     <slot name="head" />
     <link rel="icon" href="/favicon.ico" />
   </head>

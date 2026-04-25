@@ -1,10 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import RelatedGuides from "../components/RelatedGuides.astro";
-import { site } from "../data/site";
-
-const siteUrl = site.url;
-const pageUrl = `${siteUrl}/how-to-calculate-your-grade`;
+import GuideLayout from "../layouts/GuideLayout.astro";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -36,60 +31,16 @@ const faqSchema = {
     }
   ]
 };
-
-const webPageSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  name: "How to Calculate Your Grade",
-  url: pageUrl,
-  description:
-    "Learn how to calculate your grade step-by-step, including simple averages, weighted grades, finals, and GPA.",
-  isPartOf: {
-    "@type": "WebSite",
-    name: site.name,
-    url: siteUrl
-  }
-};
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: siteUrl
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "How to Calculate Your Grade",
-      item: pageUrl
-    }
-  ]
-};
 ---
 
-<BaseLayout
+<GuideLayout
   title="How to Calculate Your Grade (Step-by-Step Guide)"
   description="Learn how to calculate your grade step-by-step. Includes simple formulas, examples, and links to free grade calculators."
+  slug="/how-to-calculate-your-grade"
+  heroTitle="How to Calculate Your Grade"
+  heroText="If you want to know your current average, your weighted grade, or what you need on your final, this guide will show you exactly how to calculate your grade step-by-step."
+  faqSchema={faqSchema}
 >
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  </Fragment>
-
-  <section class="hero">
-    <h1>How to Calculate Your Grade</h1>
-    <p>
-      If you want to know your current average, your weighted grade, or what you
-      need on your final, this guide will show you exactly how to calculate your
-      grade step-by-step.
-    </p>
-  </section>
-
   <div class="card">
     <p>
       Many students ask questions like <strong>How do I calculate my grade?</strong>,
@@ -109,7 +60,7 @@ const breadcrumbSchema = {
     </p>
 
     <p><strong>Formula:</strong></p>
-    <p>(Total Points Earned ÷ Total Points Possible) × 100</p>
+    <p>(Total Points Earned / Total Points Possible) x 100</p>
 
     <h3>Example</h3>
     <ul>
@@ -123,7 +74,7 @@ const breadcrumbSchema = {
       <br />
       Total possible = 20 + 50 + 100 = 170
       <br />
-      Grade = 150 ÷ 170 × 100 = <strong>88.2%</strong>
+      Grade = 150 / 170 x 100 = <strong>88.2%</strong>
     </p>
 
     <p>
@@ -150,7 +101,7 @@ const breadcrumbSchema = {
     <p>
       Weighted grade =
       <br />
-      (92 × 0.20) + (85 × 0.30) + (88 × 0.50)
+      (92 x 0.20) + (85 x 0.30) + (88 x 0.50)
       <br />
       = 18.4 + 25.5 + 44
       <br />
@@ -170,9 +121,7 @@ const breadcrumbSchema = {
       projects, or final exam, you can work backward from your target grade.
     </p>
 
-    <p>
-      You need to know:
-    </p>
+    <p>You need to know:</p>
     <ul>
       <li>Your current grade</li>
       <li>Your target grade</li>
@@ -247,18 +196,4 @@ const breadcrumbSchema = {
       </p>
     </div>
   </section>
-
-  <section class="card">
-    <h2>Related tools</h2>
-    <p>
-      Use these calculators next:
-      <a href="/grade-calculator/">Grade Calculator</a> |
-      <a href="/final-exam-calculator/">Final Exam Calculator</a> |
-      <a href="/weighted-grade-calculator/">Weighted Grade Calculator</a> |
-      <a href="/gpa-calculator/">GPA Calculator</a> |
-      <a href="/what-grade-do-i-need-calculator/">What Grade Do I Need Calculator</a>
-    </p>
-  </section>
-
-  <RelatedGuides current="/how-to-calculate-your-grade" />
-</BaseLayout>
+</GuideLayout>
