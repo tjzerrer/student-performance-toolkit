@@ -1,24 +1,51 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import JsonLd from "../components/JsonLd.astro";
 import { site } from "../data/site";
 import { tools } from "../data/tools";
 import { guides } from "../data/guides";
+
+const webSiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.name,
+  url: site.url,
+  description: site.description,
+};
+
+const collectionPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `${site.name} Home`,
+  url: site.url,
+  description: site.description,
+  isPartOf: {
+    "@type": "WebSite",
+    name: site.name,
+    url: site.url,
+  },
+};
 ---
 
 <BaseLayout
-  title={`${site.name} | Grade, GPA, Final Exam & Weighted Grade Calculators`}
+  title={`${site.name} | GPA, Final Exam, Weighted Grade & Passing Calculators`}
   description={site.description}
   socialImage="/social/home.png"
   socialImageAlt="Grade Toolkit social preview card"
 >
+  <Fragment slot="head">
+    <JsonLd data={webSiteSchema} />
+    <JsonLd data={collectionPageSchema} />
+  </Fragment>
+
   <section class="hero-card homepage-hero">
     <div class="hero">
       <p class="hero-eyebrow">Plan smarter, stress less</p>
       <h1>{site.name}</h1>
       <p class="hero-copy">
         Free, fast calculators and plain-English guides for students who want to
-        understand their grades, map out finals, and make better academic decisions
-        without the spreadsheet headache.
+        understand grades, plan finals, track GPA, and figure out what they need
+        to pass without digging through spreadsheets.
       </p>
 
       <div class="hero-actions">

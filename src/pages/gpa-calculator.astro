@@ -59,10 +59,10 @@ const faqSchema = {
     <section class="card">
       <h2>Enter your courses</h2>
 
-      <div class="row" style="grid-template-columns: minmax(0, 440px); margin-bottom: 1rem;">
+      <div class="row" style="grid-template-columns: fit-content(28rem); margin-bottom: 1rem;">
         <div>
           <label for="weighting-system">Weighting system</label>
-          <select id="weighting-system">
+          <select id="weighting-system" style="min-width: 27rem; max-width: 100%;">
             <option value="standard" selected>Standard: Honors +0.5, AP / IB +1.0</option>
             <option value="aggressive">Aggressive: Honors +1.0, AP / IB +2.0</option>
             <option value="unweighted">Unweighted only</option>
@@ -74,13 +74,9 @@ const faqSchema = {
       <div class="card" style="margin-bottom: 1rem; background:#f9fafb;">
         <h3 style="margin-top:0;">Common GPA scales</h3>
 
-        <p class="muted" style="margin-bottom: 0.5rem;">
-          Schools use different weighting systems. Here are the most common:
-        </p>
-
         <p class="muted" style="margin: 0 0 0.75rem;">
-          Not sure which one your school uses? Check your transcript, counseling office,
-          or school handbook and match the wording there.
+          Schools use different weighting systems. Match the wording from your
+          transcript, counseling office, or school handbook.
         </p>
 
         <ul style="margin-top: 0.25rem;">
