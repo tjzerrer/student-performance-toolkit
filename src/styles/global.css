@@ -671,10 +671,17 @@ button {
     padding: 20px;
   }
 
-  .section-heading,
-  .actions {
+  .section-heading {
     flex-direction: column;
     align-items: start;
+  }
+
+  .actions,
+  .print-save-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
   }
 
   .row,
@@ -682,12 +689,17 @@ button {
     grid-template-columns: 1fr;
   }
 
-  .hero-actions > a,
-  .btn-primary,
-  .btn-secondary,
-  .btn-danger,
-  .print-save-actions button {
+  .hero-actions > a {
     width: 100%;
+  }
+
+  .actions > button,
+  .print-save-actions > button,
+  .btn-danger {
+    width: auto;
+    max-width: 100%;
+    min-width: clamp(8.5rem, 38vw, 11rem);
+    flex: 0 1 auto;
   }
 
   .top-nav {
