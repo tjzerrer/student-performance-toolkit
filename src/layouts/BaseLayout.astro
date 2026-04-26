@@ -1,5 +1,6 @@
 ---
 import Analytics from "@vercel/analytics/astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
 import "../styles/global.css";
 import { site } from "../data/site";
 
@@ -100,5 +101,6 @@ const resolvedSocialImage = new URL(socialImage, site.url).toString();
     </div>
 
     <Analytics />
+    <SpeedInsights />
   </body>
 </html>
