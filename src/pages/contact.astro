@@ -1,0 +1,137 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import JsonLd from "../components/JsonLd.astro";
+import { site } from "../data/site";
+
+const title = "Contact Grade Toolkit";
+const description =
+  "Send a question, suggestion, or calculator request through the Grade Toolkit contact form.";
+const pageUrl = `${site.url}/contact/`;
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: title,
+  url: pageUrl,
+  description,
+  isPartOf: {
+    "@type": "WebSite",
+    name: site.name,
+    url: site.url,
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: site.url,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Contact",
+      item: pageUrl,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogType="website"
+  socialImage="/social/home.png"
+  socialImageAlt="Grade Toolkit contact page social preview card"
+>
+  <Fragment slot="head">
+    <JsonLd data={webPageSchema} />
+    <JsonLd data={breadcrumbSchema} />
+  </Fragment>
+
+  <section class="hero-card">
+    <div class="hero">
+      <p class="hero-eyebrow">Contact</p>
+      <h1>Questions, suggestions, or calculator requests.</h1>
+      <p class="hero-copy">
+        Send a quick note through the form below and we’ll route it to the inbox.
+      </p>
+    </div>
+  </section>
+
+  <section class="grid">
+    <section class="card">
+      <h2>Send a message</h2>
+
+      <form
+        class="contact-form"
+        action="https://formsubmit.co/tonyzerrer@gmail.com"
+        method="POST"
+      >
+        <input type="hidden" name="_subject" value="Grade Toolkit contact form" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_next" value={`${pageUrl}?sent=1`} />
+
+        <div class="contact-row">
+          <div class="contact-field contact-field--medium">
+            <label for="contact-name">Name</label>
+            <input id="contact-name" name="name" type="text" autocomplete="name" required />
+          </div>
+
+          <div class="contact-field contact-field--medium">
+            <label for="contact-email">Email</label>
+            <input id="contact-email" name="email" type="email" autocomplete="email" required />
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <div class="contact-field contact-field--medium">
+            <label for="contact-subject">Subject</label>
+            <input id="contact-subject" name="subject" type="text" required />
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <div class="contact-field contact-field--message">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" rows="7" required></textarea>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-primary">Send message</button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="card">
+      <h2>What to include</h2>
+      <ul>
+        <li>The calculator or guide you were using.</li>
+        <li>What felt confusing, missing, or incorrect.</li>
+        <li>Any new student tool you’d like added next.</li>
+      </ul>
+
+      <p class="disclaimer" style="margin-top: 1.25rem;">
+        These tools are for educational planning and grade-estimate purposes only.
+        They do not replace official grading policies, course syllabi, or academic advising.
+      </p>
+
+      <p id="contact-success" class="success-note" hidden>
+        Thanks. Your message was sent successfully.
+      </p>
+    </aside>
+  </section>
+
+  <script>
+    const successNote = document.getElementById("contact-success");
+
+    if (successNote && window.location.search.includes("sent=1")) {
+      successNote.hidden = false;
+    }
+  </script>
+</BaseLayout>
