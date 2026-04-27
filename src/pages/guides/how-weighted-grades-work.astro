@@ -1,0 +1,47 @@
+---
+import GuideLayout from "../../layouts/GuideLayout.astro";
+import ToolCTA from "../../components/ToolCTA.astro";
+---
+
+<GuideLayout
+  title="How Weighted Grades Work"
+  description="Learn how weighted grade categories work and why tests, finals, homework, and projects may affect your grade differently."
+  slug="/guides/how-weighted-grades-work"
+  heroTitle="How Weighted Grades Work"
+  heroText="Understand category weights so homework, tests, projects, and finals count the way your class actually counts them."
+>
+  <div class="guide-body">
+    <section class="card">
+      <h2>Weights change the meaning of an average</h2>
+      <p>A weighted grade gives each category a different share of the final grade. A 90% homework average may not offset a low test average if tests count much more.</p>
+    </section>
+
+    <section class="card">
+      <h2>Formula</h2>
+      <p class="formula-block">Weighted grade = Sum of category grade x category weight</p>
+      <p><strong>Example:</strong> Homework at 95% worth 20%, tests at 82% worth 60%, and a final at 88% worth 20% gives a weighted grade of 85.8%.</p>
+    </section>
+
+    <ToolCTA
+      title="Calculate a Weighted Grade"
+      text="Use the Weighted Grade Calculator to enter categories and weights exactly like your syllabus or gradebook."
+      links={[{ href: "/weighted-grade-calculator/", label: "Use Weighted Grade Calculator" }]}
+    />
+
+    <section class="card">
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Averaging category percentages without applying weights.</li>
+        <li>Using category weights that do not add up to the graded portion of the class.</li>
+        <li>Forgetting that final exams often have their own separate weight.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>FAQ</h2>
+      <div class="faq-item"><h3>Why is my weighted grade different from my average?</h3><p>Some categories count more than others, so the calculator gives heavier categories more influence.</p></div>
+      <div class="faq-item"><h3>Do weights need to add to 100?</h3><p>Most full-class category systems add to 100%, but some gradebooks show only remaining or active categories.</p></div>
+      <div class="faq-item"><h3>What should I use next?</h3><p>Use the <a href="/final-exam-calculator/">Final Exam Calculator</a> if your final has a separate weight.</p></div>
+    </section>
+  </div>
+</GuideLayout>

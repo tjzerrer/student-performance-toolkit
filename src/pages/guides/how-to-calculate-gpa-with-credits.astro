@@ -1,0 +1,47 @@
+---
+import GuideLayout from "../../layouts/GuideLayout.astro";
+import ToolCTA from "../../components/ToolCTA.astro";
+---
+
+<GuideLayout
+  title="How to Calculate GPA with Credits"
+  description="Learn how grade points, credits, and quality points work together in a GPA calculation."
+  slug="/guides/how-to-calculate-gpa-with-credits"
+  heroTitle="How to Calculate GPA with Credits"
+  heroText="Use credits, grade points, and quality points to calculate term GPA and cumulative GPA."
+>
+  <div class="guide-body">
+    <section class="card">
+      <h2>GPA is credit-weighted</h2>
+      <p>Courses with more credits affect your GPA more. A 4-credit course has twice the GPA impact of a 2-credit course.</p>
+    </section>
+
+    <section class="card">
+      <h2>Formula</h2>
+      <p class="formula-block">GPA = Total quality points / Total credits</p>
+      <p>Quality points are grade points multiplied by credits. A 3-credit class with an A earns 12 quality points on a 4.0 scale.</p>
+    </section>
+
+    <ToolCTA
+      title="Calculate GPA by Credits"
+      text="Use the GPA Calculator to enter courses, credits, and grades in letter, percentage, or point value format."
+      links={[{ href: "/gpa-calculator/", label: "Use GPA Calculator" }]}
+    />
+
+    <section class="card">
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Treating every class as equal even when credit values differ.</li>
+        <li>Counting pass/fail, incomplete, or withdrawal grades when they do not affect GPA.</li>
+        <li>Confusing weighted high school GPA with college GPA.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>FAQ</h2>
+      <div class="faq-item"><h3>What are quality points?</h3><p>Quality points are grade points multiplied by course credits.</p></div>
+      <div class="faq-item"><h3>Do P or W grades count?</h3><p>Usually they are ignored for GPA, though your school policy is the final source.</p></div>
+      <div class="faq-item"><h3>Can I include prior GPA?</h3><p>Yes. The GPA Calculator can combine prior GPA and completed credits with current coursework.</p></div>
+    </section>
+  </div>
+</GuideLayout>

@@ -1,0 +1,27 @@
+---
+interface LinkItem {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  title: string;
+  text: string;
+  links: LinkItem[];
+}
+
+const { title, text, links } = Astro.props;
+---
+
+<aside class="tool-cta">
+  <div>
+    <p class="section-eyebrow">Use the tool</p>
+    <h2>{title}</h2>
+    <p>{text}</p>
+  </div>
+  <div class="tool-cta__actions">
+    {links.map((link) => (
+      <a class="btn-primary" href={link.href}>{link.label}</a>
+    ))}
+  </div>
+</aside>

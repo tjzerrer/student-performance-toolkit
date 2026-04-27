@@ -28,8 +28,8 @@ const collectionPageSchema = {
 ---
 
 <BaseLayout
-  title={`${site.name} | GPA, Final Exam, Weighted Grade & Passing Calculators`}
-  description={site.description}
+  title="Grade Toolkit | Grade, Final Exam, and GPA Calculators"
+  description="Calculate your current grade, final exam score needed, weighted grade, GPA, and GPA goals with simple student-friendly tools."
   socialImage="/social/home.png"
   socialImageAlt="Grade Toolkit social preview card"
 >
@@ -43,14 +43,14 @@ const collectionPageSchema = {
       <p class="hero-eyebrow">Plan smarter, stress less</p>
       <h1>{site.name}</h1>
       <p class="hero-copy">
-        Free, fast calculators and plain-English guides for students who want to
-        understand grades, plan finals, track GPA, and figure out what they need
-        to pass without digging through spreadsheets.
+        Plan your grades, finals, and GPA with simple student-friendly calculators.
+        See where you stand now, what score you need next, and how your courses
+        affect your GPA.
       </p>
 
       <div class="hero-actions">
         <a class="btn-primary" href="/grade-calculator/">Open grade calculator</a>
-        <a class="btn-secondary" href="/gpa-calculator/">Explore GPA tools</a>
+        <a class="btn-secondary" href="/final-exam-calculator/">Check final exam score</a>
       </div>
     </div>
 
@@ -63,11 +63,47 @@ const collectionPageSchema = {
         <li>Comparing weighted classes, honors boosts, and GPA scenarios.</li>
       </ul>
       <div class="pill-row" aria-label="Popular student goals">
-        <span class="pill">Know where you stand</span>
-        <span class="pill">Set a finals target</span>
-        <span class="pill">Track GPA clearly</span>
+        <a class="pill" href="/grade-calculator/">Know where you stand</a>
+        <a class="pill" href="/what-grade-do-i-need-calculator/">Set a grade target</a>
+        <a class="pill" href="/gpa-calculator/">Track GPA clearly</a>
       </div>
     </aside>
+  </section>
+
+  <section class="card">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">Start here</p>
+        <h2>A Simple Grade Planning Workflow</h2>
+      </div>
+      <p class="muted">Move from current grade to next action.</p>
+    </div>
+
+    <div class="workflow-grid">
+      <a class="workflow-card" href="/grade-calculator/">
+        <span class="workflow-step">1</span>
+        <h3>Calculate Your Current Grade</h3>
+        <p>Enter points, assignments, or categories to see where you stand right now.</p>
+      </a>
+
+      <a class="workflow-card" href="/what-grade-do-i-need-calculator/">
+        <span class="workflow-step">2</span>
+        <h3>Set a Target Grade</h3>
+        <p>Find out what score you need on upcoming work to reach your goal.</p>
+      </a>
+
+      <a class="workflow-card" href="/final-exam-calculator/">
+        <span class="workflow-step">3</span>
+        <h3>Check Your Final Exam Score</h3>
+        <p>Calculate what you need on the final to finish with your target class grade.</p>
+      </a>
+
+      <a class="workflow-card" href="/gpa-calculator/">
+        <span class="workflow-step">4</span>
+        <h3>Track Your GPA</h3>
+        <p>Calculate GPA by course, credit, semester, and grade format.</p>
+      </a>
+    </div>
   </section>
 
   <section class="card">
@@ -83,9 +119,7 @@ const collectionPageSchema = {
       {tools.map((tool) => (
         <a class="resource-link" href={tool.href}>
           <strong>{tool.title}</strong>
-          <span>
-            Open the calculator, plug in your numbers, and get a clean result quickly.
-          </span>
+          <span>{tool.description}</span>
         </a>
       ))}
     </div>
@@ -104,9 +138,7 @@ const collectionPageSchema = {
       {guides.map((guide) => (
         <a class="resource-link" href={guide.href}>
           <strong>{guide.title}</strong>
-          <span>
-            Read a quick explanation, examples, and practical guidance you can use right away.
-          </span>
+          <span>{guide.description}</span>
         </a>
       ))}
     </div>
@@ -132,11 +164,11 @@ const collectionPageSchema = {
     </article>
 
     <article class="card insight-card">
-      <p class="section-eyebrow">What's next</p>
-      <h2>More planning tools ahead</h2>
+      <p class="section-eyebrow">Connected guides</p>
+      <h2>Learn the math behind the result</h2>
       <p>
-        Future additions can include semester GPA tracking, cumulative GPA planning,
-        and more strategy guides around passing targets and course weighting.
+        Each guide points back to the relevant calculator so students can read,
+        test a scenario, and decide what to do next.
       </p>
     </article>
   </section>

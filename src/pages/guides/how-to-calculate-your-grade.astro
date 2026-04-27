@@ -1,0 +1,60 @@
+---
+import GuideLayout from "../../layouts/GuideLayout.astro";
+import ToolCTA from "../../components/ToolCTA.astro";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    { "@type": "Question", name: "How do I calculate my grade?", acceptedAnswer: { "@type": "Answer", text: "Add points earned, divide by points possible, and multiply by 100." } },
+    { "@type": "Question", name: "What if my class uses categories?", acceptedAnswer: { "@type": "Answer", text: "Use a weighted grade calculator because each category may count differently." } },
+    { "@type": "Question", name: "Can one assignment change my grade?", acceptedAnswer: { "@type": "Answer", text: "Yes, especially if it is worth many points or belongs to a heavily weighted category." } }
+  ]
+};
+---
+
+<GuideLayout
+  title="How to Calculate Your Grade Step by Step"
+  description="Learn how to calculate your current grade using points earned, points possible, weighted categories, and common grade mistakes."
+  slug="/guides/how-to-calculate-your-grade"
+  heroTitle="How to Calculate Your Grade Step by Step"
+  heroText="Use points, percentages, and category weights to understand where you stand right now."
+  faqSchema={faqSchema}
+>
+  <div class="guide-body">
+    <section class="card">
+      <h2>Start with the grade question</h2>
+      <p>Your current grade answers one simple question: how much of the available credit have you earned so far?</p>
+      <p>If your class uses total points, the math is direct. If your class uses categories like homework, quizzes, tests, and finals, each category may count differently.</p>
+    </section>
+
+    <section class="card">
+      <h2>Simple grade formula</h2>
+      <p class="formula-block">Grade % = Points earned / Points possible x 100</p>
+      <p><strong>Example:</strong> If you earned 175 points out of 200 possible points, your grade is 87.5%.</p>
+      <p>For weighted categories, calculate each category average first, multiply by its weight, then add the weighted pieces together.</p>
+    </section>
+
+    <ToolCTA
+      title="Calculate Your Current Grade"
+      text="Use the Grade Calculator to enter your assignment scores and see where you stand right now."
+      links={[{ href: "/grade-calculator/", label: "Use Grade Calculator" }]}
+    />
+
+    <section class="card">
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Mixing points-based grades with weighted categories.</li>
+        <li>Forgetting that a final or major test may count more than homework.</li>
+        <li>Using rounded grades from the gradebook instead of actual points.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>FAQ</h2>
+      <div class="faq-item"><h3>How do I calculate my grade?</h3><p>Add earned points, divide by possible points, and multiply by 100.</p></div>
+      <div class="faq-item"><h3>What if my teacher uses weights?</h3><p>Use the <a href="/weighted-grade-calculator/">Weighted Grade Calculator</a> so each category counts correctly.</p></div>
+      <div class="faq-item"><h3>What should I do after finding my grade?</h3><p>Use the <a href="/what-grade-do-i-need-calculator/">What Grade Do I Need Calculator</a> or <a href="/final-exam-calculator/">Final Exam Calculator</a> to plan your next target.</p></div>
+    </section>
+  </div>
+</GuideLayout>

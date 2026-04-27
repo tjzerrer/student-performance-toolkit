@@ -1,0 +1,47 @@
+---
+import GuideLayout from "../../layouts/GuideLayout.astro";
+import ToolCTA from "../../components/ToolCTA.astro";
+---
+
+<GuideLayout
+  title="Weighted vs Unweighted GPA"
+  description="Compare weighted and unweighted GPA, including honors, AP, IB, and college-level course boosts."
+  slug="/guides/weighted-vs-unweighted-gpa"
+  heroTitle="Weighted vs Unweighted GPA"
+  heroText="Learn why rigorous courses can raise weighted GPA while unweighted GPA keeps every course on the same scale."
+>
+  <div class="guide-body">
+    <section class="card">
+      <h2>Unweighted GPA keeps the scale simple</h2>
+      <p>Unweighted GPA usually uses a 4.0 scale. An A is worth 4.0 whether the class is regular, honors, AP, IB, or college-level.</p>
+    </section>
+
+    <section class="card">
+      <h2>Weighted GPA adds course boosts</h2>
+      <p>Weighted GPA gives extra points for more rigorous classes. A common scale adds +0.5 for honors and +1.0 for AP, IB, or college-level courses.</p>
+      <p><strong>Example:</strong> A B in an AP class may count like a 4.0 weighted grade point instead of 3.0.</p>
+    </section>
+
+    <ToolCTA
+      title="Compare Weighted and Unweighted GPA"
+      text="Use the GPA Calculator to see both GPA types and choose regular, honors, or AP/IB/college course levels."
+      links={[{ href: "/gpa-calculator/", label: "Use GPA Calculator" }]}
+    />
+
+    <section class="card">
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Assuming every school uses the same weighting system.</li>
+        <li>Comparing weighted GPA from one school to unweighted GPA from another.</li>
+        <li>Forgetting that many colleges recalculate GPA using their own method.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>FAQ</h2>
+      <div class="faq-item"><h3>Which GPA matters more?</h3><p>It depends on the purpose. Unweighted GPA is simpler; weighted GPA shows course rigor.</p></div>
+      <div class="faq-item"><h3>Can weighted GPA be above 4.0?</h3><p>Yes, if the school adds boosts for honors, AP, IB, or college-level courses.</p></div>
+      <div class="faq-item"><h3>Should college students use weighted GPA?</h3><p>Most college GPA systems are unweighted unless the school says otherwise.</p></div>
+    </section>
+  </div>
+</GuideLayout>

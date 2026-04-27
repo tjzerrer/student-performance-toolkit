@@ -1,0 +1,50 @@
+---
+import GuideLayout from "../../layouts/GuideLayout.astro";
+import ToolCTA from "../../components/ToolCTA.astro";
+---
+
+<GuideLayout
+  title="Can I Still Pass This Class?"
+  description="Learn how current grade, remaining work, and final exam weight determine whether a passing grade is still possible."
+  slug="/guides/can-i-still-pass-this-class"
+  heroTitle="Can I Still Pass This Class?"
+  heroText="Use your current grade and remaining work to see whether your passing target is realistic."
+>
+  <div class="guide-body">
+    <section class="card">
+      <h2>Passing depends on what is left</h2>
+      <p>A low current grade can still be recoverable if enough points or category weight remains. A high required score can mean the target is out of reach without extra credit.</p>
+    </section>
+
+    <section class="card">
+      <h2>Method</h2>
+      <p>Compare your current grade, passing target, and the weight of remaining assignments or the final exam. The remaining work must be large enough to change the overall grade.</p>
+      <p><strong>Example:</strong> If you have a 62%, need a 70%, and the final is worth 30%, the final exam score needed tells you whether passing is realistic.</p>
+    </section>
+
+    <ToolCTA
+      title="Check Your Passing Target"
+      text="Use the Final Exam Calculator or target grade calculator to see what score you need on remaining work."
+      links={[
+        { href: "/final-exam-calculator/", label: "Use Final Exam Calculator" },
+        { href: "/what-grade-do-i-need-calculator/", label: "Use Target Grade Calculator" }
+      ]}
+    />
+
+    <section class="card">
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Waiting until too little graded work remains.</li>
+        <li>Forgetting missing assignments that still count as zero.</li>
+        <li>Assuming extra credit is available before checking with the teacher.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>FAQ</h2>
+      <div class="faq-item"><h3>What if I need more than 100%?</h3><p>The target may not be possible without extra credit, replacement grades, or changed assignment scores.</p></div>
+      <div class="faq-item"><h3>Should I use current grade or category grade?</h3><p>Use the number your class gradebook uses for the overall current grade.</p></div>
+      <div class="faq-item"><h3>What should I do if the target is too high?</h3><p>Ask about missing work, retakes, extra credit, or whether a lower realistic target still helps.</p></div>
+    </section>
+  </div>
+</GuideLayout>

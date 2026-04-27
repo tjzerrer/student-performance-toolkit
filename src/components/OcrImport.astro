@@ -1,0 +1,378 @@
+<div class="ocr-launch">
+  <button type="button" class="btn-secondary ocr-open" id="ocr-open">
+    Import from Screenshot (Beta)
+  </button>
+  <p class="muted ocr-hint">Upload a grade screenshot, extract text, then review it before using anything.</p>
+</div>
+
+<div class="ocr-modal" id="ocr-modal" hidden>
+  <div class="ocr-backdrop" data-ocr-close></div>
+  <section class="ocr-dialog" role="dialog" aria-modal="true" aria-labelledby="ocr-title">
+    <div class="ocr-dialog__header">
+      <div>
+        <p class="section-eyebrow">Screenshot import</p>
+        <h2 id="ocr-title">Import Grade Text</h2>
+      </div>
+      <button type="button" class="ocr-close" aria-label="Close screenshot import" data-ocr-close>x</button>
+    </div>
+
+    <label class="ocr-dropzone" id="ocr-dropzone" for="ocr-file">
+      <span>Drop a screenshot here, or choose an image</span>
+      <small>PNG, JPG, WebP, or paste from your clipboard.</small>
+      <input id="ocr-file" type="file" accept="image/*" />
+    </label>
+
+    <img class="ocr-preview" id="ocr-preview" alt="Selected screenshot preview" hidden />
+
+    <div class="ocr-actions">
+      <button type="button" class="btn-secondary" id="ocr-paste">Paste Screenshot</button>
+      <button type="button" class="btn-primary" id="ocr-extract">Extract Text</button>
+      <button type="button" class="btn-secondary" id="ocr-use" disabled>Use This Data</button>
+    </div>
+
+    <p class="ocr-progress" id="ocr-progress" aria-live="polite"></p>
+    <p class="field-error ocr-error" id="ocr-error" aria-live="polite"></p>
+
+    <label class="ocr-output-label" for="ocr-output">Extracted text</label>
+    <textarea id="ocr-output" class="ocr-output" placeholder="Extracted text will appear here." rows="8"></textarea>
+  </section>
+</div>
+
+<script>
+  const OCR_SCRIPT_URL = "https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js";
+
+  let selectedFile = null;
+  let tesseractLoading = null;
+
+  const openButton = document.getElementById("ocr-open");
+  const modal = document.getElementById("ocr-modal");
+  const closeButtons = document.querySelectorAll("[data-ocr-close]");
+  const fileInput = document.getElementById("ocr-file");
+  const dropzone = document.getElementById("ocr-dropzone");
+  const preview = document.getElementById("ocr-preview");
+  const pasteButton = document.getElementById("ocr-paste");
+  const extractButton = document.getElementById("ocr-extract");
+  const useButton = document.getElementById("ocr-use");
+  const progress = document.getElementById("ocr-progress");
+  const error = document.getElementById("ocr-error");
+  const output = document.getElementById("ocr-output");
+
+  function setError(message) {
+    if (!error) return;
+    error.textContent = message;
+    error.classList.toggle("is-visible", Boolean(message));
+  }
+
+  function setProgress(message) {
+    if (progress) progress.textContent = message;
+  }
+
+  function openModal() {
+    modal?.removeAttribute("hidden");
+    setError("");
+    setProgress("");
+  }
+
+  function closeModal() {
+    modal?.setAttribute("hidden", "");
+  }
+
+  function loadTesseract() {
+    if (window.Tesseract) return Promise.resolve(window.Tesseract);
+
+    if (!tesseractLoading) {
+      tesseractLoading = new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = OCR_SCRIPT_URL;
+        script.async = true;
+        script.onload = () => resolve(window.Tesseract);
+        script.onerror = () => reject(new Error("The OCR script could not be loaded."));
+        document.head.appendChild(script);
+      });
+    }
+
+    return tesseractLoading;
+  }
+
+  function handleFile(file) {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setError("Please choose an image file.");
+      return;
+    }
+
+    selectedFile = file;
+    setError("");
+    setProgress("");
+
+    if (preview instanceof HTMLImageElement) {
+      preview.src = URL.createObjectURL(file);
+      preview.hidden = false;
+    }
+  }
+
+  async function pasteImageFromClipboard() {
+    setError("");
+
+    try {
+      if (!navigator.clipboard?.read) {
+        setError("Clipboard image paste is not available in this browser. Try the file picker instead.");
+        return;
+      }
+
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        const imageType = item.types.find((type) => type.startsWith("image/"));
+        if (imageType) {
+          const blob = await item.getType(imageType);
+          handleFile(new File([blob], "pasted-screenshot.png", { type: imageType }));
+          setProgress("Screenshot pasted. Click Extract Text when ready.");
+          return;
+        }
+      }
+
+      setError("No screenshot image was found on the clipboard.");
+    } catch (clipboardError) {
+      console.error(clipboardError);
+      setError("Could not read the clipboard. You can still upload an image file.");
+    }
+  }
+
+  function parseGradeText(text) {
+    const scores = [];
+    const percentages = [];
+    const scorePattern = /(\d+(?:\.\d+)?)\s*(?:\/|out of)\s*(\d+(?:\.\d+)?)/gi;
+    const percentPattern = /(\d+(?:\.\d+)?)\s*%/g;
+
+    let scoreMatch;
+    while ((scoreMatch = scorePattern.exec(text)) !== null) {
+      const earned = Number(scoreMatch[1]);
+      const possible = Number(scoreMatch[2]);
+      if (Number.isFinite(earned) && Number.isFinite(possible) && possible > 0) {
+        scores.push({ earned, possible, percent: (earned / possible) * 100 });
+      }
+    }
+
+    let percentMatch;
+    while ((percentMatch = percentPattern.exec(text)) !== null) {
+      const value = Number(percentMatch[1]);
+      if (Number.isFinite(value) && value >= 0 && value <= 100) {
+        percentages.push(value);
+      }
+    }
+
+    return { scores, percentages };
+  }
+
+  function isLikelyCourseName(value) {
+    const cleaned = value.trim();
+    if (cleaned.length < 3 || cleaned.length > 60) return false;
+    if (!/[a-zA-Z]/.test(cleaned)) return false;
+    if (/^(grade|score|points|earned|possible|percent|percentage|total|average|semester|course|credits?|regular|honors|ap|ib|college|messages?|files?|settings?|assignments?|category|categories)$/i.test(cleaned)) return false;
+    return true;
+  }
+
+  function cleanCourseName(line) {
+    let cleaned = line
+      .replace(/(\d+(?:\.\d+)?)\s*(?:\/|out of)\s*(\d+(?:\.\d+)?)/gi, "")
+      .replace(/\d+(?:\.\d+)?\s*%/g, "")
+      .replace(/\b(A\+|A-|A|B\+|B-|B|C\+|C-|C|D\+|D-|D|F|P|NP|I|W)\b/g, "")
+      .replace(/[{}[\]`"'|:•]+/g, " ")
+      .replace(/^\s*(messages?|files?|settings?|assignments?|categories?|category)\s*(?:@|for|in)?\s*/i, "")
+      .replace(/\b(messages?|files?|settings?|assignments?|categories?|category)\b/gi, " ")
+      .replace(/\b(and|view|open|details?|score|grade|grades?)\b\s*$/i, "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const courseKeywordMatch = cleaned.match(/\b(AP|IB|Honors|English|Math|Algebra|Geometry|Calculus|Statistics|Science|Biology|Chemistry|Physics|History|Government|Economics|Spanish|French|Latin|Art|Music|Language|Literature|Writing|Computer|Programming|Health|PE)\b[\w\s/&.-]*/i);
+    if (courseKeywordMatch) {
+      cleaned = courseKeywordMatch[0].replace(/\b(and|view|open|details?)\b\s*$/i, "").trim();
+    }
+
+    return cleaned;
+  }
+
+  function extractCourseNames(text, count) {
+    const lines = text
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean);
+
+    const names = [];
+    lines.forEach((line, index) => {
+      const hasGrade = /(\d+(?:\.\d+)?)\s*(?:%|\/|out of)/i.test(line);
+      if (!hasGrade) return;
+
+      const sameLineName = cleanCourseName(line);
+      const previousLineName = cleanCourseName(lines[index - 1] || "");
+      const chosen = isLikelyCourseName(sameLineName) ? sameLineName : previousLineName;
+
+      if (isLikelyCourseName(chosen) && !names.includes(chosen)) {
+        names.push(chosen);
+      }
+    });
+
+    return names.slice(0, count);
+  }
+
+  async function runOcr() {
+    if (!selectedFile) {
+      setError("Please upload a screenshot first.");
+      return;
+    }
+
+    setError("");
+    setProgress("Loading OCR...");
+    extractButton?.setAttribute("disabled", "");
+    useButton?.setAttribute("disabled", "");
+
+    let worker;
+
+    try {
+      const Tesseract = await loadTesseract();
+      worker = await Tesseract.createWorker({
+        logger: (message) => {
+          if (message.status === "recognizing text" && typeof message.progress === "number") {
+            setProgress(`Recognizing text: ${Math.round(message.progress * 100)}%`);
+          } else if (message.status) {
+            setProgress(message.status);
+          }
+        },
+      });
+
+      await worker.loadLanguage("eng");
+      await worker.initialize("eng");
+
+      const result = await worker.recognize(selectedFile);
+      const text = result?.data?.text?.trim() || "";
+
+      if (!text) {
+        setError("No text was detected. Try a clearer screenshot.");
+        setProgress("");
+        return;
+      }
+
+      if (output instanceof HTMLTextAreaElement) output.value = text;
+      useButton?.removeAttribute("disabled");
+      setProgress("Text extracted. Review it before using the data.");
+    } catch (ocrError) {
+      console.error(ocrError);
+      setError("OCR could not read this image. Try another screenshot.");
+      setProgress("");
+    } finally {
+      if (worker) await worker.terminate();
+      extractButton?.removeAttribute("disabled");
+    }
+  }
+
+  function getDetectedGradeEntries() {
+    if (!(output instanceof HTMLTextAreaElement)) return [];
+    const text = output.value;
+    const parsed = parseGradeText(text);
+    const scorePercents = parsed.scores.map((score) => score.percent);
+    const percentages = [...scorePercents, ...parsed.percentages]
+      .filter((value) => Number.isFinite(value) && value >= 0 && value <= 100)
+      .slice(0, 12);
+    const names = extractCourseNames(text, percentages.length);
+
+    return percentages.map((percent, index) => ({
+      percent,
+      name: names[index] || "",
+    }));
+  }
+
+  function ensureGpaCourseRows(count) {
+    const addButton = document.getElementById("add-course");
+    while (document.querySelectorAll("[data-course-row]").length < count) {
+      addButton?.click();
+    }
+  }
+
+  function fillGpaCalculator() {
+    const entries = getDetectedGradeEntries();
+    if (entries.length === 0) {
+      setError("No usable grades were found. Look for patterns like 85% or 90 / 100.");
+      return;
+    }
+
+    const existingValues = Array.from(document.querySelectorAll(".course-grade, .course-credits")).some((input) => {
+      return input instanceof HTMLInputElement && input.value.trim() !== "";
+    });
+
+    if (existingValues && !window.confirm("This will replace existing GPA course grades. Continue?")) {
+      return;
+    }
+
+    const gradeFormat = document.getElementById("grade-format");
+    if (gradeFormat instanceof HTMLSelectElement && gradeFormat.value !== "percent") {
+      gradeFormat.value = "percent";
+      gradeFormat.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    ensureGpaCourseRows(entries.length);
+
+    const gradeInputs = document.querySelectorAll(".course-grade");
+    const creditInputs = document.querySelectorAll(".course-credits");
+    const courseInputs = document.querySelectorAll(".course-name");
+
+    entries.forEach((entry, index) => {
+      const gradeInput = gradeInputs[index];
+      const creditInput = creditInputs[index];
+      const courseInput = courseInputs[index];
+
+      if (gradeInput instanceof HTMLInputElement) gradeInput.value = entry.percent.toFixed(1).replace(/\.0$/, "");
+      if (creditInput instanceof HTMLInputElement && !creditInput.value.trim()) creditInput.value = "1";
+      if (courseInput instanceof HTMLInputElement) {
+        courseInput.value = entry.name || "";
+        courseInput.placeholder = entry.name ? "Course" : "Course name";
+      }
+    });
+
+    closeModal();
+  }
+
+  function useDetectedData() {
+    if (document.querySelector("[data-course-row]")) {
+      fillGpaCalculator();
+      return;
+    }
+
+    setError("This import is currently connected to the GPA calculator.");
+  }
+
+  openButton?.addEventListener("click", openModal);
+  closeButtons.forEach((button) => button.addEventListener("click", closeModal));
+  pasteButton?.addEventListener("click", pasteImageFromClipboard);
+  extractButton?.addEventListener("click", runOcr);
+  useButton?.addEventListener("click", useDetectedData);
+
+  fileInput?.addEventListener("change", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement) handleFile(target.files?.[0]);
+  });
+
+  dropzone?.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    dropzone.classList.add("is-dragging");
+  });
+
+  dropzone?.addEventListener("dragleave", () => {
+    dropzone.classList.remove("is-dragging");
+  });
+
+  dropzone?.addEventListener("drop", (event) => {
+    event.preventDefault();
+    dropzone.classList.remove("is-dragging");
+    handleFile(event.dataTransfer?.files?.[0]);
+  });
+
+  document.addEventListener("paste", (event) => {
+    if (modal?.hasAttribute("hidden")) return;
+    const imageFile = Array.from(event.clipboardData?.files || []).find((file) => file.type.startsWith("image/"));
+    if (imageFile) {
+      event.preventDefault();
+      handleFile(imageFile);
+      setProgress("Screenshot pasted. Click Extract Text when ready.");
+    }
+  });
+</script>

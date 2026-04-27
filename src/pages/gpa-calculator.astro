@@ -1,5 +1,7 @@
 ---
 import ToolLayout from "../layouts/ToolLayout.astro";
+import ToolCTA from "../components/ToolCTA.astro";
+import OcrImport from "../components/OcrImport.astro";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -7,26 +9,26 @@ const faqSchema = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "How do I calculate GPA?",
+      name: "How do I calculate GPA with credits?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Multiply each course's grade points by its credits, add those values together, and divide by total credits. This calculator does that automatically."
+        text: "Multiply each course's grade points by its credits, add those quality points together, and divide by total counted credits."
       }
     },
     {
       "@type": "Question",
-      name: "Does this GPA calculator support plus and minus grades?",
+      name: "Can this calculator use percentages?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. This GPA calculator supports plus and minus grades like A-, B+, and C+."
+        text: "Yes. You can enter letter grades, percentage grades, or direct point values."
       }
     },
     {
       "@type": "Question",
-      name: "Does this GPA calculator support AP and honors classes?",
+      name: "Can I include prior GPA?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. You can choose Regular, Honors, or AP/IB for each course and select a weighting system to estimate a weighted GPA."
+        text: "Yes. Enter prior GPA and completed credits to estimate cumulative GPA after current courses."
       }
     }
   ]
@@ -34,219 +36,113 @@ const faqSchema = {
 ---
 
 <ToolLayout
-  title="GPA Calculator (Weighted, AP, Honors, Plus/Minus Grades)"
-  description="Use this free GPA calculator to calculate unweighted and weighted GPA with AP, honors, and plus/minus grades."
+  title="GPA Calculator | Letter, Percentage, Credit, and Weighted GPA"
+  description="Calculate GPA by course credits using letter grades, percentages, or point values. Add semesters, prior GPA, weighted courses, and GPA planning."
   slug="/gpa-calculator"
   heroTitle="GPA Calculator"
-  heroText="Calculate your GPA quickly using course credits, plus/minus letter grades, and course levels like Regular, Honors, and AP/IB."
+  heroText="Calculate GPA by course credits using letter grades, percentages, point values, semesters, prior GPA, and weighted course levels."
   faqSchema={faqSchema}
 >
-  <div class="card">
-    <p>
-      This GPA calculator helps students estimate both
-      <strong> unweighted GPA </strong> and
-      <strong> weighted GPA </strong>.
-      You can enter course credits, use plus/minus grades like A- or B+, and
-      account for course rigor with Regular, Honors, and AP/IB classes.
-    </p>
-    <p class="muted" style="margin-top: 0.75rem;">
-      GPA scales vary by school and district. Use the preset weighting systems
-      below or choose a custom option if your school uses a different scale.
-    </p>
-  </div>
+  <OcrImport />
 
   <div class="grid">
     <section class="card">
       <h2>Enter your courses</h2>
 
-      <div class="row" style="grid-template-columns: fit-content(28rem); margin-bottom: 1rem;">
+      <div class="gpa-option-row">
+        <div>
+          <label for="grade-format">Grade format</label>
+          <select id="grade-format">
+            <option value="letter" selected>Letter grade</option>
+            <option value="percent">Percentage</option>
+            <option value="points">Point value</option>
+          </select>
+        </div>
         <div>
           <label for="weighting-system">Weighting system</label>
-          <select id="weighting-system" style="min-width: 27rem; max-width: 100%;">
-            <option value="standard" selected>Standard: Honors +0.5, AP / IB +1.0</option>
-            <option value="aggressive">Aggressive: Honors +1.0, AP / IB +2.0</option>
+          <select id="weighting-system">
+            <option value="standard" selected>Standard: Honors +0.5, AP / IB / College +1.0</option>
             <option value="unweighted">Unweighted only</option>
             <option value="custom">Custom weighting</option>
           </select>
         </div>
-      </div>
-
-      <div class="card" style="margin-bottom: 1rem; background:#f9fafb;">
-        <h3 style="margin-top:0;">Common GPA scales</h3>
-
-        <p class="muted" style="margin: 0 0 0.75rem;">
-          Schools use different weighting systems. Match the wording from your
-          transcript, counseling office, or school handbook.
-        </p>
-
-        <ul style="margin-top: 0.25rem;">
-          <li>
-            <strong>Standard:</strong> Honors +0.5, AP / IB +1.0
-            <br />
-            <span class="muted">Most common in high schools</span>
-          </li>
-
-          <li style="margin-top: 0.5rem;">
-            <strong>Aggressive:</strong> Honors +1.0, AP / IB +2.0
-            <br />
-            <span class="muted">Used by some competitive schools</span>
-          </li>
-
-          <li style="margin-top: 0.5rem;">
-            <strong>Unweighted:</strong> No extra points
-            <br />
-            <span class="muted">Most common for college GPA and standardized comparisons</span>
-          </li>
-
-          <li style="margin-top: 0.5rem;">
-            <strong>Custom:</strong> Enter your own values
-            <br />
-            <span class="muted">Best if your school uses a unique system</span>
-          </li>
-        </ul>
+        <div>
+          <label for="weighted-cap">Weighted cap</label>
+          <input id="weighted-cap" class="compact-input" type="number" min="4" step="0.1" value="5.0" />
+        </div>
       </div>
 
       <div id="custom-weighting-box" class="card" style="margin-bottom: 1rem; display: none;">
         <h3 style="margin-top: 0;">Custom weighting</h3>
-        <div class="row">
+        <div class="gpa-compact-row">
           <div>
             <label for="custom-honors">Honors boost</label>
-            <input id="custom-honors" type="number" min="0" step="0.1" value="0.5" />
+            <input id="custom-honors" class="compact-input" type="number" min="0" step="0.1" value="0.5" />
           </div>
           <div>
-            <label for="custom-ap">AP / IB boost</label>
-            <input id="custom-ap" type="number" min="0" step="0.1" value="1.0" />
+            <label for="custom-advanced">AP / IB / College boost</label>
+            <input id="custom-advanced" class="compact-input" type="number" min="0" step="0.1" value="1.0" />
           </div>
         </div>
       </div>
 
-      <div id="course-list">
-        <div class="row course-row">
-          <div>
-            <label for="course-1">Course</label>
-            <input id="course-1" class="course-name" type="text" placeholder="Algebra II" />
-          </div>
-          <div>
-            <label for="credits-1">Credits</label>
-            <input id="credits-1" class="course-credits" type="number" min="0" step="any" placeholder="1" />
-          </div>
-          <div>
-            <label for="grade-1">Letter grade</label>
-            <select id="grade-1" class="course-grade">
-              <option value="4.0">A+</option>
-              <option value="4.0">A</option>
-              <option value="3.7">A-</option>
-              <option value="3.3">B+</option>
-              <option value="3.0">B</option>
-              <option value="2.7">B-</option>
-              <option value="2.3">C+</option>
-              <option value="2.0">C</option>
-              <option value="1.7">C-</option>
-              <option value="1.3">D+</option>
-              <option value="1.0">D</option>
-              <option value="0.7">D-</option>
-              <option value="0.0">F</option>
-            </select>
-          </div>
-          <div>
-            <label for="level-1">Course level</label>
-            <select id="level-1" class="course-level">
-              <option value="regular">Regular</option>
-              <option value="honors">Honors</option>
-              <option value="ap">AP / IB</option>
-            </select>
-          </div>
-          <div style="align-self:end;">
-            <button type="button" class="btn-danger remove-row">Remove</button>
-          </div>
-        </div>
+      <label style="display:flex; gap:0.5rem; align-items:center; margin-bottom:1rem;">
+        <input id="semester-mode" type="checkbox" style="width:auto;" />
+        Group courses by semester
+      </label>
 
-        <div class="row course-row">
-          <div>
-            <label for="course-2">Course</label>
-            <input id="course-2" class="course-name" type="text" placeholder="English III" />
-          </div>
-          <div>
-            <label for="credits-2">Credits</label>
-            <input id="credits-2" class="course-credits" type="number" min="0" step="any" placeholder="1" />
-          </div>
-          <div>
-            <label for="grade-2">Letter grade</label>
-            <select id="grade-2" class="course-grade">
-              <option value="4.0">A+</option>
-              <option value="4.0">A</option>
-              <option value="3.7">A-</option>
-              <option value="3.3">B+</option>
-              <option value="3.0" selected>B</option>
-              <option value="2.7">B-</option>
-              <option value="2.3">C+</option>
-              <option value="2.0">C</option>
-              <option value="1.7">C-</option>
-              <option value="1.3">D+</option>
-              <option value="1.0">D</option>
-              <option value="0.7">D-</option>
-              <option value="0.0">F</option>
-            </select>
-          </div>
-          <div>
-            <label for="level-2">Course level</label>
-            <select id="level-2" class="course-level">
-              <option value="regular" selected>Regular</option>
-              <option value="honors">Honors</option>
-              <option value="ap">AP / IB</option>
-            </select>
-          </div>
-          <div style="align-self:end;">
-            <button type="button" class="btn-danger remove-row">Remove</button>
-          </div>
-        </div>
-
-        <div class="row course-row">
-          <div>
-            <label for="course-3">Course</label>
-            <input id="course-3" class="course-name" type="text" placeholder="AP Biology" />
-          </div>
-          <div>
-            <label for="credits-3">Credits</label>
-            <input id="credits-3" class="course-credits" type="number" min="0" step="any" placeholder="1" />
-          </div>
-          <div>
-            <label for="grade-3">Letter grade</label>
-            <select id="grade-3" class="course-grade">
-              <option value="4.0">A+</option>
-              <option value="4.0">A</option>
-              <option value="3.7">A-</option>
-              <option value="3.3">B+</option>
-              <option value="3.0">B</option>
-              <option value="2.7">B-</option>
-              <option value="2.3">C+</option>
-              <option value="2.0" selected>C</option>
-              <option value="1.7">C-</option>
-              <option value="1.3">D+</option>
-              <option value="1.0">D</option>
-              <option value="0.7">D-</option>
-              <option value="0.0">F</option>
-            </select>
-          </div>
-          <div>
-            <label for="level-3">Course level</label>
-            <select id="level-3" class="course-level">
-              <option value="regular">Regular</option>
-              <option value="honors">Honors</option>
-              <option value="ap" selected>AP / IB</option>
-            </select>
-          </div>
-          <div style="align-self:end;">
-            <button type="button" class="btn-danger remove-row">Remove</button>
-          </div>
-        </div>
-      </div>
+      <div id="semester-list"></div>
 
       <div class="actions">
         <button id="add-course" type="button" class="btn-secondary">Add course</button>
+        <button id="add-semester" type="button" class="btn-secondary">Add semester</button>
         <button id="clear-all" type="button" class="btn-secondary">Clear all</button>
+      </div>
+
+      <section class="card" style="margin-top: 1.25rem;">
+        <h2>Prior GPA</h2>
+        <p class="muted">Optional. Use this if you want a cumulative GPA estimate.</p>
+        <div class="gpa-compact-row">
+          <div>
+            <label for="prior-gpa">Prior GPA</label>
+            <input id="prior-gpa" class="compact-input" type="number" min="0" step="0.01" placeholder="3.20" />
+          </div>
+          <div>
+            <label for="prior-credits">Credits completed</label>
+            <input id="prior-credits" class="compact-input" type="number" min="0" step="any" placeholder="45" />
+          </div>
+        </div>
+      </section>
+
+      <div class="actions">
         <button id="calculate" type="button" class="btn-primary">Calculate GPA</button>
       </div>
+
+      <section class="card" style="margin-top: 1.25rem;">
+        <h2>GPA planning</h2>
+        <p class="muted">Optional. Estimate the future GPA needed to reach a cumulative target.</p>
+        <div class="gpa-planning-row">
+          <div>
+            <label for="plan-current-gpa">Current GPA</label>
+            <input id="plan-current-gpa" class="compact-input" type="number" min="0" step="0.01" placeholder="3.20" />
+          </div>
+          <div>
+            <label for="plan-target-gpa">Target GPA</label>
+            <input id="plan-target-gpa" class="compact-input" type="number" min="0" step="0.01" placeholder="3.50" />
+          </div>
+          <div>
+            <label for="plan-current-credits">Current credits</label>
+            <input id="plan-current-credits" class="compact-input" type="number" min="0" step="any" placeholder="45" />
+          </div>
+          <div>
+            <label for="plan-future-credits">Future credits</label>
+            <input id="plan-future-credits" class="compact-input" type="number" min="0" step="any" placeholder="18" />
+          </div>
+        </div>
+        <div class="actions">
+          <button id="calculate-plan" type="button" class="btn-secondary">Calculate GPA goal</button>
+        </div>
+      </section>
     </section>
 
     <aside class="result-box">
@@ -254,318 +150,442 @@ const faqSchema = {
         <h2>Your result</h2>
 
         <div class="result-main">
-          <p class="muted">Unweighted GPA</p>
-          <div id="gpa-result" class="big-result">--</div>
-
-          <div id="weighted-result-group">
-            <p class="muted" style="margin-top: 1rem;">Weighted GPA</p>
-            <div id="weighted-gpa-result" class="big-result">--</div>
-          </div>
-
+          <p class="result-label">GPA report</p>
+          <div id="term-gpa-result" class="big-result">--</div>
           <p id="summary-text">Enter your courses and click Calculate GPA.</p>
-          <p class="muted" style="margin-top: 0.75rem;" id="scale-note">
-            Weighted scale used here: Honors +0.5, AP / IB +1.0
-          </p>
-        </div>
 
-        <table class="table">
-          <tbody>
-            <tr>
-              <th>Total credits</th>
-              <td id="total-credits">--</td>
-            </tr>
-          </tbody>
-        </table>
+          <dl class="report-list">
+            <div><dt>Weighted GPA</dt><dd id="weighted-gpa-result">--</dd></div>
+            <div><dt>Total credits counted</dt><dd id="total-credits">--</dd></div>
+            <div><dt>Total grade points</dt><dd id="total-grade-points">--</dd></div>
+            <div><dt>Cumulative GPA</dt><dd id="cumulative-gpa-result">--</dd></div>
+            <div><dt>Ignored courses</dt><dd id="ignored-courses">--</dd></div>
+          </dl>
+
+          <div id="semester-report"></div>
+
+          <p class="result-label" style="margin-top:1rem;">Planning result</p>
+          <p id="planning-summary">Enter GPA planning values to estimate a future GPA target.</p>
+        </div>
       </div>
     </aside>
   </div>
 
   <section class="card" style="margin-top: 1.25rem;">
-    <h2>How to Use the GPA Calculator</h2>
-    <ol>
-      <li>Enter each course name</li>
-      <li>Enter the number of credits for each course</li>
-      <li>Select the letter grade earned in each course</li>
-      <li>Select the course level: Regular, Honors, or AP/IB</li>
-      <li>Choose your school’s weighting system or create a custom one</li>
-      <li>Click Calculate GPA to see your result</li>
-    </ol>
-  </section>
-
-  <section class="card" style="margin-top: 1.25rem;">
     <h2>How GPA Is Calculated</h2>
     <p>
       GPA is calculated by converting each course grade into grade points,
-      multiplying by credits, adding those totals together, and dividing by the
-      total number of credits.
+      multiplying by credits, adding those quality points together, and dividing
+      by total counted credits.
     </p>
-    <p>This calculator shows both:</p>
-    <ul>
-      <li><strong>Unweighted GPA</strong> based only on the letter grade</li>
-      <li><strong>Weighted GPA</strong> using extra points for more rigorous classes</li>
-    </ul>
-    <p>
-      <strong>Example:</strong> An A- in a 1-credit class is worth 3.7 grade
-      points. Under a standard AP system, an AP course with an A- becomes 4.7.
+    <p class="formula-block">GPA = Total quality points / Total credits</p>
+  </section>
+
+  <section class="card grade-scale-card" style="margin-top: 1.25rem;">
+    <h2>Grade scale used</h2>
+    <p class="muted">
+      Letter mode uses A+ = 4.3, A = 4.0, A- = 3.7, down to F = 0.
+      P, NP, I, and W are ignored in GPA totals.
+    </p>
+    <p class="muted">
+      Percentage mode uses 90-100 = A, 80-89 = B, 70-79 = C, 60-69 = D,
+      and below 60 = F. Weighted courses add the selected course boost.
     </p>
   </section>
+
+  <ToolCTA
+    title="Understand GPA with Credits"
+    text="Read the GPA guide for a plain-English explanation of credits, grade points, quality points, and weighted GPA."
+    links={[
+      { href: "/guides/how-to-calculate-gpa-with-credits/", label: "Read GPA Guide" },
+      { href: "/guides/how-to-raise-your-gpa/", label: "Plan GPA Goal" }
+    ]}
+  />
 
   <section class="card" style="margin-top: 1.25rem;">
     <h2>Frequently Asked Questions</h2>
 
     <div class="faq-item">
-      <h3>How do I calculate GPA?</h3>
-      <p>
-        Multiply each course's grade points by its credits, add those values,
-        and divide by total credits.
-      </p>
+      <h3>Can I use letter grades, percentages, or points?</h3>
+      <p>Yes. Choose the grade format that matches the information you have.</p>
     </div>
 
     <div class="faq-item">
-      <h3>Does this support plus and minus grades?</h3>
-      <p>
-        Yes. This calculator supports grades like A-, B+, C+, and D-.
-      </p>
+      <h3>What happens to P, NP, I, or W grades?</h3>
+      <p>Those grades are ignored in GPA totals because they usually do not carry grade points.</p>
     </div>
 
     <div class="faq-item">
-      <h3>Does this support AP and honors classes?</h3>
-      <p>
-        Yes. You can choose Regular, Honors, or AP/IB for each course and apply
-        a school-style weighting system.
-      </p>
+      <h3>Does this support weighted GPA?</h3>
+      <p>Yes. You can mark courses as Regular, Honors, or AP / IB / College and choose the weighting boost.</p>
     </div>
 
     <div class="faq-item">
-      <h3>Do all schools use the same weighted GPA scale?</h3>
-      <p>
-        No. Schools vary. Some use Honors +0.5 and AP +1.0, while others use
-        larger boosts. That is why this calculator includes multiple systems and
-        a custom option.
-      </p>
+      <h3>Can I calculate cumulative GPA?</h3>
+      <p>Yes. Enter prior GPA and completed credits, then calculate current courses.</p>
     </div>
   </section>
 
   <script>
-    let courseCount = 3;
+    const gradePoints = {
+      "A+": 4.3, A: 4.0, "A-": 3.7,
+      "B+": 3.3, B: 3.0, "B-": 2.7,
+      "C+": 2.3, C: 2.0, "C-": 1.7,
+      "D+": 1.3, D: 1.0, "D-": 0.7,
+      F: 0
+    };
+    const ignoredGrades = new Set(["P", "NP", "I", "W"]);
 
-    const courseList = document.getElementById("course-list");
-    const addCourseButton = document.getElementById("add-course");
-    const clearAllButton = document.getElementById("clear-all");
-    const calculateButton = document.getElementById("calculate");
-    const weightingSystemSelect = document.getElementById("weighting-system");
+    const semesterList = document.getElementById("semester-list");
+    const gradeFormat = document.getElementById("grade-format");
+    const weightingSystem = document.getElementById("weighting-system");
     const customWeightingBox = document.getElementById("custom-weighting-box");
-    const customHonorsInput = document.getElementById("custom-honors");
-    const customApInput = document.getElementById("custom-ap");
-
-    const gpaResult = document.getElementById("gpa-result");
+    const semesterMode = document.getElementById("semester-mode");
+    const weightedCap = document.getElementById("weighted-cap");
+    const customHonors = document.getElementById("custom-honors");
+    const customAdvanced = document.getElementById("custom-advanced");
+    const termGpaResult = document.getElementById("term-gpa-result");
     const weightedGpaResult = document.getElementById("weighted-gpa-result");
-    const weightedResultGroup = document.getElementById("weighted-result-group");
-    const summaryText = document.getElementById("summary-text");
     const totalCreditsCell = document.getElementById("total-credits");
-    const scaleNote = document.getElementById("scale-note");
+    const totalGradePointsCell = document.getElementById("total-grade-points");
+    const cumulativeGpaResult = document.getElementById("cumulative-gpa-result");
+    const ignoredCoursesCell = document.getElementById("ignored-courses");
+    const summaryText = document.getElementById("summary-text");
+    const semesterReport = document.getElementById("semester-report");
+    const planningSummary = document.getElementById("planning-summary");
 
-    function getLevelBoost(level, system) {
-      if (system === "unweighted") return 0;
+    let semesterCount = 0;
+    let courseCount = 0;
 
-      if (system === "standard") {
-        if (level === "honors") return 0.5;
-        if (level === "ap") return 1.0;
-        return 0;
-      }
+    function fmt(value, digits = 2) {
+      if (!Number.isFinite(value)) return "--";
+      return value.toFixed(digits).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1");
+    }
 
-      if (system === "aggressive") {
-        if (level === "honors") return 1.0;
-        if (level === "ap") return 2.0;
-        return 0;
-      }
-
-      if (system === "custom") {
-        const customHonors = parseFloat(customHonorsInput?.value);
-        const customAp = parseFloat(customApInput?.value);
-
-        if (level === "honors") return Number.isNaN(customHonors) ? 0 : customHonors;
-        if (level === "ap") return Number.isNaN(customAp) ? 0 : customAp;
-        return 0;
-      }
-
+    function percentToPoints(value) {
+      if (value >= 90) return 4.0;
+      if (value >= 80) return 3.0;
+      if (value >= 70) return 2.0;
+      if (value >= 60) return 1.0;
       return 0;
     }
 
-    function updateScaleNote() {
-      const system = weightingSystemSelect?.value;
-
-      if (system === "aggressive") {
-        scaleNote.textContent = "Weighted scale used here: Honors +1.0, AP / IB +2.0";
-        customWeightingBox.style.display = "none";
-      } else if (system === "unweighted") {
-        scaleNote.textContent = "Weighted scale used here: Unweighted only (no extra points)";
-        customWeightingBox.style.display = "none";
-      } else if (system === "custom") {
-        const customHonors = parseFloat(customHonorsInput?.value);
-        const customAp = parseFloat(customApInput?.value);
-        const honorsText = Number.isNaN(customHonors) ? "0" : customHonors.toFixed(1).replace(/\.0$/, "");
-        const apText = Number.isNaN(customAp) ? "0" : customAp.toFixed(1).replace(/\.0$/, "");
-        scaleNote.textContent = `Weighted scale used here: Honors +${honorsText}, AP / IB +${apText}`;
-        customWeightingBox.style.display = "block";
-      } else {
-        scaleNote.textContent = "Weighted scale used here: Honors +0.5, AP / IB +1.0";
-        customWeightingBox.style.display = "none";
+    function getBoost(level) {
+      if (weightingSystem.value === "unweighted") return 0;
+      if (level === "honors") {
+        return weightingSystem.value === "custom" ? Number(customHonors.value) || 0 : 0.5;
       }
+      if (level === "advanced") {
+        return weightingSystem.value === "custom" ? Number(customAdvanced.value) || 0 : 1.0;
+      }
+      return 0;
     }
 
-    function createCourseRow(index) {
+    function gradeControl(index) {
+      if (gradeFormat.value === "percent") {
+        return `<input id="grade-${index}" class="course-grade compact-input" type="number" min="0" max="100" step="any" placeholder="92" aria-describedby="grade-${index}-error" />`;
+      }
+      if (gradeFormat.value === "points") {
+        return `<input id="grade-${index}" class="course-grade compact-input" type="number" min="0" step="0.01" placeholder="4.0" aria-describedby="grade-${index}-error" />`;
+      }
+      return `
+        <select id="grade-${index}" class="course-grade compact-input" aria-describedby="grade-${index}-error">
+          <option value="">Select</option>
+          <option>A+</option><option>A</option><option>A-</option>
+          <option>B+</option><option>B</option><option>B-</option>
+          <option>C+</option><option>C</option><option>C-</option>
+          <option>D+</option><option>D</option><option>D-</option>
+          <option>F</option><option>P</option><option>NP</option><option>I</option><option>W</option>
+        </select>
+      `;
+    }
+
+    function createCourseRow() {
+      courseCount += 1;
       const row = document.createElement("div");
       row.className = "row course-row";
-
+      row.dataset.courseRow = "true";
       row.innerHTML = `
         <div>
-          <label for="course-${index}">Course</label>
-          <input id="course-${index}" class="course-name" type="text" placeholder="History" />
+          <label for="course-${courseCount}">Course</label>
+          <input id="course-${courseCount}" class="course-name medium-input" type="text" placeholder="English" />
         </div>
         <div>
-          <label for="credits-${index}">Credits</label>
-          <input id="credits-${index}" class="course-credits" type="number" min="0" step="any" placeholder="1" />
+          <label for="credits-${courseCount}">Credits</label>
+          <input id="credits-${courseCount}" class="course-credits compact-input" type="number" min="0" step="any" placeholder="3" aria-describedby="credits-${courseCount}-error" />
+          <span id="credits-${courseCount}-error" class="field-error">Please enter credits.</span>
         </div>
         <div>
-          <label for="grade-${index}">Letter grade</label>
-          <select id="grade-${index}" class="course-grade">
-            <option value="4.0">A+</option>
-            <option value="4.0">A</option>
-            <option value="3.7">A-</option>
-            <option value="3.3">B+</option>
-            <option value="3.0">B</option>
-            <option value="2.7">B-</option>
-            <option value="2.3">C+</option>
-            <option value="2.0">C</option>
-            <option value="1.7">C-</option>
-            <option value="1.3">D+</option>
-            <option value="1.0">D</option>
-            <option value="0.7">D-</option>
-            <option value="0.0">F</option>
-          </select>
+          <label for="grade-${courseCount}">Grade</label>
+          ${gradeControl(courseCount)}
+          <span id="grade-${courseCount}-error" class="field-error">Please enter a grade.</span>
         </div>
         <div>
-          <label for="level-${index}">Course level</label>
-          <select id="level-${index}" class="course-level">
+          <label for="level-${courseCount}">Course level</label>
+          <select id="level-${courseCount}" class="course-level medium-input">
             <option value="regular">Regular</option>
             <option value="honors">Honors</option>
-            <option value="ap">AP / IB</option>
+            <option value="advanced">AP / IB / College</option>
           </select>
         </div>
         <div style="align-self:end;">
           <button type="button" class="btn-danger remove-row">Remove</button>
         </div>
       `;
-
       return row;
     }
 
-    function addCourse() {
-      courseCount += 1;
-      courseList?.appendChild(createCourseRow(courseCount));
+    function createSemester() {
+      semesterCount += 1;
+      const section = document.createElement("section");
+      section.className = "semester-card";
+      section.dataset.semester = String(semesterCount);
+      section.innerHTML = `
+        <div class="semester-header">
+          <h3>Semester ${semesterCount}</h3>
+          <button type="button" class="btn-danger remove-semester">Remove semester</button>
+        </div>
+        <div class="semester-courses"></div>
+      `;
+      const courses = section.querySelector(".semester-courses");
+      courses.appendChild(createCourseRow());
+      return section;
     }
 
-    function clearAllCourses() {
-      if (!courseList) return;
+    function resetCourses() {
+      semesterList.innerHTML = "";
+      semesterCount = 0;
+      courseCount = 0;
+      const semester = createSemester();
+      semester.querySelector(".remove-semester").style.display = "none";
+      semesterList.appendChild(semester);
+      updateSemesterLabels();
+      clearResults();
+    }
 
-      courseList.innerHTML = "";
-      courseCount = 1;
-      courseList.appendChild(createCourseRow(1));
-
-      gpaResult.textContent = "--";
+    function clearResults() {
+      termGpaResult.textContent = "--";
       weightedGpaResult.textContent = "--";
-      weightedResultGroup.style.display = "block";
-      scaleNote.style.display = "block";
-      summaryText.textContent = "Enter your courses and click Calculate GPA.";
       totalCreditsCell.textContent = "--";
+      totalGradePointsCell.textContent = "--";
+      cumulativeGpaResult.textContent = "--";
+      ignoredCoursesCell.textContent = "--";
+      semesterReport.innerHTML = "";
+      summaryText.textContent = "Enter your courses and click Calculate GPA.";
     }
 
-    function calculateGPA() {
-      const creditInputs = document.querySelectorAll(".course-credits");
-      const gradeInputs = document.querySelectorAll(".course-grade");
-      const levelInputs = document.querySelectorAll(".course-level");
-      const system = weightingSystemSelect?.value || "standard";
+    function updateSemesterLabels() {
+      document.querySelectorAll(".semester-card").forEach((card, index) => {
+        card.querySelector("h3").textContent = semesterMode.checked ? `Semester ${index + 1}` : "Current courses";
+        card.querySelector(".remove-semester").style.display = semesterMode.checked && index > 0 ? "inline-block" : "none";
+      });
+      document.getElementById("add-semester").style.display = semesterMode.checked ? "inline-block" : "none";
+    }
 
-      let totalUnweightedQualityPoints = 0;
-      let totalWeightedQualityPoints = 0;
-      let totalCredits = 0;
+    function setError(input, show) {
+      const field = input.closest("div");
+      const error = field?.querySelector(".field-error");
+      field?.classList.toggle("has-error", show);
+      error?.classList.toggle("is-visible", show);
+    }
 
-      for (let i = 0; i < creditInputs.length; i++) {
-        const credits = parseFloat(creditInputs[i].value);
-        const gradePoints = parseFloat(gradeInputs[i].value);
-        const courseLevel = levelInputs[i].value;
-        const levelBoost = getLevelBoost(courseLevel, system);
+    function clearFieldErrors() {
+      document.querySelectorAll(".has-error").forEach((el) => el.classList.remove("has-error"));
+      document.querySelectorAll(".field-error").forEach((el) => el.classList.remove("is-visible"));
+    }
 
-        if (
-          !Number.isNaN(credits) &&
-          credits > 0 &&
-          !Number.isNaN(gradePoints)
-        ) {
-          totalUnweightedQualityPoints += credits * gradePoints;
-          totalWeightedQualityPoints += credits * (gradePoints + levelBoost);
-          totalCredits += credits;
+    function readCourse(row) {
+      const creditsInput = row.querySelector(".course-credits");
+      const gradeInput = row.querySelector(".course-grade");
+      const levelInput = row.querySelector(".course-level");
+      const credits = Number(creditsInput.value);
+      let valid = true;
+
+      if (!Number.isFinite(credits) || credits <= 0) {
+        setError(creditsInput, true);
+        valid = false;
+      }
+
+      let points = null;
+      let ignored = false;
+      const rawGrade = gradeInput.value;
+
+      if (!rawGrade) {
+        setError(gradeInput, true);
+        valid = false;
+      } else if (gradeFormat.value === "letter") {
+        if (ignoredGrades.has(rawGrade)) {
+          ignored = true;
+        } else {
+          points = gradePoints[rawGrade];
+        }
+      } else if (gradeFormat.value === "percent") {
+        const percent = Number(rawGrade);
+        if (!Number.isFinite(percent) || percent < 0 || percent > 100) {
+          setError(gradeInput, true);
+          valid = false;
+        } else {
+          points = percentToPoints(percent);
+        }
+      } else {
+        const directPoints = Number(rawGrade);
+        if (!Number.isFinite(directPoints) || directPoints < 0) {
+          setError(gradeInput, true);
+          valid = false;
+        } else {
+          points = directPoints;
         }
       }
 
-      if (totalCredits === 0) {
-        gpaResult.textContent = "--";
-        weightedGpaResult.textContent = "--";
-        weightedResultGroup.style.display = "block";
-        scaleNote.style.display = "block";
-        summaryText.textContent = "Please enter at least one valid course and credit value.";
-        totalCreditsCell.textContent = "--";
+      if (!valid) return { valid: false };
+      if (ignored) return { valid: true, ignored: true, credits: 0, points: 0, weightedPoints: 0 };
+
+      const cap = Number(weightedCap.value) || 5;
+      const weightedPoints = Math.min(points + getBoost(levelInput.value), cap);
+      return { valid: true, ignored: false, credits, points, weightedPoints };
+    }
+
+    function calculateSemester(card) {
+      let credits = 0;
+      let points = 0;
+      let weightedPoints = 0;
+      let ignored = 0;
+      let validRows = 0;
+
+      card.querySelectorAll("[data-course-row]").forEach((row) => {
+        const result = readCourse(row);
+        if (!result.valid) return;
+        if (result.ignored) {
+          ignored += 1;
+          return;
+        }
+        credits += result.credits;
+        points += result.credits * result.points;
+        weightedPoints += result.credits * result.weightedPoints;
+        validRows += 1;
+      });
+
+      return { credits, points, weightedPoints, ignored, validRows };
+    }
+
+    function calculateGpa() {
+      clearFieldErrors();
+      let totalCredits = 0;
+      let totalPoints = 0;
+      let totalWeightedPoints = 0;
+      let totalIgnored = 0;
+      let totalRows = 0;
+      const semesterLines = [];
+
+      document.querySelectorAll(".semester-card").forEach((card, index) => {
+        const result = calculateSemester(card);
+        totalCredits += result.credits;
+        totalPoints += result.points;
+        totalWeightedPoints += result.weightedPoints;
+        totalIgnored += result.ignored;
+        totalRows += result.validRows;
+
+        if (semesterMode.checked && result.credits > 0) {
+          semesterLines.push(`Semester ${index + 1}: ${fmt(result.points / result.credits)} GPA across ${fmt(result.credits)} credits`);
+        }
+      });
+
+      if (totalCredits <= 0 || totalRows === 0) {
+        clearResults();
+        summaryText.textContent = "Please enter at least one course with credits and a GPA-counted grade.";
+        ignoredCoursesCell.textContent = totalIgnored ? String(totalIgnored) : "--";
         return;
       }
 
-      const unweightedGpa = totalUnweightedQualityPoints / totalCredits;
-      const weightedGpa = totalWeightedQualityPoints / totalCredits;
+      const termGpa = totalPoints / totalCredits;
+      const weightedGpa = totalWeightedPoints / totalCredits;
+      termGpaResult.textContent = fmt(termGpa);
+      weightedGpaResult.textContent = fmt(weightedGpa);
+      totalCreditsCell.textContent = fmt(totalCredits);
+      totalGradePointsCell.textContent = fmt(totalPoints);
+      ignoredCoursesCell.textContent = totalIgnored ? String(totalIgnored) : "0";
 
-      const roundedUnweighted = unweightedGpa.toFixed(2);
-      const roundedWeighted = weightedGpa.toFixed(2);
-      const hasWeightedDifference = roundedUnweighted !== roundedWeighted;
-
-      gpaResult.textContent = roundedUnweighted;
-      weightedGpaResult.textContent = roundedWeighted;
-
-      if (hasWeightedDifference) {
-        weightedResultGroup.style.display = "block";
-        scaleNote.style.display = "block";
-        summaryText.textContent = `Your unweighted GPA is ${roundedUnweighted}, and your weighted GPA is ${roundedWeighted}.`;
+      const priorGpa = Number(document.getElementById("prior-gpa").value);
+      const priorCredits = Number(document.getElementById("prior-credits").value);
+      if (Number.isFinite(priorGpa) && Number.isFinite(priorCredits) && priorCredits > 0) {
+        const cumulative = ((priorGpa * priorCredits) + totalPoints) / (priorCredits + totalCredits);
+        cumulativeGpaResult.textContent = fmt(cumulative);
+        summaryText.textContent = `Your term GPA is ${fmt(termGpa)} across ${fmt(totalCredits)} credits. Your cumulative GPA is ${fmt(cumulative)} after including prior coursework.`;
       } else {
-        weightedResultGroup.style.display = "none";
-        scaleNote.style.display = "none";
-
-        if (system === "unweighted") {
-          summaryText.textContent = `Your GPA is ${roundedUnweighted}. Weighted GPA is hidden because the unweighted-only scale is selected.`;
-        } else {
-          summaryText.textContent = `Your GPA is ${roundedUnweighted}. No honors or AP weighting changed the result based on the courses entered.`;
-        }
+        cumulativeGpaResult.textContent = "--";
+        summaryText.textContent = `Your term GPA is ${fmt(termGpa)} across ${fmt(totalCredits)} credits. Your weighted GPA is ${fmt(weightedGpa)} because weighted courses can add extra grade points.`;
       }
 
-      totalCreditsCell.textContent = totalCredits.toFixed(1).replace(/\.0$/, "");
+      semesterReport.innerHTML = semesterLines.length
+        ? `<p class="result-label" style="margin-top:1rem;">Semester GPA</p><ul>${semesterLines.map((line) => `<li>${line}</li>`).join("")}</ul>`
+        : "";
     }
 
-    addCourseButton?.addEventListener("click", addCourse);
-    clearAllButton?.addEventListener("click", clearAllCourses);
-    calculateButton?.addEventListener("click", calculateGPA);
-    weightingSystemSelect?.addEventListener("change", updateScaleNote);
-    customHonorsInput?.addEventListener("input", updateScaleNote);
-    customApInput?.addEventListener("input", updateScaleNote);
+    function calculatePlan() {
+      const currentGpa = Number(document.getElementById("plan-current-gpa").value);
+      const targetGpa = Number(document.getElementById("plan-target-gpa").value);
+      const currentCredits = Number(document.getElementById("plan-current-credits").value);
+      const futureCredits = Number(document.getElementById("plan-future-credits").value);
+      const cap = Number(weightedCap.value) || 4.0;
 
-    courseList?.addEventListener("click", (event) => {
+      if (![currentGpa, targetGpa, currentCredits, futureCredits].every(Number.isFinite) || futureCredits <= 0 || currentCredits < 0) {
+        planningSummary.textContent = "Please enter current GPA, target GPA, current credits, and future credits. Future credits must be greater than 0.";
+        return;
+      }
+
+      const required = ((targetGpa * (currentCredits + futureCredits)) - (currentGpa * currentCredits)) / futureCredits;
+      if (required < 0) {
+        planningSummary.textContent = "Your target is already secured based on these values.";
+      } else if (required > cap) {
+        planningSummary.textContent = `You need about a ${fmt(required)} GPA across the next ${fmt(futureCredits)} credits. That is above the selected ${fmt(cap, 1)} cap, so the target may not be possible without weighted courses or extra credits.`;
+      } else {
+        planningSummary.textContent = `To reach a ${fmt(targetGpa)} cumulative GPA, you need about a ${fmt(required)} GPA across your next ${fmt(futureCredits)} credits.`;
+      }
+    }
+
+    document.getElementById("add-course")?.addEventListener("click", () => {
+      const lastSemester = document.querySelector(".semester-card:last-child .semester-courses");
+      lastSemester?.appendChild(createCourseRow());
+      clearResults();
+    });
+
+    document.getElementById("add-semester")?.addEventListener("click", () => {
+      semesterList.appendChild(createSemester());
+      updateSemesterLabels();
+      clearResults();
+    });
+
+    document.getElementById("clear-all")?.addEventListener("click", resetCourses);
+    document.getElementById("calculate")?.addEventListener("click", calculateGpa);
+    document.getElementById("calculate-plan")?.addEventListener("click", calculatePlan);
+
+    semesterList?.addEventListener("click", (event) => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
-
       if (target.classList.contains("remove-row")) {
-        const rows = document.querySelectorAll(".course-row");
-        if (rows.length <= 1) return;
+        const rows = document.querySelectorAll("[data-course-row]");
+        if (rows.length > 1) target.closest("[data-course-row]")?.remove();
+      }
+      if (target.classList.contains("remove-semester")) {
+        target.closest(".semester-card")?.remove();
+        updateSemesterLabels();
+      }
+      clearResults();
+    });
 
-        const row = target.closest(".course-row");
-        row?.remove();
+    document.addEventListener("input", (event) => {
+      const target = event.target;
+      if (target instanceof HTMLInputElement || target instanceof HTMLSelectElement) {
+        setError(target, false);
       }
     });
 
-    updateScaleNote();
+    gradeFormat?.addEventListener("change", resetCourses);
+    semesterMode?.addEventListener("change", updateSemesterLabels);
+    weightingSystem?.addEventListener("change", () => {
+      customWeightingBox.style.display = weightingSystem.value === "custom" ? "block" : "none";
+    });
+
+    resetCourses();
   </script>
 </ToolLayout>

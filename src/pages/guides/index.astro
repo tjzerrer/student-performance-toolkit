@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import { guides } from "../../data/guides";
+import { tools } from "../../data/tools";
+import { site } from "../../data/site";
+
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Grade Guides",
+  url: `${site.url}/guides/`,
+  description: "Practical guides for calculating grades, planning finals, understanding GPA, and using weighted grade tools.",
+};
+---
+
+<BaseLayout
+  title="Grade Guides | Grade Planning and GPA Help"
+  description="Practical student guides for calculating grades, planning finals, understanding weighted grades, and raising GPA."
+>
+  <Fragment slot="head">
+    <JsonLd data={collectionSchema} />
+  </Fragment>
+
+  <section class="hero-card">
+    <div class="hero">
+      <p class="hero-eyebrow">Grade guides</p>
+      <h1>Learn the math behind your grades</h1>
+      <p class="hero-copy">
+        Short, practical guides for calculating grades, planning finals,
+        understanding GPA, and using each calculator with more confidence.
+      </p>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">Guides</p>
+        <h2>Start with the question you have</h2>
+      </div>
+      <p class="muted">Each guide links back to a calculator.</p>
+    </div>
+
+    <div class="resource-grid">
+      {guides.map((guide) => (
+        <a class="resource-link" href={guide.href}>
+          <strong>{guide.title}</strong>
+          <span>{guide.description}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">Calculators</p>
+        <h2>Use a tool when you are ready</h2>
+      </div>
+      <p class="muted">Fast grade, final, weighted grade, and GPA calculators.</p>
+    </div>
+
+    <div class="resource-grid">
+      {tools.map((tool) => (
+        <a class="resource-link" href={tool.href}>
+          <strong>{tool.title}</strong>
+          <span>{tool.description}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,48 @@
+---
+import GuideLayout from "../../layouts/GuideLayout.astro";
+import ToolCTA from "../../components/ToolCTA.astro";
+---
+
+<GuideLayout
+  title="What Grade Do I Need on My Final?"
+  description="Learn how current grade, desired grade, and final exam weight determine the score you need on your final."
+  slug="/guides/what-grade-do-i-need-on-my-final"
+  heroTitle="What Grade Do I Need on My Final?"
+  heroText="Plan your finals target using your current grade, desired grade, and final exam weight."
+>
+  <div class="guide-body">
+    <section class="card">
+      <h2>Final exam planning starts with three numbers</h2>
+      <p>You need your current class grade, the overall grade you want, and the percentage weight of the final exam.</p>
+      <p>The calculator solves for the missing final exam score and tells you whether the target is realistic.</p>
+    </section>
+
+    <section class="card">
+      <h2>Method</h2>
+      <p class="formula-block">Required final = (Target grade - Current grade x Current work weight) / Final weight</p>
+      <p><strong>Example:</strong> If you have an 85%, want a 90%, and the final is worth 20%, you need 110% on the final. That target may require extra credit.</p>
+    </section>
+
+    <ToolCTA
+      title="Plan Your Final Exam"
+      text="Use the Final Exam Calculator to find out what score you need on the final to reach your target grade."
+      links={[{ href: "/final-exam-calculator/", label: "Use Final Exam Calculator" }]}
+    />
+
+    <section class="card">
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Entering the final exam weight as a decimal instead of a percent.</li>
+        <li>Forgetting that a target above 100% may not be possible without extra credit.</li>
+        <li>Using a current grade before the gradebook is fully updated.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>FAQ</h2>
+      <div class="faq-item"><h3>What if I need more than 100%?</h3><p>Your target may not be possible unless extra credit or another grade change is available.</p></div>
+      <div class="faq-item"><h3>What if I need less than 0%?</h3><p>You have already secured the target based on the numbers entered.</p></div>
+      <div class="faq-item"><h3>Can this help me pass?</h3><p>Yes. For passing scenarios, also read <a href="/guides/can-i-still-pass-this-class/">Can I Still Pass This Class?</a></p></div>
+    </section>
+  </div>
+</GuideLayout>

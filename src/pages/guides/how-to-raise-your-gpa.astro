@@ -1,0 +1,47 @@
+---
+import GuideLayout from "../../layouts/GuideLayout.astro";
+import ToolCTA from "../../components/ToolCTA.astro";
+---
+
+<GuideLayout
+  title="What GPA Do I Need to Raise My GPA?"
+  description="Learn how current GPA, target GPA, current credits, and future credits determine the GPA needed in future courses."
+  slug="/guides/how-to-raise-your-gpa"
+  heroTitle="What GPA Do I Need to Raise My GPA?"
+  heroText="Use current GPA, target GPA, completed credits, and future credits to plan a realistic GPA goal."
+>
+  <div class="guide-body">
+    <section class="card">
+      <h2>Raising GPA depends on credits</h2>
+      <p>The more credits you have already completed, the more future credits it takes to move your cumulative GPA.</p>
+    </section>
+
+    <section class="card">
+      <h2>Planning formula</h2>
+      <p class="formula-block">Required future GPA = (Target GPA x total credits - Current GPA x current credits) / future credits</p>
+      <p><strong>Example:</strong> If you have a 3.20 GPA across 45 credits and want a 3.50 after 15 more credits, you need about a 4.40 future GPA. That may require weighted courses or more credits.</p>
+    </section>
+
+    <ToolCTA
+      title="Plan a GPA Goal"
+      text="Use the GPA Calculator planning section to estimate what GPA you need in future courses."
+      links={[{ href: "/gpa-calculator/", label: "Use GPA Calculator" }]}
+    />
+
+    <section class="card">
+      <h2>Common mistakes</h2>
+      <ul>
+        <li>Ignoring completed credits.</li>
+        <li>Assuming one semester can always fix a cumulative GPA.</li>
+        <li>Forgetting that future credits change the math.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>FAQ</h2>
+      <div class="faq-item"><h3>Why is the required GPA so high?</h3><p>A large number of completed credits makes your cumulative GPA harder to move.</p></div>
+      <div class="faq-item"><h3>What if the required GPA is above 4.0?</h3><p>The goal may not be possible on a standard unweighted scale without more credits or weighted coursework.</p></div>
+      <div class="faq-item"><h3>Can I use this for one semester?</h3><p>Yes. Enter the current GPA, current credits, and planned future credits for that scenario.</p></div>
+    </section>
+  </div>
+</GuideLayout>

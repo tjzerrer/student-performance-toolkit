@@ -5,7 +5,9 @@ const { current } = Astro.props;
 
 const normalizeHref = (href = "") => href.replace(/\/$/, "");
 
-const filteredGuides = guides.filter((guide) => normalizeHref(guide.href) !== normalizeHref(current));
+const filteredGuides = guides
+  .filter((guide) => normalizeHref(guide.href) !== normalizeHref(current))
+  .slice(0, 4);
 ---
 
 <section class="card">
