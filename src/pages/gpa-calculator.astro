@@ -97,11 +97,12 @@ const faqSchema = {
         <button id="add-course" type="button" class="btn-secondary">Add course</button>
         <button id="add-semester" type="button" class="btn-secondary">Add semester</button>
         <button id="clear-all" type="button" class="btn-secondary">Clear all</button>
+        <button type="button" class="btn-primary" data-calculate-gpa>Calculate GPA</button>
       </div>
 
       <section class="card" style="margin-top: 1.25rem;">
         <h2>Prior GPA</h2>
-        <p class="muted">Optional. Use this if you want a cumulative GPA estimate.</p>
+        <p class="muted">Optional. Skip this section if you only want your current GPA. Add it if you want a cumulative GPA estimate.</p>
         <div class="gpa-compact-row">
           <div>
             <label for="prior-gpa">Prior GPA</label>
@@ -112,10 +113,13 @@ const faqSchema = {
             <input id="prior-credits" class="compact-input" type="number" min="0" step="any" placeholder="45" />
           </div>
         </div>
+        <div class="actions">
+          <button type="button" class="btn-secondary" data-calculate-gpa>Include prior GPA</button>
+        </div>
       </section>
 
       <div class="actions">
-        <button id="calculate" type="button" class="btn-primary">Calculate GPA</button>
+        <button type="button" class="btn-primary" data-calculate-gpa>Calculate GPA</button>
       </div>
 
       <section class="card" style="margin-top: 1.25rem;">
@@ -151,7 +155,19 @@ const faqSchema = {
 
         <div class="result-main">
           <p class="result-label">GPA report</p>
-          <div id="term-gpa-result" class="big-result">--</div>
+          <div
+            class="gpa-result-hero"
+            style="display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; align-items:start; margin-bottom:0.5rem;"
+          >
+            <div>
+              <div id="term-gpa-result" class="big-result">--</div>
+              <p class="muted" style="margin-top:0.35rem; margin-bottom:0;">Unweighted GPA</p>
+            </div>
+            <div>
+              <div id="hero-weighted-gpa-result" class="big-result">--</div>
+              <p class="muted" style="margin-top:0.35rem; margin-bottom:0;">Weighted GPA</p>
+            </div>
+          </div>
           <p id="summary-text">Enter your courses and click Calculate GPA.</p>
 
           <dl class="report-list">
@@ -245,7 +261,9 @@ const faqSchema = {
     const weightedCap = document.getElementById("weighted-cap");
     const customHonors = document.getElementById("custom-honors");
     const customAdvanced = document.getElementById("custom-advanced");
+    const calculateButtons = document.querySelectorAll("[data-calculate-gpa]");
     const termGpaResult = document.getElementById("term-gpa-result");
+    const heroWeightedGpaResult = document.getElementById("hero-weighted-gpa-result");
     const unweightedGpaResult = document.getElementById("unweighted-gpa-result");
     const weightedGpaResult = document.getElementById("weighted-gpa-result");
     const totalCreditsCell = document.getElementById("total-credits");
@@ -367,6 +385,7 @@ const faqSchema = {
 
     function clearResults() {
       termGpaResult.textContent = "--";
+      heroWeightedGpaResult.textContent = "--";
       unweightedGpaResult.textContent = "--";
       weightedGpaResult.textContent = "--";
       totalCreditsCell.textContent = "--";
@@ -503,6 +522,7 @@ const faqSchema = {
       const termGpa = totalPoints / totalCredits;
       const weightedGpa = totalWeightedPoints / totalCredits;
       termGpaResult.textContent = fmt(termGpa);
+      heroWeightedGpaResult.textContent = fmt(weightedGpa);
       unweightedGpaResult.textContent = fmt(termGpa);
       weightedGpaResult.textContent = fmt(weightedGpa);
       totalCreditsCell.textContent = fmt(totalCredits);
@@ -560,7 +580,9 @@ const faqSchema = {
     });
 
     document.getElementById("clear-all")?.addEventListener("click", resetCourses);
-    document.getElementById("calculate")?.addEventListener("click", calculateGpa);
+    calculateButtons.forEach((button) => {
+      button.addEventListener("click", calculateGpa);
+    });
     document.getElementById("calculate-plan")?.addEventListener("click", calculatePlan);
 
     semesterList?.addEventListener("click", (event) => {
@@ -592,4 +614,12 @@ const faqSchema = {
 
     resetCourses();
   </script>
+
+  <style>
+    @media (max-width: 720px) {
+      .gpa-result-hero {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
 </ToolLayout>
