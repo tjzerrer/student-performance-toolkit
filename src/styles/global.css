@@ -407,10 +407,13 @@ li {
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: var(--accent);
-  color: white;
-  border: 1px solid rgba(10, 98, 105, 0.22);
+  background: var(--accent-strong);
+  color: #ffffff;
+  border: 1px solid rgba(10, 98, 105, 0.32);
   font-weight: 800;
+  font-size: 1rem;
+  line-height: 1;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.14);
   box-shadow: 0 8px 18px rgba(10, 98, 105, 0.16);
 }
 
