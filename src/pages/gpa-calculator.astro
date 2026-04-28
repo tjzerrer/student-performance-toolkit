@@ -155,6 +155,7 @@ const faqSchema = {
           <p id="summary-text">Enter your courses and click Calculate GPA.</p>
 
           <dl class="report-list">
+            <div><dt>Unweighted GPA</dt><dd id="unweighted-gpa-result">--</dd></div>
             <div><dt>Weighted GPA</dt><dd id="weighted-gpa-result">--</dd></div>
             <div><dt>Total credits counted</dt><dd id="total-credits">--</dd></div>
             <div><dt>Total grade points</dt><dd id="total-grade-points">--</dd></div>
@@ -245,6 +246,7 @@ const faqSchema = {
     const customHonors = document.getElementById("custom-honors");
     const customAdvanced = document.getElementById("custom-advanced");
     const termGpaResult = document.getElementById("term-gpa-result");
+    const unweightedGpaResult = document.getElementById("unweighted-gpa-result");
     const weightedGpaResult = document.getElementById("weighted-gpa-result");
     const totalCreditsCell = document.getElementById("total-credits");
     const totalGradePointsCell = document.getElementById("total-grade-points");
@@ -365,6 +367,7 @@ const faqSchema = {
 
     function clearResults() {
       termGpaResult.textContent = "--";
+      unweightedGpaResult.textContent = "--";
       weightedGpaResult.textContent = "--";
       totalCreditsCell.textContent = "--";
       totalGradePointsCell.textContent = "--";
@@ -500,6 +503,7 @@ const faqSchema = {
       const termGpa = totalPoints / totalCredits;
       const weightedGpa = totalWeightedPoints / totalCredits;
       termGpaResult.textContent = fmt(termGpa);
+      unweightedGpaResult.textContent = fmt(termGpa);
       weightedGpaResult.textContent = fmt(weightedGpa);
       totalCreditsCell.textContent = fmt(totalCredits);
       totalGradePointsCell.textContent = fmt(totalPoints);
