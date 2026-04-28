@@ -54,14 +54,23 @@ const resolvedSocialImage = new URL(socialImage, site.url).toString();
     <meta name="twitter:image" content={resolvedSocialImage} />
     <meta name="twitter:image:alt" content={socialImageAlt} />
     <slot name="head" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   </head>
 
   <body>
     <div class="page-shell">
       <header class="site-header">
         <a class="brand" href="/">
-          <span class="brand-mark" aria-hidden="true">GT</span>
+          <img
+            class="brand-mark"
+            src="/brand-mark.svg"
+            alt=""
+            aria-hidden="true"
+            width="48"
+            height="48"
+          />
           <span class="brand-copy">
             <strong>Grade Toolkit</strong>
             <small>Student calculators and grade guides</small>

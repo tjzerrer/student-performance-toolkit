@@ -108,13 +108,9 @@ img {
   width: 48px;
   height: 48px;
   border-radius: 16px;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, var(--accent), var(--accent-warm));
-  color: white;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  box-shadow: 0 14px 24px rgba(15, 139, 141, 0.24);
+  display: block;
+  object-fit: cover;
+  box-shadow: 0 14px 24px rgba(15, 139, 141, 0.2);
 }
 
 .top-nav {
