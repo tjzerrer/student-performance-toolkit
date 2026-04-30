@@ -1,5 +1,6 @@
 ---
 import ToolLayout from "../layouts/ToolLayout.astro";
+import { guideResources, toolResources } from "../data/content";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -31,6 +32,13 @@ const faqSchema = {
     }
   ]
 };
+
+const relatedItems = [
+  toolResources.weightedGradeCalculator,
+  toolResources.whatGradeDoINeedCalculator,
+  toolResources.finalExamCalculator,
+  guideResources.howToCalculateYourGrade,
+];
 ---
 
 <ToolLayout
@@ -40,6 +48,7 @@ const faqSchema = {
   heroTitle="Grade Calculator"
   heroText="Quickly calculate your grade using this simple and accurate grade calculator. Enter your assignment scores to instantly find your average."
   faqSchema={faqSchema}
+  relatedItems={relatedItems}
 >
   <div class="grid">
     <section class="card">
@@ -111,7 +120,7 @@ const faqSchema = {
     </p>
     <p>
       <strong>Example:</strong> If you earned 90 out of 100 on one assignment and
-      85 out of 100 on another, your average would be 175 ÷ 200 = 87.5%.
+      85 out of 100 on another, your average would be 175 / 200 = 87.5%.
     </p>
   </section>
 

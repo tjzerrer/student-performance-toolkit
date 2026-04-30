@@ -1,0 +1,83 @@
+---
+import GuideLayout from "../layouts/GuideLayout.astro";
+import ResourceLinks from "../components/ResourceLinks.astro";
+import {
+  guideResources,
+  homepageFeaturedTools,
+  homepagePopularQuestions,
+  toolResources,
+} from "../data/content";
+
+const relatedItems = [
+  toolResources.gradeCalculator,
+  toolResources.finalExamCalculator,
+  toolResources.gpaCalculator,
+  guideResources.howToCalculateYourGrade,
+  guideResources.whatIsAGoodGpa,
+];
+---
+
+<GuideLayout
+  title="Grade Calculators for Students, Parents, and Counselors | Grade Toolkit"
+  description="Free grade calculators for students, parents, tutors, teachers, and school counselors. Calculate current grades, final exam scores, target grades, weighted grades, and GPA."
+  slug="/grade-calculators-for-students-parents-counselors"
+  heroTitle="Grade Calculators for Students, Parents, and School Counselors"
+  heroText="Grade conversations can feel stressful when students are not sure where they stand. Grade Toolkit helps turn questions about grades, finals, GPA, and weighted categories into clear numbers students can understand."
+  relatedItems={relatedItems}
+>
+  <div class="guide-body">
+    <section class="card">
+      <h2>Who this is for</h2>
+      <div class="resource-grid">
+        <article class="resource-link">
+          <strong>Students</strong>
+          <span>Check a current grade, estimate a final exam goal, or plan the average needed on remaining work.</span>
+        </article>
+        <article class="resource-link">
+          <strong>Parents</strong>
+          <span>Help your child understand progress with clearer math and calmer conversations about what comes next.</span>
+        </article>
+        <article class="resource-link">
+          <strong>School counselors</strong>
+          <span>Support students with questions about eligibility, GPA, passing targets, and realistic academic goals.</span>
+        </article>
+        <article class="resource-link">
+          <strong>Tutors and teachers</strong>
+          <span>Show the numbers behind a recommendation so students can connect strategy to the actual gradebook.</span>
+        </article>
+      </div>
+    </section>
+
+    <ResourceLinks
+      eyebrow="Most useful tools"
+      title="Most Useful Tools"
+      intro="Start with the calculator that best matches the conversation you are having with the student."
+      items={homepageFeaturedTools}
+    />
+
+    <ResourceLinks
+      eyebrow="Common questions"
+      title="Common Grade Questions"
+      intro="Use these guides when you want the explanation behind the calculator result."
+      items={homepagePopularQuestions}
+    />
+
+    <section class="card">
+      <h2>Created by a math teacher</h2>
+      <p>
+        Grade Toolkit was created by a math teacher to help students, parents,
+        tutors, and school counselors make grade conversations clearer, calmer,
+        and more useful. The calculators are designed to show the math behind the
+        result so students can understand what the numbers mean.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Start here</h2>
+      <div class="tool-cta__actions">
+        <a class="btn-primary" href="/grade-calculator/">Start with the Grade Calculator</a>
+        <a class="btn-secondary" href="/final-exam-calculator/">Check what you need on your final exam</a>
+      </div>
+    </section>
+  </div>
+</GuideLayout>

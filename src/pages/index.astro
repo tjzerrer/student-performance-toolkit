@@ -1,9 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import JsonLd from "../components/JsonLd.astro";
+import ResourceLinks from "../components/ResourceLinks.astro";
 import { site } from "../data/site";
 import { tools } from "../data/tools";
 import { guides } from "../data/guides";
+import { guideResources, homepageFeaturedTools, homepagePopularQuestions } from "../data/content";
 
 const webSiteSchema = {
   "@context": "https://schema.org",
@@ -125,6 +127,13 @@ const collectionPageSchema = {
     </div>
   </section>
 
+  <ResourceLinks
+    eyebrow="Popular questions"
+    title="Popular Grade Questions"
+    intro="Quick answers to the grade questions students, parents, and counselors ask most often."
+    items={homepagePopularQuestions}
+  />
+
   <section class="card">
     <div class="section-heading">
       <div>
@@ -141,6 +150,32 @@ const collectionPageSchema = {
           <span>{guide.description}</span>
         </a>
       ))}
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">Built on trust</p>
+        <h2>Made for calmer grade conversations</h2>
+      </div>
+      <p class="muted">Useful for students, families, and school support teams.</p>
+    </div>
+
+    <div class="resource-grid">
+      <article class="insight-card">
+        <strong>Created by a math teacher</strong>
+        <span>
+          Grade Toolkit was created by a math teacher to help students, parents,
+          tutors, and school counselors understand grades, finals, weighted
+          averages, and GPA calculations more clearly.
+        </span>
+      </article>
+
+      <a class="resource-link" href={guideResources.counselorResourcePage.href}>
+        <strong>{guideResources.counselorResourcePage.title}</strong>
+        <span>{guideResources.counselorResourcePage.description}</span>
+      </a>
     </div>
   </section>
 

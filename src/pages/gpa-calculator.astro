@@ -2,6 +2,7 @@
 import ToolLayout from "../layouts/ToolLayout.astro";
 import ToolCTA from "../components/ToolCTA.astro";
 import OcrImport from "../components/OcrImport.astro";
+import { guideResources } from "../data/content";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -33,6 +34,13 @@ const faqSchema = {
     }
   ]
 };
+
+const relatedItems = [
+  guideResources.whatIsAGoodGpa,
+  guideResources.weightedVsUnweightedGpa,
+  guideResources.collegesWeightedOrUnweighted,
+  guideResources.howToCalculateGpaWithCredits,
+];
 ---
 
 <ToolLayout
@@ -42,6 +50,7 @@ const faqSchema = {
   heroTitle="GPA Calculator"
   heroText="Calculate GPA by course credits using letter grades, percentages, point values, semesters, prior GPA, and weighted course levels."
   faqSchema={faqSchema}
+  relatedItems={relatedItems}
 >
   <OcrImport />
 

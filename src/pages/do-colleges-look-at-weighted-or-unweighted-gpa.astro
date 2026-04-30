@@ -1,8 +1,15 @@
 ---
 import GuideLayout from "../layouts/GuideLayout.astro";
 import { site } from "../data/site";
+import { guideResources, toolResources } from "../data/content";
 
 const slug = "/do-colleges-look-at-weighted-or-unweighted-gpa";
+
+const relatedItems = [
+  toolResources.gpaCalculator,
+  guideResources.whatIsAGoodGpa,
+  guideResources.howToCalculateGpaWithCredits,
+];
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -43,6 +50,7 @@ const faqSchema = {
   heroTitle="Do Colleges Look at Weighted or Unweighted GPA?"
   heroText="If you're applying to college, you may be wondering whether weighted or unweighted GPA matters more. The answer is that colleges look at both — but they use them in different ways."
   faqSchema={faqSchema}
+  relatedItems={relatedItems}
 >
 
 <section class="card">

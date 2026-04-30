@@ -1,5 +1,6 @@
 ---
 import ToolLayout from "../layouts/ToolLayout.astro";
+import { guideResources, toolResources } from "../data/content";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -31,6 +32,13 @@ const faqSchema = {
     }
   ]
 };
+
+const relatedItems = [
+  guideResources.howWeightedGradesWork,
+  toolResources.gradeCalculator,
+  toolResources.finalExamCalculator,
+  toolResources.gpaCalculator,
+];
 ---
 
 <ToolLayout
@@ -40,6 +48,7 @@ const faqSchema = {
   heroTitle="Weighted Grade Calculator"
   heroText="Calculate your weighted grade using category averages and category weights. Enter homework, quizzes, tests, or any other class category to see your overall average instantly."
   faqSchema={faqSchema}
+  relatedItems={relatedItems}
 >
   <div class="card">
     <p>

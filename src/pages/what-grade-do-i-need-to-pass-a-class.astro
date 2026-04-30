@@ -1,5 +1,6 @@
 ---
 import GuideLayout from "../layouts/GuideLayout.astro";
+import { guideResources, toolResources } from "../data/content";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -23,58 +24,51 @@ const faqSchema = {
     }
   ]
 };
+
+const relatedItems = [
+  toolResources.whatGradeDoINeedCalculator,
+  toolResources.gradeCalculator,
+  toolResources.finalExamCalculator,
+  guideResources.isA70PassingGrade,
+];
 ---
 
 <GuideLayout
-  title="What Grade Do I Need to Pass a Class? (Step-by-Step Guide)"
-  description="Find out what grade you need to pass your class. Learn the formula and use our calculator to get your answer instantly."
+  title="What Grade Do I Need to Pass a Class?"
+  description="Find out what grade you need to pass a class, how to estimate whether your target is realistic, and which calculator to use next."
   slug="/what-grade-do-i-need-to-pass-a-class"
   heroTitle="What Grade Do I Need to Pass a Class?"
-  heroText="If you're trying to figure out whether you can still pass your class, this guide shows you exactly how to calculate what you need."
+  heroText="When you are trying to figure out whether passing is still realistic, the key numbers are your current grade, your target, and how much of the class is still left."
   faqSchema={faqSchema}
+  relatedItems={relatedItems}
 >
   <div class="card">
     <p>
       One of the most common questions students ask is
       <strong> what grade do I need to pass? </strong>
-      The answer depends on your current grade, your target grade, and how much
-      of your class is left.
+      The answer depends on your current average, the passing cutoff, and the percentage of the course that has not been graded yet.
     </p>
   </div>
 
   <section class="card">
-    <h2>Step 1: Know Your Current Grade</h2>
-    <p>
-      Start by finding your current average in the class. This is usually shown
-      in your gradebook.
-    </p>
+    <h2>Start With Three Numbers</h2>
+    <ol>
+      <li>Your current grade</li>
+      <li>Your passing target, such as 60% or 70%</li>
+      <li>The percentage of the course that is still remaining</li>
+    </ol>
   </section>
 
   <section class="card">
-    <h2>Step 2: Know the Passing Grade</h2>
+    <h2>How the Math Works</h2>
     <p>
-      Most schools consider <strong>60% or higher</strong> a passing grade,
-      but some classes require <strong>70%</strong>.
+      You are really asking how strong your remaining work must be to pull your
+      class average up to the passing line.
     </p>
-  </section>
-
-  <section class="card">
-    <h2>Step 3: Know What's Left</h2>
+    <p class="formula-block">target grade - current contribution = what the remaining work must supply</p>
     <p>
-      Determine how much of your class grade is still remaining. This could be
-      your final exam, projects, or assignments.
-    </p>
-  </section>
-
-  <section class="card">
-    <h2>Step 4: Use the Formula</h2>
-    <p>A simple way to think about it is:</p>
-    <p><strong>(Target Grade - Current Contribution) / Remaining Weight</strong></p>
-    <p>
-      Instead of doing this manually, use the calculator below.
-    </p>
-    <p>
-      <a href="/what-grade-do-i-need-calculator/">Use the What Grade Do I Need Calculator</a>
+      The <a href="/what-grade-do-i-need-calculator/">What Grade Do I Need Calculator</a>
+      does that math automatically.
     </p>
   </section>
 
@@ -86,29 +80,27 @@ const faqSchema = {
       <li>Remaining coursework: 30%</li>
     </ul>
     <p>
-      You may need a strong score on your remaining work to pass.
+      In that situation, you need the remaining 30% of the course to lift your
+      average enough to reach 70%. Whether that is realistic depends on how many
+      assignments or exams are still ahead.
     </p>
   </section>
 
   <section class="card">
     <h2>What If You Need Over 100%?</h2>
     <p>
-      If your result is above 100%, your goal may not be possible unless extra
-      credit is available.
+      If the result comes out above 100%, your target may not be mathematically
+      possible with ordinary remaining work alone. You may need extra credit, a
+      retake, or help from your teacher to understand your options.
     </p>
   </section>
 
   <section class="card">
-    <h2>Final Tip</h2>
-    <p>
-      Don't wait until the last minute. Check your grade early and plan ahead.
-    </p>
-    <p>
-      Try these tools:
-      <a href="/grade-calculator/"> Grade Calculator</a> |
-      <a href="/final-exam-calculator/"> Final Exam Calculator</a> |
-      <a href="/weighted-grade-calculator/"> Weighted Grade Calculator</a> |
-      <a href="/gpa-calculator/"> GPA Calculator</a>
-    </p>
+    <h2>Helpful Next Steps</h2>
+    <ul>
+      <li>Not sure about your current average? Use the <a href="/grade-calculator/">Grade Calculator</a>.</li>
+      <li>If the remaining work is mostly a final exam, use the <a href="/final-exam-calculator/">Final Exam Calculator</a>.</li>
+      <li>Wondering whether a 70 counts as passing in your situation? Read <a href="/is-a-70-a-passing-grade/">Is a 70 a Passing Grade?</a></li>
+    </ul>
   </section>
 </GuideLayout>

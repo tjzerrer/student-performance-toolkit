@@ -1,5 +1,6 @@
 ---
 import GuideLayout from "../layouts/GuideLayout.astro";
+import { toolResources } from "../data/content";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -31,6 +32,13 @@ const faqSchema = {
     }
   ]
 };
+
+const relatedItems = [
+  toolResources.finalExamCalculator,
+  toolResources.whatGradeDoINeedCalculator,
+  toolResources.gradeCalculator,
+  toolResources.gpaCalculator,
+];
 ---
 
 <GuideLayout
@@ -40,6 +48,7 @@ const faqSchema = {
   heroTitle="How Finals Affect Your Grade"
   heroText="Your final exam can have a big impact on your grade, but how much it affects you depends on its weight and your current average."
   faqSchema={faqSchema}
+  relatedItems={relatedItems}
 >
   <div class="card">
     <p>

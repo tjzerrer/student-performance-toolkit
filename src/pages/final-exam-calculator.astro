@@ -1,5 +1,6 @@
 ---
 import ToolLayout from "../layouts/ToolLayout.astro";
+import { guideResources, toolResources } from "../data/content";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -31,6 +32,13 @@ const faqSchema = {
     }
   ]
 };
+
+const relatedItems = [
+  toolResources.whatGradeDoINeedCalculator,
+  guideResources.howFinalsAffectYourGrade,
+  toolResources.gradeCalculator,
+  toolResources.gpaCalculator,
+];
 ---
 
 <ToolLayout
@@ -40,6 +48,7 @@ const faqSchema = {
   heroTitle="Final Exam Calculator"
   heroText="Find out exactly what you need on your final exam to reach your target grade. Enter your current grade, desired grade, and final exam weight to get an instant answer."
   faqSchema={faqSchema}
+  relatedItems={relatedItems}
 >
   <div class="card">
     <p>

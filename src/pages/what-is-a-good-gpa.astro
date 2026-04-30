@@ -1,5 +1,6 @@
 ---
 import GuideLayout from "../layouts/GuideLayout.astro";
+import { guideResources, toolResources } from "../data/content";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -31,6 +32,13 @@ const faqSchema = {
     }
   ]
 };
+
+const relatedItems = [
+  toolResources.gpaCalculator,
+  guideResources.weightedVsUnweightedGpa,
+  guideResources.collegesWeightedOrUnweighted,
+  guideResources.howToCalculateGpaWithCredits,
+];
 ---
 
 <GuideLayout
@@ -40,6 +48,7 @@ const faqSchema = {
   heroTitle="What Is a Good GPA?"
   heroText="A good GPA depends on your goals, but some GPA ranges are clearly stronger than others. Here’s what different GPAs usually mean."
   faqSchema={faqSchema}
+  relatedItems={relatedItems}
 >
   <div class="card">
     <p>

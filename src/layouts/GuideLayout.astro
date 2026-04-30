@@ -1,9 +1,9 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import RelatedTools from "../components/RelatedTools.astro";
-import RelatedGuides from "../components/RelatedGuides.astro";
 import JsonLd from "../components/JsonLd.astro";
+import ResourceLinks from "../components/ResourceLinks.astro";
 import { site } from "../data/site";
+import type { ResourceLink } from "../data/content";
 
 interface Props {
   title: string;
@@ -12,6 +12,9 @@ interface Props {
   heroTitle?: string;
   heroText?: string;
   faqSchema?: Record<string, any> | null;
+  relatedItems?: ResourceLink[];
+  relatedTitle?: string;
+  relatedIntro?: string;
 }
 
 const {
@@ -20,7 +23,10 @@ const {
   slug,
   heroTitle = title,
   heroText = description,
-  faqSchema = null
+  faqSchema = null,
+  relatedItems = [],
+  relatedTitle = "Related Tools and Guides",
+  relatedIntro = "Use the next calculator or guide that fits the grade question you are working through."
 } = Astro.props;
 
 const siteUrl = site.url;
@@ -99,7 +105,12 @@ const breadcrumbSchema = {
   </section>
 
   <slot />
-
-  <RelatedTools />
-  <RelatedGuides current={normalizedSlug} />
+  {relatedItems.length > 0 && (
+    <ResourceLinks
+      eyebrow="Helpful next steps"
+      title={relatedTitle}
+      intro={relatedIntro}
+      items={relatedItems}
+    />
+  )}
 </BaseLayout>

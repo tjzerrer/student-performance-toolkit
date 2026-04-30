@@ -1,0 +1,31 @@
+---
+import type { ResourceLink } from "../data/content";
+
+interface Props {
+  title: string;
+  intro?: string;
+  items: ResourceLink[];
+  eyebrow?: string;
+}
+
+const { title, intro, items, eyebrow = "Keep exploring" } = Astro.props;
+---
+
+<section class="card">
+  <div class="section-heading">
+    <div>
+      <p class="section-eyebrow">{eyebrow}</p>
+      <h2>{title}</h2>
+    </div>
+    {intro && <p class="muted">{intro}</p>}
+  </div>
+
+  <div class="resource-grid">
+    {items.map((item) => (
+      <a class="resource-link" href={item.href}>
+        <strong>{item.title}</strong>
+        <span>{item.description}</span>
+      </a>
+    ))}
+  </div>
+</section>
