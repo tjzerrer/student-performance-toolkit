@@ -1,0 +1,208 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import JsonLd from "../components/JsonLd.astro";
+import { site } from "../data/site";
+
+const title = "Counselor Grade Planning Toolkit | Grade Toolkit";
+const description =
+  "Help students understand current grades, final exam targets, GPA scenarios, and recovery plans with free counselor-friendly grade calculators.";
+const pageUrl = `${site.url}/counselors/`;
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: title,
+  url: pageUrl,
+  description,
+  isPartOf: {
+    "@type": "WebSite",
+    name: site.name,
+    url: site.url,
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: site.url,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Counselors",
+      item: pageUrl,
+    },
+  ],
+};
+
+const workflows = [
+  {
+    title: "Student is worried about passing",
+    text: "Start with the current class grade, then check what score is needed on remaining work or the final.",
+    links: [
+      { href: "/grade-calculator/", label: "Current grade" },
+      { href: "/what-grade-do-i-need-calculator/", label: "Needed score" },
+    ],
+  },
+  {
+    title: "Student needs a final exam target",
+    text: "Use current grade, goal grade, and final exam weight to turn anxiety into one clear number.",
+    links: [{ href: "/final-exam-calculator/", label: "Final exam target" }],
+  },
+  {
+    title: "Student is planning GPA recovery",
+    text: "Compare credits, course levels, prior GPA, and future GPA goals in one planning conversation.",
+    links: [
+      { href: "/gpa-calculator/", label: "GPA calculator" },
+      { href: "/guides/how-to-raise-your-gpa/", label: "GPA recovery guide" },
+    ],
+  },
+];
+
+const conversationPrompts = [
+  "What grade are you aiming for, and what is the minimum grade that keeps your next option open?",
+  "Which assignments are still changeable, retakeable, or worth enough points to matter?",
+  "What score would feel realistic if you had a study plan, office hours, or one missing assignment fixed?",
+  "After we calculate the number, what is the first action you can take this week?",
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <JsonLd data={webPageSchema} />
+    <JsonLd data={breadcrumbSchema} />
+  </Fragment>
+
+  <section class="hero-card homepage-hero">
+    <div class="hero">
+      <p class="hero-eyebrow">Counselor toolkit</p>
+      <h1>Grade Planning for Student Conversations</h1>
+      <p class="hero-copy">
+        Use Grade Toolkit during advising meetings, check-ins, and family conversations
+        to turn grade uncertainty into a specific next step.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn-primary" href="/what-grade-do-i-need-calculator/">Find a needed score</a>
+        <a class="btn-secondary" href="/gpa-calculator/">Plan GPA scenarios</a>
+      </div>
+    </div>
+
+    <aside class="hero-panel">
+      <p class="section-eyebrow">Quick triage</p>
+      <h2>Pick the student question first</h2>
+      <ul>
+        <li>Where do I stand right now?</li>
+        <li>Can I still pass or reach my goal?</li>
+        <li>What does this do to my GPA?</li>
+      </ul>
+      <div class="pill-row" aria-label="Counselor planning tools">
+        <a class="pill" href="/grade-calculator/">Current grade</a>
+        <a class="pill" href="/final-exam-calculator/">Final target</a>
+        <a class="pill" href="/guides/">Student guides</a>
+      </div>
+    </aside>
+  </section>
+
+  <section class="card">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">Advising workflows</p>
+        <h2>Start with the scenario in front of you</h2>
+      </div>
+      <p class="muted">Each path ends with a number students can act on.</p>
+    </div>
+
+    <div class="workflow-grid">
+      {workflows.map((workflow, index) => (
+        <article class="workflow-card">
+          <span class="workflow-step">{index + 1}</span>
+          <h3>{workflow.title}</h3>
+          <p>{workflow.text}</p>
+          <div class="pill-row">
+            {workflow.links.map((link) => (
+              <a class="pill" href={link.href}>{link.label}</a>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="insight-grid">
+    <article class="card insight-card">
+      <p class="section-eyebrow">Check-ins</p>
+      <h2>Make the meeting concrete</h2>
+      <p>
+        Enter the student&apos;s numbers together, then name the assignment, exam,
+        or GPA outcome that changes the plan.
+      </p>
+    </article>
+
+    <article class="card insight-card">
+      <p class="section-eyebrow">Family updates</p>
+      <h2>Share the plain math</h2>
+      <p>
+        Use the calculator result as a neutral reference point for emails,
+        conferences, and progress conversations.
+      </p>
+    </article>
+
+    <article class="card insight-card">
+      <p class="section-eyebrow">Student ownership</p>
+      <h2>Move from fear to next step</h2>
+      <p>
+        A specific score target makes it easier to choose tutoring, office hours,
+        retakes, missing work, or a realistic course goal.
+      </p>
+    </article>
+  </section>
+
+  <section class="card">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">Conversation prompts</p>
+        <h2>Questions that pair well with the calculators</h2>
+      </div>
+      <p class="muted">Use these before and after the math.</p>
+    </div>
+
+    <ol>
+      {conversationPrompts.map((prompt) => <li>{prompt}</li>)}
+    </ol>
+  </section>
+
+  <section class="card">
+    <div class="section-heading">
+      <div>
+        <p class="section-eyebrow">Student handoff</p>
+        <h2>Send students to the right resource</h2>
+      </div>
+      <p class="muted">Short links for follow-up messages.</p>
+    </div>
+
+    <div class="resource-grid">
+      <a class="resource-link" href="/what-grade-do-i-need-to-pass-a-class/">
+        <strong>Can I still pass?</strong>
+        <span>A student-friendly guide for passing targets and remaining work.</span>
+      </a>
+      <a class="resource-link" href="/guides/what-grade-do-i-need-on-my-final/">
+        <strong>Final exam planning</strong>
+        <span>Explains current grade, final weight, and target grade in plain language.</span>
+      </a>
+      <a class="resource-link" href="/guides/weighted-vs-unweighted-gpa/">
+        <strong>Weighted vs unweighted GPA</strong>
+        <span>Useful when students compare course rigor, transcripts, and GPA scales.</span>
+      </a>
+      <a class="resource-link" href="/contact/">
+        <strong>Suggest a counselor resource</strong>
+        <span>Share an idea for a worksheet, guide, or calculator improvement.</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
