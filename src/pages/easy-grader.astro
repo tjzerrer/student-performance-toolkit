@@ -1,0 +1,202 @@
+---
+import ToolLayout from "../layouts/ToolLayout.astro";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is an easy grader?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "An easy grader converts the number of questions missed or correct into a percentage and letter grade."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Can I use this as an EZ grader?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Enter total questions and wrong answers to build an instant EZ grader result."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "What grade scale does this use?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The default scale is 90 A, 80 B, 70 C, 60 D, and below 60 F."
+      }
+    }
+  ]
+};
+---
+
+<ToolLayout
+  title="Easy Grader | Free EZ Grader and Test Score Calculator"
+  description="Calculate percentages, letter grades, right answers, and wrong answers instantly with a free easy grader and EZ grader chart."
+  slug="/easy-grader"
+  heroTitle="Easy Grader"
+  heroText="Use this free easy grader to convert total questions and wrong answers into a test percentage, letter grade, and quick score chart."
+  faqSchema={faqSchema}
+>
+  <div class="grid">
+    <section class="card">
+      <h2>Enter test details</h2>
+
+      <div class="gpa-compact-row">
+        <div>
+          <label for="total-questions">Total questions</label>
+          <input id="total-questions" type="number" min="1" step="1" placeholder="25" />
+        </div>
+        <div>
+          <label for="wrong-answers">Wrong answers</label>
+          <input id="wrong-answers" type="number" min="0" step="1" placeholder="3" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="calculate" type="button" class="btn-primary">Calculate grade</button>
+      </div>
+    </section>
+
+    <aside class="result-box">
+      <div class="card">
+        <h2>Your result</h2>
+        <div class="result-main">
+          <p class="muted">Test score</p>
+          <div id="score-result" class="big-result">--%</div>
+          <p id="letter-result"><strong>Letter grade:</strong> --</p>
+          <p id="summary">Enter total questions and wrong answers to calculate the grade.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>Easy Grader Chart</h2>
+    <p class="muted">
+      After you calculate, this chart shows each possible number missed for the
+      test size you entered.
+    </p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Wrong</th>
+          <th>Correct</th>
+          <th>Percent</th>
+          <th>Letter</th>
+        </tr>
+      </thead>
+      <tbody id="grade-chart">
+        <tr><td colspan="4">Enter a test size to build the chart.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>How the Easy Grader Works</h2>
+    <p>
+      The easy grader subtracts wrong answers from total questions, divides the
+      correct answers by the total, and converts the result into a percentage.
+    </p>
+    <p class="formula-block">Score = Correct answers / Total questions x 100</p>
+    <p>
+      Example: on a 25-question test with 3 wrong answers, the score is
+      22 / 25 x 100 = 88%, which is a B on the default scale.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>Is this the same as an EZ grader?</h3>
+      <p>Yes. EZ grader and easy grader usually mean the same test-score calculator.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can teachers use this for quick grading?</h3>
+      <p>
+        Yes. Enter the number of questions once, then scan the chart for each
+        student's number missed.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does every school use this letter scale?</h3>
+      <p>
+        No. Many schools use 90/80/70/60, but your teacher or school may use a
+        different grading scale.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    const totalQuestions = document.getElementById("total-questions");
+    const wrongAnswers = document.getElementById("wrong-answers");
+    const scoreResult = document.getElementById("score-result");
+    const letterResult = document.getElementById("letter-result");
+    const summary = document.getElementById("summary");
+    const gradeChart = document.getElementById("grade-chart");
+    const calculateButton = document.getElementById("calculate");
+
+    function getLetterGrade(percent) {
+      if (percent >= 90) return "A";
+      if (percent >= 80) return "B";
+      if (percent >= 70) return "C";
+      if (percent >= 60) return "D";
+      return "F";
+    }
+
+    function formatPercent(value) {
+      return value.toFixed(1).replace(/\.0$/, "");
+    }
+
+    function buildChart(total) {
+      const rows = [];
+      for (let wrong = 0; wrong <= total; wrong += 1) {
+        const correct = total - wrong;
+        const percent = (correct / total) * 100;
+        rows.push(
+          `<tr><td>${wrong}</td><td>${correct}</td><td>${formatPercent(percent)}%</td><td>${getLetterGrade(percent)}</td></tr>`
+        );
+      }
+      gradeChart.innerHTML = rows.join("");
+    }
+
+    function calculateGrade() {
+      const total = Number(totalQuestions.value);
+      const wrong = Number(wrongAnswers.value);
+
+      if (!Number.isFinite(total) || total <= 0 || !Number.isInteger(total)) {
+        scoreResult.textContent = "--%";
+        letterResult.innerHTML = "<strong>Letter grade:</strong> --";
+        summary.textContent = "Please enter a whole number of questions.";
+        gradeChart.innerHTML = '<tr><td colspan="4">Enter a valid test size.</td></tr>';
+        return;
+      }
+
+      if (!Number.isFinite(wrong) || wrong < 0 || wrong > total || !Number.isInteger(wrong)) {
+        scoreResult.textContent = "--%";
+        letterResult.innerHTML = "<strong>Letter grade:</strong> --";
+        summary.textContent = "Wrong answers must be a whole number between 0 and the total questions.";
+        buildChart(total);
+        return;
+      }
+
+      const correct = total - wrong;
+      const percent = (correct / total) * 100;
+      const letter = getLetterGrade(percent);
+      const rounded = formatPercent(percent);
+
+      scoreResult.textContent = `${rounded}%`;
+      letterResult.innerHTML = `<strong>Letter grade:</strong> ${letter}`;
+      summary.textContent = `You got ${correct} out of ${total} correct, with ${wrong} wrong.`;
+      buildChart(total);
+    }
+
+    calculateButton?.addEventListener("click", calculateGrade);
+  </script>
+</ToolLayout>

@@ -10,6 +10,16 @@ export const tools = [
     description: "Find the score needed on remaining work to reach a target grade.",
   },
   {
+    title: "Easy Grader",
+    href: "/easy-grader/",
+    description: "Convert total questions and wrong answers into a test percentage and letter grade.",
+  },
+  {
+    title: "Test Grade Calculator",
+    href: "/test-grade-calculator/",
+    description: "Calculate a test score from questions missed, correct answers, or points earned.",
+  },
+  {
     title: "Final Exam Calculator",
     href: "/final-exam-calculator/",
     description: "Calculate what you need on a final exam to finish with your goal grade.",
@@ -18,6 +28,11 @@ export const tools = [
     title: "Weighted Grade Calculator",
     href: "/weighted-grade-calculator/",
     description: "Combine weighted categories like tests, homework, projects, and finals.",
+  },
+  {
+    title: "Grade Curve Calculator",
+    href: "/grade-curve-calculator/",
+    description: "Apply points added, scale-to-top-score, or custom curve adjustments.",
   },
   {
     title: "GPA Calculator",

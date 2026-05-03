@@ -1,0 +1,224 @@
+---
+import ToolLayout from "../layouts/ToolLayout.astro";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How do I calculate a test grade?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Divide points earned by points possible, then multiply by 100 to get the test percentage."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Can I use wrong answers instead of points?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Choose questions mode, enter total questions and wrong answers, and the calculator will find your score."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Does this show a letter grade?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. It shows a letter grade using the default 90, 80, 70, and 60 scale."
+      }
+    }
+  ]
+};
+---
+
+<ToolLayout
+  title="Test Grade Calculator | Score Percentage, Letter Grade, and Wrong Answers"
+  description="Enter total questions, wrong answers, points earned, or points possible to calculate your test score, percentage, and letter grade instantly."
+  slug="/test-grade-calculator"
+  heroTitle="Test Grade Calculator"
+  heroText="Calculate a test grade from wrong answers, correct answers, or points earned. See the percentage, letter grade, and score breakdown instantly."
+  faqSchema={faqSchema}
+>
+  <div class="grid">
+    <section class="card">
+      <h2>Enter your test score</h2>
+
+      <div class="gpa-option-row">
+        <div>
+          <label for="score-mode">Score mode</label>
+          <select id="score-mode">
+            <option value="questions" selected>Questions missed</option>
+            <option value="points">Points earned</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="questions-fields" class="gpa-compact-row">
+        <div>
+          <label for="total-questions">Total questions</label>
+          <input id="total-questions" type="number" min="1" step="1" placeholder="40" />
+        </div>
+        <div>
+          <label for="wrong-answers">Wrong answers</label>
+          <input id="wrong-answers" type="number" min="0" step="1" placeholder="5" />
+        </div>
+      </div>
+
+      <div id="points-fields" class="gpa-compact-row" style="display: none;">
+        <div>
+          <label for="points-earned">Points earned</label>
+          <input id="points-earned" type="number" min="0" step="any" placeholder="86" />
+        </div>
+        <div>
+          <label for="points-possible">Points possible</label>
+          <input id="points-possible" type="number" min="0" step="any" placeholder="100" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="calculate" type="button" class="btn-primary">Calculate test grade</button>
+      </div>
+    </section>
+
+    <aside class="result-box">
+      <div class="card">
+        <h2>Your result</h2>
+        <div class="result-main">
+          <p class="muted">Test grade</p>
+          <div id="grade-result" class="big-result">--%</div>
+          <p id="letter-result"><strong>Letter grade:</strong> --</p>
+          <p id="summary">Choose a mode, enter your test details, and calculate.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>How Test Grades Are Calculated</h2>
+    <p>
+      A test grade is usually calculated by dividing the score earned by the
+      total possible score. If the test is based on questions, correct answers
+      are divided by total questions.
+    </p>
+    <p class="formula-block">Test grade = Score earned / Score possible x 100</p>
+  </section>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>Worked Examples</h2>
+    <p>
+      If you miss 5 questions on a 40-question test, you got 35 correct.
+      That score is 35 / 40 x 100 = 87.5%.
+    </p>
+    <p>
+      If you earn 42 points out of 50, your test grade is 42 / 50 x 100 = 84%.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>Should I use questions mode or points mode?</h3>
+      <p>
+        Use questions mode when every question is worth the same amount. Use
+        points mode when questions have different point values.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can this calculator handle extra credit?</h3>
+      <p>
+        Yes. In points mode, enter points earned above the points possible if
+        your teacher allows extra credit.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is an 80% always a B?</h3>
+      <p>
+        This calculator uses a common scale, but your class syllabus may use
+        different cutoffs.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    const scoreMode = document.getElementById("score-mode");
+    const questionsFields = document.getElementById("questions-fields");
+    const pointsFields = document.getElementById("points-fields");
+    const totalQuestions = document.getElementById("total-questions");
+    const wrongAnswers = document.getElementById("wrong-answers");
+    const pointsEarned = document.getElementById("points-earned");
+    const pointsPossible = document.getElementById("points-possible");
+    const gradeResult = document.getElementById("grade-result");
+    const letterResult = document.getElementById("letter-result");
+    const summary = document.getElementById("summary");
+    const calculateButton = document.getElementById("calculate");
+
+    function getLetterGrade(percent) {
+      if (percent >= 90) return "A";
+      if (percent >= 80) return "B";
+      if (percent >= 70) return "C";
+      if (percent >= 60) return "D";
+      return "F";
+    }
+
+    function formatPercent(value) {
+      return value.toFixed(1).replace(/\.0$/, "");
+    }
+
+    function showError(message) {
+      gradeResult.textContent = "--%";
+      letterResult.innerHTML = "<strong>Letter grade:</strong> --";
+      summary.textContent = message;
+    }
+
+    function showResult(percent, detail) {
+      const rounded = formatPercent(percent);
+      const letter = getLetterGrade(percent);
+      gradeResult.textContent = `${rounded}%`;
+      letterResult.innerHTML = `<strong>Letter grade:</strong> ${letter}`;
+      summary.textContent = `${detail} That is ${rounded}% (${letter}).`;
+    }
+
+    function calculate() {
+      if (scoreMode.value === "questions") {
+        const total = Number(totalQuestions.value);
+        const wrong = Number(wrongAnswers.value);
+
+        if (!Number.isFinite(total) || total <= 0 || !Number.isInteger(total)) {
+          showError("Please enter a whole number of total questions.");
+          return;
+        }
+
+        if (!Number.isFinite(wrong) || wrong < 0 || wrong > total || !Number.isInteger(wrong)) {
+          showError("Wrong answers must be a whole number between 0 and total questions.");
+          return;
+        }
+
+        const correct = total - wrong;
+        showResult((correct / total) * 100, `You got ${correct} out of ${total} correct.`);
+        return;
+      }
+
+      const earned = Number(pointsEarned.value);
+      const possible = Number(pointsPossible.value);
+      if (!Number.isFinite(earned) || earned < 0 || !Number.isFinite(possible) || possible <= 0) {
+        showError("Please enter valid points earned and points possible.");
+        return;
+      }
+
+      showResult((earned / possible) * 100, `You earned ${formatPercent(earned)} out of ${formatPercent(possible)} points.`);
+    }
+
+    scoreMode?.addEventListener("change", () => {
+      const questionsMode = scoreMode.value === "questions";
+      questionsFields.style.display = questionsMode ? "grid" : "none";
+      pointsFields.style.display = questionsMode ? "none" : "grid";
+    });
+
+    calculateButton?.addEventListener("click", calculate);
+  </script>
+</ToolLayout>

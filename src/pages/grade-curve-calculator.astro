@@ -1,0 +1,236 @@
+---
+import ToolLayout from "../layouts/ToolLayout.astro";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How does a grade curve calculator work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A grade curve calculator adjusts an original grade by adding points, scaling the top score to 100, or applying a custom target."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "What is a scale-to-top-score curve?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A scale-to-top-score curve divides each score by the highest score in the class and multiplies by 100."
+      }
+    },
+    {
+      "@type": "Question",
+      name: "Can a curved grade go above 100?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "This calculator caps curved grades at 100 by default because most classes do not report grades above 100."
+      }
+    }
+  ]
+};
+---
+
+<ToolLayout
+  title="Grade Curve Calculator | Linear, Bell Curve, and Points Added"
+  description="Apply a grade curve with points added, scale to top score, or custom methods and see the adjusted grade instantly."
+  slug="/grade-curve-calculator"
+  heroTitle="Grade Curve Calculator"
+  heroText="Calculate a curved grade with points added, scale-to-top-score, or a target adjusted score. See the original grade, curve amount, and final grade."
+  faqSchema={faqSchema}
+>
+  <div class="grid">
+    <section class="card">
+      <h2>Enter curve details</h2>
+
+      <div class="gpa-option-row">
+        <div>
+          <label for="curve-mode">Curve method</label>
+          <select id="curve-mode">
+            <option value="points" selected>Add points</option>
+            <option value="top-score">Scale top score to 100</option>
+            <option value="target">Curve to target score</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="gpa-compact-row">
+        <div>
+          <label for="original-score">Original score (%)</label>
+          <input id="original-score" type="number" min="0" step="any" placeholder="82" />
+        </div>
+        <div id="points-box">
+          <label for="points-added">Points added</label>
+          <input id="points-added" type="number" step="any" placeholder="8" />
+        </div>
+        <div id="top-score-box" style="display: none;">
+          <label for="top-score">Highest class score (%)</label>
+          <input id="top-score" type="number" min="1" step="any" placeholder="92" />
+        </div>
+        <div id="target-box" style="display: none;">
+          <label for="target-score">Target curved score (%)</label>
+          <input id="target-score" type="number" min="0" step="any" placeholder="90" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="calculate" type="button" class="btn-primary">Calculate curved grade</button>
+      </div>
+    </section>
+
+    <aside class="result-box">
+      <div class="card">
+        <h2>Your result</h2>
+        <div class="result-main">
+          <p class="muted">Curved grade</p>
+          <div id="curve-result" class="big-result">--%</div>
+          <p id="letter-result"><strong>Letter grade:</strong> --</p>
+          <p id="summary">Choose a curve method and enter your score.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>Common Grade Curve Methods</h2>
+    <p>
+      A points-added curve gives every student the same number of extra points.
+      A scale-to-top-score curve makes the highest score equal 100 and scales
+      other scores proportionally.
+    </p>
+    <p>
+      A target-score curve finds how many points would need to be added to move
+      one score to a target, then applies that same point change.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>Worked Examples</h2>
+    <p>
+      If your original score is 82% and the curve adds 8 points, your curved
+      grade is 90%.
+    </p>
+    <p>
+      If your original score is 82% and the highest class score is 92%, a
+      scale-to-top curve gives 82 / 92 x 100 = 89.1%.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top: 1.25rem;">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>Which curve method should I use?</h3>
+      <p>
+        Use the method your teacher describes. If they simply add a fixed number
+        of points, choose Add points. If the top score becomes 100, choose
+        Scale top score to 100.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is this a bell curve calculator?</h3>
+      <p>
+        This calculator covers common class curves like added points and scaling.
+        A true bell curve depends on the full class score distribution.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can a curve lower my grade?</h3>
+      <p>
+        Some formulas can lower grades, but most classroom curves are designed
+        to raise or preserve scores. Ask your teacher which method applies.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    const curveMode = document.getElementById("curve-mode");
+    const originalScore = document.getElementById("original-score");
+    const pointsAdded = document.getElementById("points-added");
+    const topScore = document.getElementById("top-score");
+    const targetScore = document.getElementById("target-score");
+    const pointsBox = document.getElementById("points-box");
+    const topScoreBox = document.getElementById("top-score-box");
+    const targetBox = document.getElementById("target-box");
+    const curveResult = document.getElementById("curve-result");
+    const letterResult = document.getElementById("letter-result");
+    const summary = document.getElementById("summary");
+    const calculateButton = document.getElementById("calculate");
+
+    function getLetterGrade(percent) {
+      if (percent >= 90) return "A";
+      if (percent >= 80) return "B";
+      if (percent >= 70) return "C";
+      if (percent >= 60) return "D";
+      return "F";
+    }
+
+    function formatPercent(value) {
+      return value.toFixed(1).replace(/\.0$/, "");
+    }
+
+    function showError(message) {
+      curveResult.textContent = "--%";
+      letterResult.innerHTML = "<strong>Letter grade:</strong> --";
+      summary.textContent = message;
+    }
+
+    function showResult(curved, detail) {
+      const capped = Math.min(Math.max(curved, 0), 100);
+      const rounded = formatPercent(capped);
+      const letter = getLetterGrade(capped);
+      curveResult.textContent = `${rounded}%`;
+      letterResult.innerHTML = `<strong>Letter grade:</strong> ${letter}`;
+      summary.textContent = detail;
+    }
+
+    function calculateCurve() {
+      const original = Number(originalScore.value);
+      if (!Number.isFinite(original) || original < 0) {
+        showError("Please enter a valid original score.");
+        return;
+      }
+
+      if (curveMode.value === "points") {
+        const points = Number(pointsAdded.value);
+        if (!Number.isFinite(points)) {
+          showError("Please enter the number of points added.");
+          return;
+        }
+        showResult(original + points, `${formatPercent(points)} points changes ${formatPercent(original)}% to ${formatPercent(Math.min(original + points, 100))}%.`);
+        return;
+      }
+
+      if (curveMode.value === "top-score") {
+        const top = Number(topScore.value);
+        if (!Number.isFinite(top) || top <= 0) {
+          showError("Please enter the highest class score.");
+          return;
+        }
+        showResult((original / top) * 100, `Scaling ${formatPercent(top)}% to 100 gives this adjusted score.`);
+        return;
+      }
+
+      const target = Number(targetScore.value);
+      if (!Number.isFinite(target)) {
+        showError("Please enter the target curved score.");
+        return;
+      }
+
+      const points = target - original;
+      showResult(target, `This target requires a ${formatPercent(points)} point curve from the original score.`);
+    }
+
+    curveMode?.addEventListener("change", () => {
+      pointsBox.style.display = curveMode.value === "points" ? "block" : "none";
+      topScoreBox.style.display = curveMode.value === "top-score" ? "block" : "none";
+      targetBox.style.display = curveMode.value === "target" ? "block" : "none";
+    });
+
+    calculateButton?.addEventListener("click", calculateCurve);
+  </script>
+</ToolLayout>
